@@ -13,10 +13,10 @@ class Profile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Align(
-              alignment: Alignment.topCenter,
-              child: CusttomProfileInfo(),
+            const SizedBox(
+              height: 50,
             ),
+            const CusttomProfileInfo(),
             const SizedBox(
               height: 50,
             ),
