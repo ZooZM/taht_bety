@@ -6,13 +6,15 @@ class CustomListTile extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
+    this.function,
   });
   final IconData icon;
   final String title;
+  final void Function()? function;
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: function,
       leading: Icon(
         icon,
         size: 25,

@@ -7,3 +7,4 @@ const kExtraLite = Color(0xFFcfd9e9);
 const kBlack = Color(0xFF000000);
 const kWhite = Color(0xFFffffff);
 const kGray = Color(0xFFc4cbd9);
+const kOrange = Color(0xFFf04a4a);

@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
             pageIndex = value;
           });
         },
+        index: pageIndex,
         items: const [
           CusttomPageIcon(
             icon: Icons.person_outlined,
