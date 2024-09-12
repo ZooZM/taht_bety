@@ -5,8 +5,16 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Home"),
+    return const CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Column(
+            children: [
+              Text('Hello'),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

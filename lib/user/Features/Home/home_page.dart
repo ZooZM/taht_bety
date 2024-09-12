@@ -15,10 +15,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int pageIndex = 1;
-  List pages = [
+  List<Widget> pages = [
     const Profile(),
     const Home(),
     const Favorite(),
+  ];
+  List<bool> iconPressed = [
+    false,
+    true,
+    false,
   ];
   @override
   Widget build(BuildContext context) {
@@ -31,18 +36,24 @@ class _HomePageState extends State<HomePage> {
         onTap: (value) {
           setState(() {
             pageIndex = value;
+            for (int i = 0; i < iconPressed.length; i++) {
+              iconPressed[i] = (i == value);
+            }
           });
         },
         index: pageIndex,
-        items: const [
+        items: [
           CusttomPageIcon(
-            icon: Icons.person_outlined,
+            icon: Icons.person_outline,
+            isPressed: iconPressed[0],
           ),
           CusttomPageIcon(
             icon: Icons.home_outlined,
+            isPressed: iconPressed[1],
           ),
           CusttomPageIcon(
             icon: Icons.favorite_outline,
+            isPressed: iconPressed[2],
           ),
         ],
       ),
