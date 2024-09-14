@@ -28,6 +28,11 @@ abstract class Styles {
     fontFamily: 'Inter',
     fontSize: 14,
   );
+  static const text14Medium = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
   static const text12Light = TextStyle(
     fontFamily: 'Inter',
     fontSize: 12,
