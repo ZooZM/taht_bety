@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
+import 'package:taht_bety/user/Features/Home/widgets/distance_icon.dart';
+import 'package:taht_bety/user/Features/Home/widgets/rating.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({
@@ -28,6 +30,7 @@ class ItemCard extends StatelessWidget {
         aspectRatio: 0.76,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
               height: 10,
@@ -53,36 +56,21 @@ class ItemCard extends StatelessWidget {
               "Family Market",
               style: Styles.subtitle16Bold,
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.place_outlined,
-                  size: 16,
-                ),
-                Text(
-                  " 2 km",
-                  style: Styles.text12Light,
-                )
-              ],
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.star_rounded,
-                  color: Color(0xFFFF9633),
-                  size: 24,
-                ),
-                Text(
-                  "4.9 ",
-                  style: Styles.text14Medium,
-                ),
-                Text(
-                  "(+100)",
-                  style: Styles.text12Light,
-                ),
-              ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  DistanceIcon(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Rating(),
+                      Flex(direction: Axis.horizontal),
+                      Icon(Icons.favorite_border),
+                    ],
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
               height: 8,
