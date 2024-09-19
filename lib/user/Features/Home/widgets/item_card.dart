@@ -61,11 +61,13 @@ class ItemCard extends StatelessWidget {
               child: Column(
                 children: [
                   DistanceIcon(),
+                  SizedBox(
+                    height: 3,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Rating(),
-                      Flex(direction: Axis.horizontal),
                       Icon(Icons.favorite_border),
                     ],
                   ),

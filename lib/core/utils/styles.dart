@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:taht_bety/constants.dart';
 
 abstract class Styles {
   static const title24Bold = TextStyle(
@@ -36,5 +37,10 @@ abstract class Styles {
   static const text12Light = TextStyle(
     fontFamily: 'Inter',
     fontSize: 12,
+  );
+  static const projectNameStyle = TextStyle(
+    fontFamily: 'Lobster',
+    fontSize: 42,
+    color: kPrimaryColor,
   );
 }
