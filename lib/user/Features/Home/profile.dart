@@ -54,7 +54,7 @@ class Profile extends StatelessWidget {
                           BorderRadius.vertical(top: Radius.circular(25))),
                   builder: (context) {
                     return SizedBox(
-                      height: MediaQuery.of(context).size.height / 3.5,
+                      height: MediaQuery.of(context).size.height * 0.26,
                       width: double.maxFinite,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 26),
@@ -71,6 +71,9 @@ class Profile extends StatelessWidget {
                             const Text(
                               "Are you sure you want to log out?",
                               style: Styles.text16SemiBold,
+                            ),
+                            const Flex(
+                              direction: Axis.vertical,
                             ),
                             Padding(
                               padding:

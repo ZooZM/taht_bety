@@ -40,7 +40,7 @@ abstract class Styles {
   );
   static const projectNameStyle = TextStyle(
     fontFamily: 'Lobster',
-    fontSize: 42,
+    fontSize: 44,
     color: kPrimaryColor,
   );
 }

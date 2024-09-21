@@ -23,7 +23,7 @@ class UpperWidgetHome extends StatelessWidget {
                   style: Styles.projectNameStyle,
                 ),
                 const SizedBox(
-                  height: 4,
+                  height: 8,
                 ),
                 Row(
                   children: [
@@ -74,7 +74,7 @@ class UpperWidgetHome extends StatelessWidget {
           ],
         ),
         const SizedBox(
-          height: 16,
+          height: 26,
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.876,
