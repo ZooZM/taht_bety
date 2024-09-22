@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/user/Features/Home/home_page.dart';
 import 'package:taht_bety/user/Features/Home/profile.dart';
+import 'package:taht_bety/user/Features/search/presentation/search.dart';
 
 void main() {
   runApp(const MyApp());
