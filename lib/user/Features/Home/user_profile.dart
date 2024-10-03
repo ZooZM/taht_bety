@@ -6,8 +6,8 @@ import 'package:taht_bety/user/Features/Home/widgets/custtom_listtile.dart';
 import 'package:taht_bety/user/Features/Home/widgets/custtom_profile_info.dart';
 import 'package:taht_bety/user/constant/const_data.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class UserProfile extends StatelessWidget {
+  const UserProfile({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
