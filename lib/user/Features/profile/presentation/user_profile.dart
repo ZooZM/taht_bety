@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/user/Features/Home/widgets/Custtom_Button.dart';
-import 'package:taht_bety/user/Features/Home/widgets/custtom_listtile.dart';
-import 'package:taht_bety/user/Features/Home/widgets/custtom_profile_info.dart';
+import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_button.dart';
+import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_listtile.dart';
+import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_profile_info.dart';
 import 'package:taht_bety/user/constant/const_data.dart';
 
 class UserProfile extends StatelessWidget {

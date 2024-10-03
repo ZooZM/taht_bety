@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/user/Features/Home/favorite.dart';
 import 'package:taht_bety/user/Features/Home/home_body.dart';
-import 'package:taht_bety/user/Features/Home/user_profile.dart';
+import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
 import 'package:taht_bety/user/Features/Home/widgets/custtom_page_Icon.dart';
 
 class HomePage extends StatefulWidget {
