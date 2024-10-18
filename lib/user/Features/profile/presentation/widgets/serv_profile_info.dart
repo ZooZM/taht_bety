@@ -18,6 +18,9 @@ class ServProfileInfo extends StatelessWidget {
             Text(
               "Arabian Carpentry",
               style: Styles.subtitle18Bold,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
             ),
             SizedBox(
               width: 12,

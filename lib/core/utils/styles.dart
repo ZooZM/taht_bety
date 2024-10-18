@@ -23,7 +23,7 @@ abstract class Styles {
     fontFamily: 'Inter',
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    color: Colors.black54,
+    // color: Colors.black54,
   );
   static const text14Light = TextStyle(
     fontFamily: 'Inter',

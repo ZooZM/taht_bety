@@ -15,6 +15,7 @@ class ServUpperWidget extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
       height: height * 0.335,
+      width: width,
       child: Stack(
         children: [
           SizedBox(
@@ -38,7 +39,7 @@ class ServUpperWidget extends StatelessWidget {
             child: ServProfImage(height: height, width: width),
           ),
           Positioned(
-            bottom: height * 0.007,
+            bottom: 5,
             right: 8,
             left: width * 0.37,
             child: const ServProfileInfo(),
