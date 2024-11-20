@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taht_bety/user/Features/Home/widgets/item_card.dart';
+import 'package:taht_bety/user/Features/Home/presentation/widgets/item_card.dart';
 
 class SearchItemlist extends StatelessWidget {
   const SearchItemlist({super.key});

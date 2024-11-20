@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/user/Features/Home/widgets/distance_icon.dart';
-import 'package:taht_bety/user/Features/Home/widgets/rating.dart';
+import 'package:taht_bety/user/Features/Home/presentation/widgets/distance_icon.dart';
+import 'package:taht_bety/user/Features/Home/presentation/widgets/rating.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({

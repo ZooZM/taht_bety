@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_prof_image.dart';
-import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_appbar.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_info.dart';
 
 class ServUpperWidget extends StatelessWidget {
@@ -29,7 +28,6 @@ class ServUpperWidget extends StatelessWidget {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
-          
           Positioned(
             bottom: 0,
             left: 12,
