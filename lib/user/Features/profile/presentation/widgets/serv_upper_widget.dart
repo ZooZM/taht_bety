@@ -29,10 +29,7 @@ class ServUpperWidget extends StatelessWidget {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-            child: ServProfileAppBar(),
-          ),
+          
           Positioned(
             bottom: 0,
             left: 12,

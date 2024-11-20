@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       showSemanticsDebugger: false,
       home: SafeArea(
-        child: ServiceProfile(),
+        child: HomePage(),
       ),
     );
   }

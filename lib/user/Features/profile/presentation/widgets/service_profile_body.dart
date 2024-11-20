@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/product_card.dart';
+import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_appbar.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_widget.dart';
 
 class ServiceProfileBody extends StatelessWidget {
@@ -15,7 +16,7 @@ class ServiceProfileBody extends StatelessWidget {
     return Stack(
       children: [
         CustomScrollView(
-          // crossAxisAlignment: CrossAxisAlignment.center,
+          physics: const BouncingScrollPhysics(),
           slivers: [
             const SliverToBoxAdapter(
               child: ServUpperWidget(),
@@ -39,7 +40,7 @@ class ServiceProfileBody extends StatelessWidget {
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 18),
                     child: ProductCard(),
                   ),
                   itemCount: 5,
@@ -64,7 +65,11 @@ class ServiceProfileBody extends StatelessWidget {
               size: 35,
             ),
           ),
-        )
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          child: ServProfileAppBar(),
+        ),
       ],
     );
   }
