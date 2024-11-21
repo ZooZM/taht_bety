@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/custtom_search_container.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/widgets/location_name.dart';
+import 'package:taht_bety/user/Features/maps/presentation/display_maps.dart';
 import 'package:taht_bety/user/Features/search/presentation/search.dart';
 
 class UpperWidgetHome extends StatefulWidget {
@@ -33,24 +35,12 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
                 const SizedBox(
                   height: 8,
                 ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.place,
-                      size: 35,
-                      color: ksecondryColor,
-                    ),
-                    Text(
-                      'New Cairo, Cairo',
-                      style: Styles.subtitle18Bold.copyWith(
-                        color: ksecondryColor,
-                      ),
-                    ),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                    ),
-                  ],
-                ),
+                OpenContainer(
+                  closedColor: Colors.transparent,
+                  closedElevation: 0,
+                  closedBuilder: (context, action) => const LocationName(),
+                  openBuilder: (context, action) => const DisplayMaps(),
+                )
               ],
             ),
             Stack(
@@ -85,6 +75,8 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
           height: 26,
         ),
         OpenContainer(
+          closedColor: Colors.transparent,
+          closedElevation: 0,
           closedBuilder: (context, action) {
             return const CusttomSearchContainer();
           },
