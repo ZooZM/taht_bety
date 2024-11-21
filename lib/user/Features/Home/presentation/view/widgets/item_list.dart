@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
-import 'package:taht_bety/user/Features/Home/presentation/widgets/item_card.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/widgets/item_card.dart';
 
 class ItemsList extends StatelessWidget {
   const ItemsList({

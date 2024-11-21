@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:taht_bety/user/Features/Home/presentation/home_page.dart';
+import 'package:taht_bety/core/utils/api_service.dart';
+import 'package:taht_bety/user/Features/Home/data/repos/home_repo.dart';
+import 'package:taht_bety/user/Features/Home/data/repos/home_repo_implementain.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/home_page.dart';
 import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
 import 'package:taht_bety/user/Features/search/presentation/search.dart';

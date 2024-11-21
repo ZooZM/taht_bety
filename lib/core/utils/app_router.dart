@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:taht_bety/user/Features/Home/presentation/home_page.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/home_page.dart';
 import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
 
 abstract class AppRouter {

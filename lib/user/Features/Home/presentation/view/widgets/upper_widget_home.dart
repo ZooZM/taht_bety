@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/user/Features/Home/presentation/widgets/custtom_search_container.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/widgets/custtom_search_container.dart';
 import 'package:taht_bety/user/Features/search/presentation/search.dart';
 
 class UpperWidgetHome extends StatefulWidget {

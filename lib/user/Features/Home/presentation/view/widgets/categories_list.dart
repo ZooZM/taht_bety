@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taht_bety/user/Features/Home/presentation/widgets/categories_card.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/widgets/categories_card.dart';
 
 List categoriesName = [
   "All",
