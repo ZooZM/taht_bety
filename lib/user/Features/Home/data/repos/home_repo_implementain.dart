@@ -13,8 +13,7 @@ class HomeRepoImpl implements HomeRepo {
   @override
   Future<Either<Failure, List<ProviderModel>>> fetchProviderList() async {
     try {
-      var data =
-          await apiService.get(endPoint: 'localhost:8000/api/v1/providers');
+      var data = await apiService.get(endPoint: 'v1/providers');
       List<ProviderModel> providers = [];
       for (var item in data['data']['data']) {
         providers.add(ProviderModel.fromJson(item));

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taht_bety/user/Features/Home/presentation/view/widgets/item_card.dart';
 
 class SearchItemlist extends StatelessWidget {
   const SearchItemlist({super.key});
@@ -13,7 +12,7 @@ class SearchItemlist extends StatelessWidget {
       ),
       itemBuilder: (context, index) => const Padding(
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-        child: ItemCard(),
+        child: Text('done'),
       ),
     );
   }

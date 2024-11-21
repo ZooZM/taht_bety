@@ -42,10 +42,13 @@ class ProviderModel {
         locations: json['locations'] == null
             ? null
             : Locations.fromJson(json['locations'] as Map<String, dynamic>),
-        posts: json['posts'] as List<dynamic>?,
+        posts: (json['posts'] as List<dynamic>?)
+            ?.map((item) =>
+                item is double ? item : double.tryParse(item.toString()) ?? 0.0)
+            .toList(),
         id: json['_id'] as String?,
         providerType: json['providerType'] as String?,
-        pId: json['id'] as List<String>?,
+        pId: (json['id'] as List<dynamic>?)?.map((e) => e as String).toList(),
         subscriptionType: json['subscriptionType'] as String?,
         subscriptionPercentage: json['subscriptionPercentage'] as int?,
         lastPhotoAt: json['lastPhotoAt'] == null

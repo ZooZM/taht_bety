@@ -2,14 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/distance_icon.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/rating.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({
     super.key,
+    required this.provider,
   });
-
+  final ProviderModel provider;
   @override
   Widget build(BuildContext context) {
     return Container(

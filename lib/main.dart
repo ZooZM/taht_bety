@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:taht_bety/core/utils/api_service.dart';
-import 'package:taht_bety/user/Features/Home/data/repos/home_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taht_bety/core/utils/service_locator.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo_implementain.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_page.dart';
-import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
-import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
-import 'package:taht_bety/user/Features/search/presentation/search.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view_model/providers_cubit/providers_cubit.dart';
 
 void main() {
+  setup();
   runApp(const MyApp());
 }
 
@@ -16,10 +15,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      showSemanticsDebugger: false,
-      home: SafeArea(
-        child: HomePage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ProvidersCubit(
+            getIt<HomeRepoImpl>(),
+          )..fetchProviderList(),
+        )
+      ],
+      child: const MaterialApp(
+        showSemanticsDebugger: false,
+        home: SafeArea(
+          child: HomePage(),
+        ),
       ),
     );
   }

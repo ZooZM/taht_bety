@@ -12,23 +12,25 @@ class HomeBody extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: UpperWidgetHome(),
-              ),
-              CategoriesList(),
-              SizedBox(
-                height: 16,
-              ),
-            ],
+          child: SizedBox(
+            height: 8,
           ),
         ),
-        ItemsList()
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: UpperWidgetHome(),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: CategoriesList(),
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 16,
+          ),
+        ),
+        ItemsList(),
       ],
     );
   }
