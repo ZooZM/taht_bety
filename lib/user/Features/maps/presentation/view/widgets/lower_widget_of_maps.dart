@@ -31,7 +31,9 @@ class LowerWidgetOfMaps extends StatelessWidget {
                   height: 50,
                   child: Center(
                     child: Text(
-                      "Confirm pin location",
+                      isLoading
+                          ? "Detecting location..."
+                          : "Confirm pin location",
                       style: Styles.subtitle16Bold.copyWith(color: kWhite),
                     ),
                   ),

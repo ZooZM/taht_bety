@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: const MaterialApp(
-        showSemanticsDebugger: false,
+        debugShowCheckedModeBanner: false,
         home: SafeArea(
           child: HomePage(),
         ),

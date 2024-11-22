@@ -41,13 +41,15 @@ class _DisplayMapsState extends State<DisplayMaps> {
               updateCurrentLocation();
             },
             onCameraMove: (position) {
-              isloading = true;
               setState(() {
+                isloading = true;
                 centerCoordinates = position.target;
               });
             },
             onCameraIdle: () {
-              isloading = false;
+              setState(() {
+                isloading = false;
+              });
               currentLocation = centerCoordinates;
             },
             markers: markers,
@@ -70,9 +72,8 @@ class _DisplayMapsState extends State<DisplayMaps> {
               right: 0,
               child: LowerWidgetOfMaps(
                 isLoading: isloading,
-                onArrowPress: () {
-                  updateCurrentLocation();
-                  setState(() {});
+                onArrowPress: () async {
+                  await updateCurrentLocation();
                 },
                 onButtonPress: isloading ? () {} : widget.voidCallbackAction,
               )),
@@ -86,8 +87,9 @@ class _DisplayMapsState extends State<DisplayMaps> {
 
   Future<void> updateCurrentLocation() async {
     try {
-      isloading = true;
-
+      setState(() {
+        isloading = true;
+      });
       var currentLocation = await locationService.getLocation();
       var curPosition =
           LatLng(currentLocation.latitude!, currentLocation.longitude!);
@@ -96,8 +98,9 @@ class _DisplayMapsState extends State<DisplayMaps> {
         zoom: 18.0,
       );
 
-      isloading = false;
-      setState(() {});
+      setState(() {
+        isloading = false;
+      });
       mapController
           .animateCamera(CameraUpdate.newCameraPosition(updatedCameraPos));
     } on LocationEnabledException catch (e) {
