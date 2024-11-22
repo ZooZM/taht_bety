@@ -5,7 +5,7 @@ import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/custtom_search_container.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/location_name.dart';
-import 'package:taht_bety/user/Features/maps/presentation/display_maps.dart';
+import 'package:taht_bety/user/Features/maps/presentation/view/display_maps.dart';
 import 'package:taht_bety/user/Features/search/presentation/search.dart';
 
 class UpperWidgetHome extends StatefulWidget {
@@ -39,7 +39,9 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
                   closedColor: Colors.transparent,
                   closedElevation: 0,
                   closedBuilder: (context, action) => const LocationName(),
-                  openBuilder: (context, action) => const DisplayMaps(),
+                  openBuilder: (context, action) => DisplayMaps(
+                    voidCallbackAction: () => action(),
+                  ),
                 )
               ],
             ),
