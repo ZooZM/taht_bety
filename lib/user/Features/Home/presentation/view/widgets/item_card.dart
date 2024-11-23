@@ -9,9 +9,7 @@ import 'package:taht_bety/user/Features/Home/presentation/view/widgets/rating.da
 class ItemCard extends StatelessWidget {
   const ItemCard({
     super.key,
-    required this.provider,
   });
-  final ProviderModel provider;
   @override
   Widget build(BuildContext context) {
     return Container(

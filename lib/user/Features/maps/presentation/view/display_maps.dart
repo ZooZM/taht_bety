@@ -78,7 +78,8 @@ class _DisplayMapsState extends State<DisplayMaps> {
                 onButtonPress: isloading ? () {} : widget.voidCallbackAction,
               )),
           MapsAppBar(
-            onPress: widget.voidCallbackAction,
+            isLoading: isloading,
+            onPress: isloading ? () {} : widget.voidCallbackAction,
           ),
         ],
       ),
@@ -87,9 +88,8 @@ class _DisplayMapsState extends State<DisplayMaps> {
 
   Future<void> updateCurrentLocation() async {
     try {
-      setState(() {
-        isloading = true;
-      });
+      isloading = true;
+      setState(() {});
       var currentLocation = await locationService.getLocation();
       var curPosition =
           LatLng(currentLocation.latitude!, currentLocation.longitude!);
@@ -98,9 +98,7 @@ class _DisplayMapsState extends State<DisplayMaps> {
         zoom: 18.0,
       );
 
-      setState(() {
-        isloading = false;
-      });
+      isloading = false;
       mapController
           .animateCamera(CameraUpdate.newCameraPosition(updatedCameraPos));
     } on LocationEnabledException catch (e) {

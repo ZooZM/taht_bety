@@ -1,10 +1,9 @@
 import 'package:collection/collection.dart';
-
 import 'locations.dart';
 import 'review.dart';
 
 class ProviderModel {
-  Locations? locations;
+  List<Locations>? locations;
   List<dynamic>? posts;
   String? id;
   String? providerType;
@@ -41,7 +40,9 @@ class ProviderModel {
   factory ProviderModel.fromJson(Map<String, dynamic> json) => ProviderModel(
         locations: json['locations'] == null
             ? null
-            : Locations.fromJson(json['locations'] as Map<String, dynamic>),
+            : (json['locations'] as List<dynamic>)
+                .map((e) => Locations.fromJson(e as Map<String, dynamic>))
+                .toList(),
         posts: (json['posts'] as List<dynamic>?)
             ?.map((item) =>
                 item is double ? item : double.tryParse(item.toString()) ?? 0.0)
@@ -72,7 +73,7 @@ class ProviderModel {
       );
 
   Map<String, dynamic> toJson() => {
-        'locations': locations?.toJson(),
+        'locations': locations?.map((e) => e.toJson()).toList(),
         'posts': posts,
         '_id': id,
         'providerType': providerType,
