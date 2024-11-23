@@ -8,7 +8,7 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(
-        path: kHomePage,
+        path: '/',
         builder: (context, state) => const HomePage(),
       ),
       GoRoute(
