@@ -4,43 +4,53 @@ import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_prof_i
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_info.dart';
 
 class ServUpperWidget extends StatelessWidget {
-  const ServUpperWidget({
-    super.key,
-  });
+  const ServUpperWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return SizedBox(
-      height: height * 0.335,
       width: width,
+      height: height * 0.36,
       child: Stack(
         children: [
-          SizedBox(
-            width: width,
-            height: height * 0.24,
-            child: CachedNetworkImage(
-              // color: kBlack,
-              fit: BoxFit.cover,
-              imageUrl:
-                  "https://s3-alpha-sig.figma.com/img/b741/297c/49ff74de02ee0013dd84741b92dde045?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ebIFy7~95VM93FJXb6qmnjLGSmZr8Ynx3aDH-XWDn-yuz1aTKz1KLVOWair84xxGJXvMD51WlloPjYO153MU4rxoxP4QOi~A-TIAzWNgW~j8f1tFF7cnUUBQ2EsNHy~7D6EuCN4XpirODLkl6TcqUcVpNqDCHVdzYQGudCpOAfYKaxTK8eybI-CLHvrBVK13vdetpntORThaDbqCAiqYNto3iVNyB6~0Sc2JymjFq83nse5S4pbEb9Q5rjGmoFRN~WaEafOviSiI9fmbgkMeKJhq7lndsdX6I0g4h6oWaoCh57iRh3XeVxM4M4iOeOanRwIaDYU3QRFhqMCOZbLx0w__",
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 12,
-            child: ServProfImage(height: height, width: width),
-          ),
-          Positioned(
-            bottom: 5,
-            right: 8,
-            left: width * 0.37,
-            child: const ServProfileInfo(),
-          )
+          _buildBackgroundImage(width, height),
+          _buildProfileImage(),
+          _buildTextBelowBackground(width, height),
         ],
       ),
+    );
+  }
+
+  Widget _buildBackgroundImage(double width, double height) {
+    return SizedBox(
+      width: width,
+      height: height * 0.24,
+      child: CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl:
+            "https://s3-alpha-sig.figma.com/img/b741/297c/49ff74de02ee0013dd84741b92dde045?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=gF-JWSJKcIpQRoGjJbDe4ZcoQ0H-lQ59Spxauzy4-FRO0eDQb13HOqDZ-0VtWjnX-rWFWmoK9kXNsxS4a27bizmGvuTpCarspyyrMoUDsGk7DSKNw0r96HYwYoG2Os~NadHPiQEDzAYTmFHkiT1J2ntN2Nakd6AT1WNmtsRwIoA1IlNKzyl5rD15FZkUm-615bwue9ldCu~dRdTlRspXRL3pigOA2wrFgT0DSCOWX3pbteOxSKuQPMnOGZLpx4ZRB~cZY5kLb6ciNGH9WAQ2i2uFAr6qSXBrNtTD7RzW3WUNecF1Pdv0yPwo5S5PmGDjhjOrjB3jXSyBzJ3e8j8mIQ__",
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      ),
+    );
+  }
+
+  Widget _buildProfileImage() {
+    return const Positioned(
+      bottom: 5,
+      left: 12,
+      child: ServProfImage(),
+    );
+  }
+
+  Widget _buildTextBelowBackground(double width, double height) {
+    return Positioned(
+      top: height * 0.235,
+      left: 120,
+      right: 12,
+      child: const ServProfileInfo(),
     );
   }
 }

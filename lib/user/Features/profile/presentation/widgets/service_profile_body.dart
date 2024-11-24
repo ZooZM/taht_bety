@@ -23,12 +23,12 @@ class ServiceProfileBody extends StatelessWidget {
             ),
             const SliverToBoxAdapter(
               child: SizedBox(
-                height: 20,
+                height: 12,
               ),
             ),
             const SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.symmetric(horizontal: 18),
                 child: Text(
                   "Proudcts",
                   style: Styles.subtitle18Bold,
@@ -39,9 +39,18 @@ class ServiceProfileBody extends StatelessWidget {
               child: Expanded(
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 18),
-                    child: ProductCard(),
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                        child: ProductCard(),
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.black26,
+                      )
+                    ],
                   ),
                   itemCount: 5,
                 ),
@@ -67,7 +76,7 @@ class ServiceProfileBody extends StatelessWidget {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
           child: ServProfileAppBar(),
         ),
       ],

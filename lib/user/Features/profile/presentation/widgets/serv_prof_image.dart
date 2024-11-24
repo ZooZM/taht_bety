@@ -5,33 +5,37 @@ import 'package:taht_bety/constants.dart';
 class ServProfImage extends StatelessWidget {
   const ServProfImage({
     super.key,
-    required this.height,
-    required this.width,
   });
-
-  final double height;
-  final double width;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height * 0.145,
-      width: width * 0.306,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: kBlack,
-          width: 2,
-        ),
-      ),
-      child: ClipOval(
-        child: CachedNetworkImage(
-          // color: kBlack,
-          fit: BoxFit.cover,
-          imageUrl:
-              "https://s3-alpha-sig.figma.com/img/4462/f86c/be9aed939e6541909caa1044e75b1002?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Gk-jUQ-UjKv46H5rMDYdeLqKUU~YAfwgKSOM6zlM3dySPjJChqups3qL~QvcBdxS7xUVmzLT-PwavRJ5JyBSCJZaCqpMkzRez59MMtapQUWVTnZsIVhEqxPiJn3BvLgakUQp0bRgzW8VgdpeSm69b2DDIX3gj7LGNcbG7l5~f1jP4kCHsaNywgIMMMxchpjqQyJ0SV9NGykHg4IuYVcUoaEhPpV1tR~hpKBFnbClEgLr8-EK-QGDVfjo26-YBQo6HgRByEuYKxb5yAADAxx5~q78H-h1E3JhOA~3VnQAjpVvkncBEn9FMO02isg3mm4k9NTD~wmwaU5ZpBMeOX1q0w__",
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
+    return SizedBox(
+      height: 100,
+      width: 100,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          double imageSize = constraints.maxWidth;
+
+          return Container(
+            height: imageSize,
+            width: imageSize,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: kBlack,
+                width: 2,
+              ),
+            ),
+            child: ClipOval(
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl:
+                    "https://s3-alpha-sig.figma.com/img/4462/f86c/be9aed939e6541909caa1044e75b1002?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=psUPXKq4gZ-JKbqlJJ~e-hLgS1tsL6~xwelR1Mnp1AIWQQFLlEY7ii-GmgKvyDO2iqqc4AYWP6SaBXRODUIzPubWcR9xEReBk4MabfoUf0AI35-r~vfBIxo3D~Z2wQ9J4hleXaj2O7gi3tQZb75FOOqDroe9OGMr5V-lemBXPeMtyuyT8HHxZ3zzmzdnj3bSDFTTpri~-7lfd3CMk5e8OPxpY280oejh5JWEIHPpDab86vFV3T1TAHtBU~2o-3FyEgUofPlCsr1Ua4g~ilBc1aijBTY1s3L-gaHyg7Xh3zsKsJDrXs4hifZzZSJM-I1GaxHvm18~J6jkbgekhNxTqQ__",
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

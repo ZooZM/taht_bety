@@ -8,11 +8,11 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(
-        path: '/',
+        path: '/aa',
         builder: (context, state) => const HomePage(),
       ),
       GoRoute(
-        path: kServProfile,
+        path: "/",
         builder: (context, state) => const ServiceProfile(),
       ),
     ],

@@ -7,7 +7,9 @@ class ServiceProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: ServiceProfileBody(),
+      body: SafeArea(
+        child: ServiceProfileBody(),
+      ),
     );
   }
 }
