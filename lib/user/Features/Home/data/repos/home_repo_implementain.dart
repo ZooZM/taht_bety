@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:location_platform_interface/location_platform_interface.dart';
 import 'package:taht_bety/core/errors/failures.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
+import 'package:taht_bety/core/utils/location_service.dart';
 import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo.dart';
 import 'package:dio/dio.dart';
@@ -23,6 +25,18 @@ class HomeRepoImpl implements HomeRepo {
       if (e is DioException) {
         return left(Serverfailure.fromDioException(e));
       }
+      return left(Serverfailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LocationData>> fetchLocation() async {
+    try {
+      LocationService locationService = LocationService();
+      LocationData location = await locationService.getLocation();
+
+      return right(location);
+    } catch (e) {
       return left(Serverfailure(e.toString()));
     }
   }

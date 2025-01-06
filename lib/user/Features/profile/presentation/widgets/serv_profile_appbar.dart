@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taht_bety/constants.dart';
-import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custom_icon.dart';
 
 class ServProfileAppBar extends StatefulWidget {
@@ -23,7 +22,7 @@ class _ServProfileAppBarState extends State<ServProfileAppBar> {
       children: [
         IconButton(
           onPressed: () {
-            GoRoute(path: AppRouter.kHomePage);
+            context.go('/');
           },
           icon: Container(
             decoration: const BoxDecoration(

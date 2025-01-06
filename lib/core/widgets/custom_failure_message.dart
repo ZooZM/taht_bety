@@ -6,11 +6,10 @@ class CustomFailureMessage extends StatelessWidget {
   final String mess;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        mess,
-        style: Styles.subtitle18Bold,
-      ),
+    return Text(
+      mess,
+      style: Styles.subtitle18Bold,
+      softWrap: true,
     );
   }
 }
