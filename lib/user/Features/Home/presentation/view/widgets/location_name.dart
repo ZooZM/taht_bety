@@ -5,8 +5,9 @@ import 'package:taht_bety/core/utils/styles.dart';
 class LocationName extends StatelessWidget {
   const LocationName({
     super.key,
+    required this.locationName,
   });
-
+  final String locationName;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +18,7 @@ class LocationName extends StatelessWidget {
           color: ksecondryColor,
         ),
         Text(
-          'New Cairo, Cairo',
+          locationName,
           style: Styles.subtitle18Bold.copyWith(
             color: ksecondryColor,
           ),

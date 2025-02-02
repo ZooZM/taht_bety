@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/core/widgets/customcircularprogress.dart';
+import 'package:taht_bety/core/widgets/custom_circular_progress.dart';
 
 class MapsAppBar extends StatelessWidget {
   const MapsAppBar({

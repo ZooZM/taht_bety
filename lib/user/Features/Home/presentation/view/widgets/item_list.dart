@@ -10,22 +10,23 @@ class ItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.8,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          child: GestureDetector(
-            onTap: () {
-              context.go(AppRouter.kServProfile);
-            },
-            child: const ItemCard(),
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: List.generate(
+        5,
+        (index) => GestureDetector(
+          onTap: () {
+            context.go(AppRouter.kServProfile);
+          },
+          child: const SizedBox(
+            width: 175,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+              child: ItemCard(),
+            ),
           ),
         ),
-        childCount: 2,
       ),
     );
   }

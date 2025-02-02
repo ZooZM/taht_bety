@@ -12,7 +12,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.255,
+      height: MediaQuery.of(context).size.height * 0.29,
       decoration: BoxDecoration(
         color: kExtraLite,
         borderRadius: BorderRadius.circular(16),
