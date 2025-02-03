@@ -1,9 +1,139 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:taht_bety/auth/presentation/view/sign_in_view.dart';
+import 'package:dio/dio.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 
-class VerifyCodeScreen extends StatelessWidget {
+class VerifyCodeScreen extends StatefulWidget {
   const VerifyCodeScreen({super.key});
+
+  @override
+  State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
+}
+
+class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
+  final List<TextEditingController> _otpControllers = List.generate(
+    4,
+    (index) => TextEditingController(),
+  );
+  final List<FocusNode> _otpFocusNodes =
+      List.generate(4, (index) => FocusNode());
+  bool _isLoading = false;
+  late String _email;
+  bool _canResend = true;
+  int _cooldown = 0;
+  Timer? _resendTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    // Setup focus nodes
+    for (int i = 0; i < _otpControllers.length; i++) {
+      _otpControllers[i].addListener(() {
+        if (_otpControllers[i].text.length == 1 && i < 3) {
+          FocusScope.of(context).requestFocus(_otpFocusNodes[i + 1]);
+        }
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _email = GoRouterState.of(context).extra as String;
+  }
+
+  @override
+  void dispose() {
+    _resendTimer?.cancel();
+    for (var controller in _otpControllers) {
+      controller.dispose();
+    }
+    for (var node in _otpFocusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  Future<void> _verifyCode() async {
+    if (_otpControllers.any((controller) => controller.text.isEmpty)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Please enter complete verification code')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final response = await Dio().post(
+        'https://ta7t-bety-anb3dfg0e2dra6hp.germanywestcentral-01.azurewebsites.net/api/v1/auth/verify-email',
+        data: {
+          'email': _email,
+          'verificationCode': _otpControllers.map((c) => c.text).join(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        if (mounted) context.go(AppRouter.kHomePage);
+      }
+    } on DioException catch (e) {
+      String errorMessage = 'Verification failed. Please try again.';
+      if (e.response != null && e.response!.data is Map<String, dynamic>) {
+        errorMessage = e.response!.data['message'] ?? errorMessage;
+      }
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _resendCode() async {
+    if (!_canResend) return;
+
+    try {
+      final response = await Dio().post(
+        'https://ta7t-bety-anb3dfg0e2dra6hp.germanywestcentral-01.azurewebsites.net/api/v1/auth/resend-verification-code',
+        data: {'email': _email},
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Verification code resent!')),
+        );
+        _startCooldown();
+      }
+    } on DioException catch (e) {
+      String errorMessage = 'Failed to resend code. Please try again.';
+      if (e.response != null && e.response!.data is Map<String, dynamic>) {
+        errorMessage = e.response!.data['message'] ?? errorMessage;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    }
+  }
+
+  void _startCooldown() {
+    setState(() {
+      _cooldown = 30;
+      _canResend = false;
+    });
+
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_cooldown > 0) {
+        setState(() => _cooldown--);
+      } else {
+        _resendTimer?.cancel();
+        setState(() => _canResend = true);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +145,15 @@ class VerifyCodeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20),
-              // Back Button
               Align(
                 alignment: Alignment.centerLeft,
                 child: IconButton(
-                  onPressed: () {
-                    context.go('/');
-                  },
+                  onPressed: () => context.go('/'),
                   icon: const Icon(Icons.arrow_back),
                   color: const Color(0xFF3A4D6F),
                 ),
               ),
               const SizedBox(height: 40),
-              // Title
               const Text(
                 "Verify code",
                 textAlign: TextAlign.center,
@@ -38,17 +164,15 @@ class VerifyCodeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              // Subtitle
-              const Text(
-                "Please enter the code we just sent to\nemail example@gmail.com",
+              Text(
+                "Please enter the code we just sent to\n$_email",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: Color(0xFF99A8C2),
                 ),
               ),
               const SizedBox(height: 40),
-              // OTP Input Fields
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(4, (index) {
@@ -56,6 +180,8 @@ class VerifyCodeScreen extends StatelessWidget {
                     height: 60,
                     width: 60,
                     child: TextField(
+                      controller: _otpControllers[index],
+                      focusNode: _otpFocusNodes[index],
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
                       maxLength: 1,
@@ -85,32 +211,34 @@ class VerifyCodeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      onChanged: (value) {
+                        if (value.length == 1 && index < 3) {
+                          FocusScope.of(context)
+                              .requestFocus(_otpFocusNodes[index + 1]);
+                        }
+                      },
                     ),
                   );
                 }),
               ),
               const SizedBox(height: 20),
-              // Resend Code
               TextButton(
-                onPressed: () {
-                  // Handle Resend Code Logic
-                },
-                child: const Text(
-                  "Didn't receive code? Resend code",
+                onPressed: _canResend ? _resendCode : null,
+                child: Text(
+                  _canResend
+                      ? "Didn't receive code? Resend code"
+                      : "Resend code in ${_cooldown}s",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
-                    color: Color(0xFF3A4D6F),
+                    color: _canResend ? const Color(0xFF3A4D6F) : Colors.grey,
                     decoration: TextDecoration.underline,
                   ),
                 ),
               ),
               const SizedBox(height: 40),
-              // Verify Button
               ElevatedButton(
-                onPressed: () {
-                  // Handle Verify Logic
-                },
+                onPressed: _isLoading ? null : _verifyCode,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   backgroundColor: const Color(0xFF3A4D6F),
@@ -118,10 +246,12 @@ class VerifyCodeScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                   ),
                 ),
-                child: const Text(
-                  "Verify",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text(
+                        "Verify",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
               ),
             ],
           ),

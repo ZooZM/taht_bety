@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:taht_bety/core/widgets/custom_circular_progress.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.text,
     this.onPressed,
+    required this.isLoading,
   });
 
   final String text;
   final void Function()? onPressed;
-
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -23,10 +25,12 @@ class CustomButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(32),
         ),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16),
-      ),
+      child: isLoading
+          ? const CustomCircularprogress(size: 15)
+          : Text(
+              text,
+              style: const TextStyle(fontSize: 16),
+            ),
     );
   }
 }

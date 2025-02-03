@@ -19,7 +19,7 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(
-        path: kHomePage,
+        path: '/',
         builder: (context, state) => const HomePage(),
       ),
       GoRoute(
@@ -35,7 +35,7 @@ abstract class AppRouter {
         builder: (context, state) => const UserProfile(),
       ),
       GoRoute(
-        path: '/',
+        path: kSingIn,
         builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
