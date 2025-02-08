@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:dio/dio.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_button.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';
+import 'package:taht_bety/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  const SignInScreen({super.key});
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -17,51 +18,19 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
-
-  Future<void> _signIn() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
-
-      try {
-        final response = await Dio().post(
-          'https://ta7t-bety-anb3dfg0e2dra6hp.germanywestcentral-01.azurewebsites.net/api/v1/auth/login',
-          data: {
-            'email': _emailController.text,
-            'password': _passwordController.text,
-          },
-        );
-        print(response.data);
-        if (response.statusCode == 200 || response.statusCode == 201) {
-          // Handle successful login
-          // You might want to save the token here
-          if (mounted) {
-            context.go(AppRouter.kHomePage); // Adjust to your home route
-          }
-        }
-      } on DioException catch (e) {
-        String errorMessage = 'Login failed. Please try again.';
-        if (e.response != null) {
-          errorMessage = e.response!.data['message'] ?? errorMessage;
-        }
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(errorMessage)),
-          );
-        }
-      } finally {
-        if (mounted) {
-          setState(() => _isLoading = false);
-        }
-      }
-    }
-  }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _signIn(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      await BlocProvider.of<AuthCubit>(context)
+          .logIn(_emailController.text, _passwordController.text);
+    }
   }
 
   @override
@@ -112,10 +81,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
                         }
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
-                          return 'Please enter a valid email';
-                        }
+                        // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\$')
+                        //     .hasMatch(value)) {
+                        //   return 'Please enter a valid email';
+                        // }
                         return null;
                       },
                     ),
@@ -144,10 +113,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {
-                          // Handle Forgot Password
-                          // context.go(AppRouter.kForgotPassword);
-                        },
+                        onPressed: () {},
                         child: const Text(
                           "Forgot Password?",
                           style: TextStyle(color: Color(0xff99A8C2)),
@@ -155,10 +121,29 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    CustomButton(
-                      text: 'Sign In',
-                      onPressed: _isLoading ? null : _signIn,
-                      isLoading: _isLoading,
+                    BlocConsumer<AuthCubit, AuthState>(
+                      listener: (context, state) {
+                        if (state is AuthSuccess) {
+                          context.go(AppRouter.kHomePage);
+                        } else if (state is AuthFailure) {
+                          print(state.failureMssg);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.failureMssg),
+                              duration: const Duration(seconds: 10),
+                            ),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        return CustomButton(
+                          text: 'Sign In',
+                          onPressed: state is AuthLoading
+                              ? null
+                              : () => _signIn(context),
+                          isLoading: state is AuthLoading,
+                        );
+                      },
                     ),
                     const SizedBox(height: 32),
                     const Row(

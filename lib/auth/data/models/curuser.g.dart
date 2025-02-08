@@ -1,38 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'address_model.dart';
+part of 'curuser.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AddressModelAdapter extends TypeAdapter<AddressModel> {
+class CurUserAdapter extends TypeAdapter<CurUser> {
   @override
   final int typeId = 0;
 
   @override
-  AddressModel read(BinaryReader reader) {
+  CurUser read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AddressModel(
-      fields[0] as String,
-      fields[1] as double,
-      fields[2] as double,
+    return CurUser(
+      token: fields[0] as String,
+      userId: fields[1] as String,
+      lat: fields[2] as String,
+      long: fields[3] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, AddressModel obj) {
+  void write(BinaryWriter writer, CurUser obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.address)
+      ..write(obj.token)
       ..writeByte(1)
-      ..write(obj.latitude)
+      ..write(obj.userId)
       ..writeByte(2)
-      ..write(obj.longitude);
+      ..write(obj.lat)
+      ..writeByte(3)
+      ..write(obj.long);
   }
 
   @override
@@ -41,7 +44,7 @@ class AddressModelAdapter extends TypeAdapter<AddressModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AddressModelAdapter &&
+      other is CurUserAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

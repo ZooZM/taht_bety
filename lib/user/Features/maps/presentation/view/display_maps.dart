@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:taht_bety/auth/data/models/curuser.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/location_service.dart';
 import 'package:taht_bety/core/utils/styles.dart';
@@ -79,7 +81,15 @@ class _DisplayMapsState extends State<DisplayMaps> {
                 },
                 onButtonPress: isloading
                     ? () {}
-                    : () {
+                    : () async {
+                        CurUser? user = UserStorage.getUserData();
+                        UserStorage.saveUserData(
+                          token: user!.token,
+                          userId: user.userId,
+                          lat: currentLocation!.latitude.toString(),
+                          long: currentLocation!.longitude.toString(),
+                        );
+                        print(user);
                         widget.voidCallbackAction();
                       },
               )),
@@ -112,8 +122,8 @@ class _DisplayMapsState extends State<DisplayMaps> {
       mapController
           .animateCamera(CameraUpdate.newCameraPosition(updatedCameraPos));
     } on LocationEnabledException catch (e) {
-      print(e);
       return showModalBottomSheet(
+        // ignore: use_build_context_synchronously
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25))),

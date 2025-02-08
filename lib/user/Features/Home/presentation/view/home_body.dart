@@ -9,7 +9,7 @@ class HomeBody extends StatelessWidget {
 
   Future<void> _reloadPage(BuildContext context) async {
     await context.read<ProvidersCubit>().fetchProviderList();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
   }
 
   @override

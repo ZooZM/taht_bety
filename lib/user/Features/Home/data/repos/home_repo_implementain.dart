@@ -1,12 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:hive/hive.dart';
 import 'package:location_platform_interface/location_platform_interface.dart';
-import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/errors/failures.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:taht_bety/core/utils/location_service.dart';
 import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
-import 'package:taht_bety/user/Features/Home/data/models/user_info/address_model.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo.dart';
 import 'package:dio/dio.dart';
 
@@ -18,7 +15,7 @@ class HomeRepoImpl implements HomeRepo {
   @override
   Future<Either<Failure, List<ProviderModel>>> fetchProviderList() async {
     try {
-      var data = await apiService.get(endPoint: 'v1/providers');
+      var data = await apiService.get(endPoint: 'providers');
       List<ProviderModel> providers = [];
       for (var item in data['data']['data']) {
         providers.add(ProviderModel.fromJson(item));
@@ -42,13 +39,5 @@ class HomeRepoImpl implements HomeRepo {
     } catch (e) {
       return left(Serverfailure(e.toString()));
     }
-  }
-
-  @override
-  Future<Either<Null, AddressModel>> fetchaddrsses() {
-    try {
-      var address = Hive.box(kAddressBox);
-    } catch (e) {}
-    throw UnimplementedError();
   }
 }
