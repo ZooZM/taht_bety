@@ -10,3 +10,4 @@ const kGray = Color(0xFFc4cbd9);
 const kOrange = Color(0xFFf04a4a);
 
 const kAddressBox = "addressBox";
+const kCurUserBox = "curUserBox";

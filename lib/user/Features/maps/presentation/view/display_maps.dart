@@ -83,13 +83,17 @@ class _DisplayMapsState extends State<DisplayMaps> {
                     ? () {}
                     : () async {
                         CurUser? user = UserStorage.getUserData();
+                        if (user == null) {
+                          print("No user data found!");
+                          return;
+                        }
                         UserStorage.saveUserData(
-                          token: user!.token,
+                          token: user.token,
                           userId: user.userId,
                           lat: currentLocation!.latitude.toString(),
                           long: currentLocation!.longitude.toString(),
                         );
-                        print(user);
+                        print(user.lat);
                         widget.voidCallbackAction();
                       },
               )),
