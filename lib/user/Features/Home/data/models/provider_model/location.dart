@@ -1,23 +1,40 @@
 import 'coordinates.dart';
 
+/// Represents a location with optional coordinates, address, and identifier.
 class Location {
-  Coordinates? coordinates;
-  String? address;
-  String? id;
+  /// The geographical coordinates.
+  final Coordinates? coordinates;
 
-  Location({this.coordinates, this.address, this.id});
+  /// The address of the location.
+  final String? address;
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        coordinates: json['coordinates'] == null
-            ? null
-            : Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>),
-        address: json['address'] as String?,
-        id: json['id'] as String?,
-      );
+  /// The identifier of the location.
+  final String? id;
 
-  Map<String, dynamic> toJson() => {
-        'coordinates': coordinates?.toJson(),
-        'address': address,
-        'id': id,
-      };
+  /// Creates a [Location] instance.
+  const Location({
+    this.coordinates,
+    this.address,
+    this.id,
+  });
+
+  /// Creates a [Location] instance from a JSON map.
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      coordinates: json['coordinates'] != null
+          ? Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
+          : null,
+      address: json['address'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  /// Converts the [Location] instance into a JSON map.
+  Map<String, dynamic> toJson() {
+    return {
+      'coordinates': coordinates?.toJson(),
+      'address': address,
+      'id': id,
+    };
+  }
 }

@@ -4,22 +4,23 @@ import 'package:taht_bety/core/utils/styles.dart';
 class DistanceIcon extends StatelessWidget {
   const DistanceIcon({
     super.key,
+    required this.distance,
   });
-
+  final int distance;
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       // mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
+        const SizedBox(
           width: 3,
         ),
-        Icon(
+        const Icon(
           Icons.place_outlined,
           size: 16,
         ),
         Text(
-          " 2 km",
+          " $distance km",
           style: Styles.text12Light,
         )
       ],

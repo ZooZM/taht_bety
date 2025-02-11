@@ -5,6 +5,7 @@ import 'package:taht_bety/auth/data/repo/auth_repo.dart';
 import 'package:taht_bety/core/errors/failures.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:dio/dio.dart';
+import 'package:taht_bety/data.dart';
 
 class AuthRepoImplementain implements AuthRepo {
   final ApiService apiService;
@@ -36,18 +37,18 @@ class AuthRepoImplementain implements AuthRepo {
       String email, String password) async {
     try {
       const endPoint = "auth/login";
-      final response = await apiService.post(
+      var response = await apiService.post(
         endPoint: endPoint,
         data: {'email': email, 'password': password},
       );
 
       if (response['data'] == null || response['data']['user'] == null) {
-        return left(
-            Serverfailure("Invalid credentials or unexpected response format"));
+        return left(Serverfailure(response['message']));
       }
 
       final userData = response['data']['user'];
-      final user = UserModel.fromJson(userData);
+      UserModel user = Data.user;
+      user = UserModel.fromJson(userData);
 
       UserStorage.saveUserData(
           token: user.token!, userId: user.id!, lat: '0', long: '0');

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taht_bety/auth/data/models/curuser.dart';
-import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/auth/data/repo/auth_repo_implementain.dart';
 import 'package:taht_bety/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:taht_bety/constants.dart';
@@ -20,12 +18,10 @@ void main() async {
 
   Hive.registerAdapter(CurUserAdapter());
 
-  try {
-    await Hive.openBox<CurUser>('curUserBox');
-  } catch (e) {
-    print("Error opening Hive box: $e");
-    await Hive.deleteBoxFromDisk('curUserBox'); // ❌ حذف البيانات الفاسدة
-    await Hive.openBox<CurUser>('curUserBox'); // ✅ إعادة الفتح
+  await Hive.openBox<CurUser>(kCurUserBox);
+  try {} catch (e) {
+    await Hive.deleteBoxFromDisk(kCurUserBox);
+    await Hive.openBox<CurUser>(kCurUserBox);
   }
   runApp(const MyApp());
 }
@@ -40,7 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ProvidersCubit(
             getIt<HomeRepoImpl>(),
-          )..fetchProviderList(),
+          ),
         ),
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(

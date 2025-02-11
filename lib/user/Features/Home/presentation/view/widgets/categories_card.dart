@@ -7,9 +7,11 @@ class CategoriesCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.isCheck,
+    required this.icon,
   });
   final String title;
   final bool isCheck;
+  final IconData icon;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,12 +29,26 @@ class CategoriesCard extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 22),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         child: Center(
-          child: Text(
-            title,
-            style: Styles.subtitle16Bold
-                .copyWith(color: isCheck ? kWhite : kPrimaryColor),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: isCheck ? ksecondryColor : kPrimaryColor,
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                title,
+                style: Styles.subtitle16Bold
+                    .copyWith(color: isCheck ? kWhite : kPrimaryColor),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+            ],
           ),
         ),
       ),

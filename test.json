@@ -1,0 +1,93 @@
+{
+    "_id": "67a8f3ed7b49652ea5be7d14",
+    "providerType": "F-Restaurants",
+    "id": [
+        "image1.jpg",
+        "image2.jpg"
+    ],
+    "criminalRecord": "Clearance1.pdf",
+    "subscriptionType": "percentage",
+    "subscriptionStartDate": "2023-07-01T00:00:00.000Z",
+    "subscriptionEndDate": "2024-07-01T00:00:00.000Z",
+    "subscriptionPercentage": null,
+    "subscriptionMonthly": 50,
+    "isActive": true,
+    "isOnline": true,
+    "reports": [],
+    "locations": [
+        {
+            "coordinates": {
+                "type": "Point",
+                "coordinates": [
+                    30.17390902867272,
+                    31.593053648071105
+                ]
+            },
+            "address": "Al shorouq city, el shouhada road, Roostic Fried Chicken",
+            "_id": "67a8f3ed7b49652ea5be7d15"
+        }
+    ],
+    "posts": [
+        {
+            "providerID": "67a8f2677b49652ea5be7d09",
+            "images": [
+                "https://images.deliveryhero.io/image/talabat/Menuitems/roostic_12_pieses_vesta_p638572430447250712.jpg?width=172&height=172"
+            ],
+            "title": "Pieces Fiesta Bucket",
+            "content": "12 pieces of chicken, large coleslaw, family Potatoes, 4 bread, and liter of drink",
+            "price": 629,
+            "isMainService": false,
+            "createdAt": "2025-02-07T00:00:00.000Z",
+            "updatedAt": "2025-02-07T00:00:00.000Z",
+            "_id": "67a8f45c7b49652ea5be7d1a",
+            "__v": 0
+        },
+        {
+            "providerID": "67a8f2677b49652ea5be7d09",
+            "images": [
+                "https://images.deliveryhero.io/image/talabat/Menuitems/roostic_packet_of_15_pies638574213919116491.jpg?width=172&height=172"
+            ],
+            "title": "Pieces Fiesta Bucket",
+            "content": "15 piece of chicken, 2 rizo, family Potatoes, large coleslaw, 3 bread, and 1 liter drink",
+            "price": 799,
+            "isMainService": false,
+            "createdAt": "2025-02-07T00:00:00.000Z",
+            "updatedAt": "2025-02-07T00:00:00.000Z",
+            "_id": "67a8f49d7b49652ea5be7d22",
+            "__v": 0
+        },
+        {
+            "providerID": "67a8f2677b49652ea5be7d09",
+            "images": [
+                "https://images.deliveryhero.io/image/talabat/Menuitems/roostic_4x4_meal_osama_sa638574213899854519.jpg?width=172&height=172"
+            ],
+            "title": "Meal 4x4",
+            "content": "Multi zinger sandwich, zinger sandwich, twister sandwich, supreme sandwich, coleslaw, and liter drink",
+            "price": 499,
+            "isMainService": false,
+            "createdAt": "2025-02-07T00:00:00.000Z",
+            "updatedAt": "2025-02-07T00:00:00.000Z",
+            "_id": "67a8f4b57b49652ea5be7d28",
+            "__v": 0
+        },
+        {
+            "providerID": "67a8f2677b49652ea5be7d09",
+            "images": [
+                "https://images.deliveryhero.io/image/talabat/Menuitems/roostic_rice_osama_samir638572430402102950.jpg?width=172&height=172"
+            ],
+            "title": "Rice",
+            "content": "Delicious rice",
+            "price": 25,
+            "isMainService": false,
+            "createdAt": "2025-02-07T00:00:00.000Z",
+            "updatedAt": "2025-02-07T00:00:00.000Z",
+            "_id": "67a8f4c57b49652ea5be7d2e",
+            "__v": 0
+        }
+    ],
+    "lastPhotoAt": "2025-02-09T18:29:01.037Z",
+    "__v": 4,
+    "name": "Roostic Fried Chicken",
+    "email": "mostafaaa1@gmail.com",
+    "userId": "67a8f2677b49652ea5be7d09"
+}

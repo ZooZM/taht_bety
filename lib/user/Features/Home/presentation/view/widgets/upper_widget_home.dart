@@ -54,7 +54,7 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
           ),
         ),
         const SizedBox(
-          height: 36,
+          height: 22,
         ),
       ],
     );

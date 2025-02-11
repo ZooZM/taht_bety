@@ -1,14 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
+import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/distance_icon.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/rating.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({
     super.key,
+    required this.provider,
   });
+  final ProviderModel provider;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,36 +37,41 @@ class ItemCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.15,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: AspectRatio(
-                  aspectRatio: 0.95,
-                  child: CachedNetworkImage(
-                    // color: kBlack,
-                    fit: BoxFit.fill,
-                    imageUrl:
-                        "https://th.bing.com/th/id/OIP.RdNN9GEvTFDohpXmSeeplwHaGd?rs=1&pid=ImgDetMain",
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+            provider.photo?.isNotEmpty == true
+                ? CustomCushedImage(
+                    image: provider.photo!,
+                    height: 0.15,
+                    width: 0.34,
+                    hasShadow: false,
+                  )
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.34,
+                    child: const Icon(
+                      Icons.person,
+                      size: 38,
+                    ),
                   ),
-                ),
+            const Spacer(),
+            SizedBox(
+              child: Text(
+                provider.name!,
+                style: Styles.subtitle16Bold,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            const Text(
-              "Family Market",
-              style: Styles.subtitle16Bold,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  DistanceIcon(),
-                  SizedBox(
+                  DistanceIcon(
+                    distance: provider.distance!.round(),
+                  ),
+                  const SizedBox(
                     height: 3,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Rating(),

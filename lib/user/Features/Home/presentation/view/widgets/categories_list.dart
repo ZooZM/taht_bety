@@ -1,48 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taht_bety/data.dart';
+import 'package:taht_bety/user/Features/Home/data/models/category_Model.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/categories_card.dart';
-
-List categoriesName = [
-  "All",
-  "Restaurant",
-  "SuperMarket",
-  "House Work",
-  "Repair",
-  "Clinc",
-];
-List isCheck = [
-  true,
-  false,
-  false,
-  false,
-  false,
-  false,
-];
+import 'package:taht_bety/user/Features/Home/presentation/view_model/providers_cubit/providers_cubit.dart';
 
 class CategoriesList extends StatefulWidget {
   const CategoriesList({
     super.key,
   });
-
   @override
   State<CategoriesList> createState() => _CategoriesListState();
 }
 
 class _CategoriesListState extends State<CategoriesList> {
+  Future<void> _filterProviders(BuildContext context, String categoty) async {
+    await context.read<ProvidersCubit>().filterProvidersByCategory(categoty);
+  }
+
+  final List<CategoryModel> categories = Data.categores;
+
   @override
   Widget build(BuildContext context) {
+    categories.sort((a, b) => a.name.compareTo(b.name));
+
     return SizedBox(
       height: 50,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: categoriesName.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.only(left: 16),
           child: ElevatedButton(
             onPressed: () {
               setState(() {
-                for (int i = 0; i < isCheck.length; i++) {
-                  isCheck[i] = (i == index);
+                for (int i = 0; i < categories.length; i++) {
+                  categories[i].hasCliced = (i == index);
                 }
+                _filterProviders(context, categories[index].name);
               });
             },
             style: ElevatedButton.styleFrom(
@@ -51,8 +46,9 @@ class _CategoriesListState extends State<CategoriesList> {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: CategoriesCard(
-              title: categoriesName[index],
-              isCheck: isCheck[index],
+              title: categories[index].name.split('-')[1],
+              isCheck: categories[index].hasCliced,
+              icon: categories[index].icon,
             ),
           ),
         ),

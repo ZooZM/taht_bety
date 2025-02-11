@@ -21,6 +21,10 @@ class ProviderModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? lastPhotoAt;
+  String? name;
+  String? email;
+  String? photo;
+  double? distance; // إضافة distance
 
   ProviderModel({
     this.providerId,
@@ -41,12 +45,68 @@ class ProviderModel {
     this.createdAt,
     this.updatedAt,
     this.lastPhotoAt,
+    this.name,
+    this.email,
+    this.photo,
+    this.distance, // إضافة distance إلى الـ Constructor
   });
+
+  ProviderModel copyWith({
+    String? providerId,
+    String? providerType,
+    List<String>? id,
+    String? criminalRecord,
+    String? subscriptionType,
+    DateTime? subscriptionStartDate,
+    DateTime? subscriptionEndDate,
+    int? subscriptionPercentage,
+    int? subscriptionMonthly,
+    bool? isActive,
+    bool? isOnline,
+    List<String>? reports,
+    List<Location>? locations,
+    List<Post>? posts,
+    List<Review>? reviews,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? lastPhotoAt,
+    String? name,
+    String? email,
+    String? photo,
+    double? distance, // إضافة distance هنا أيضًا
+  }) {
+    return ProviderModel(
+      providerId: providerId ?? this.providerId,
+      providerType: providerType ?? this.providerType,
+      id: id ?? this.id,
+      criminalRecord: criminalRecord ?? this.criminalRecord,
+      subscriptionType: subscriptionType ?? this.subscriptionType,
+      subscriptionStartDate:
+          subscriptionStartDate ?? this.subscriptionStartDate,
+      subscriptionEndDate: subscriptionEndDate ?? this.subscriptionEndDate,
+      subscriptionPercentage:
+          subscriptionPercentage ?? this.subscriptionPercentage,
+      subscriptionMonthly: subscriptionMonthly ?? this.subscriptionMonthly,
+      isActive: isActive ?? this.isActive,
+      isOnline: isOnline ?? this.isOnline,
+      reports: reports ?? this.reports,
+      locations: locations ?? this.locations,
+      posts: posts ?? this.posts,
+      reviews: reviews ?? this.reviews,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      lastPhotoAt: lastPhotoAt ?? this.lastPhotoAt,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      photo: photo ?? this.photo,
+      distance: distance ?? this.distance, // تعيين distance
+    );
+  }
 
   factory ProviderModel.fromJson(Map<String, dynamic> json) => ProviderModel(
         providerId: json['providerID'] as String?,
         providerType: json['providerType'] as String?,
-        id: json['id'] as List<String>?,
+        id: (json['id'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
         criminalRecord: json['criminalRecord'] as String?,
         subscriptionType: json['subscriptionType'] as String?,
         subscriptionStartDate: json['subscriptionStartDate'] == null
@@ -59,7 +119,9 @@ class ProviderModel {
         subscriptionMonthly: json['subscriptionMonthly'] as int?,
         isActive: json['isActive'] as bool?,
         isOnline: json['isOnline'] as bool?,
-        reports: json['reports'] as List<String>?,
+        reports: (json['reports'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList(),
         locations: (json['locations'] as List<dynamic>?)
             ?.map((e) => Location.fromJson(e as Map<String, dynamic>))
             .toList(),
@@ -78,6 +140,10 @@ class ProviderModel {
         lastPhotoAt: json['lastPhotoAt'] == null
             ? null
             : DateTime.parse(json['lastPhotoAt'] as String),
+        name: json['name'] as String?,
+        email: json['email'] as String?,
+        photo: json['photo'] as String?,
+        distance: (json['distance'] as num?)?.toDouble(), // إضافة distance
       );
 
   Map<String, dynamic> toJson() => {
@@ -99,5 +165,9 @@ class ProviderModel {
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
         'lastPhotoAt': lastPhotoAt?.toIso8601String(),
+        'name': name,
+        'email': email,
+        'photo': photo,
+        'distance': distance, // إضافة distance
       };
 }

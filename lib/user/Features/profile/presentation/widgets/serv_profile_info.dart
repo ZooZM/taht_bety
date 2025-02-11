@@ -4,8 +4,9 @@ import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_rate.dart';
 
 class ServProfileInfo extends StatelessWidget {
-  const ServProfileInfo({super.key});
-
+  const ServProfileInfo({super.key, required this.name, required this.address});
+  final String name;
+  final String address;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,20 +20,20 @@ class ServProfileInfo extends StatelessWidget {
   }
 
   Widget _buildHeader() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: Text(
-            "Arabian Carpentry",
+            name,
             style: Styles.subtitle18Bold,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             softWrap: true,
           ),
         ),
-        SizedBox(width: 12),
-        ServProfileRate(),
+        const SizedBox(width: 12),
+        const ServProfileRate(),
       ],
     );
   }
@@ -50,7 +51,7 @@ class ServProfileInfo extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(
           child: Text(
-            "Street 306 - Saqr Quraish District",
+            address,
             style: Styles.text12Light.copyWith(color: ksecondryColor),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

@@ -23,7 +23,7 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
         providerId: json['providerID'] as String?,
-        images: json['images'] as List<String>?,
+        images: (json['images'] as List<dynamic>?)?.cast<String>(),
         title: json['title'] as String?,
         content: json['content'] as String?,
         price: json['price'] as int?,

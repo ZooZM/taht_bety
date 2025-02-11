@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/product_card.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_appbar.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_widget.dart';
@@ -9,8 +10,9 @@ import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_
 class ServiceProfileBody extends StatelessWidget {
   const ServiceProfileBody({
     super.key,
+    required this.provider,
   });
-
+  final ProviderModel provider;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -18,8 +20,13 @@ class ServiceProfileBody extends StatelessWidget {
         CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            const SliverToBoxAdapter(
-              child: ServUpperWidget(),
+            SliverToBoxAdapter(
+              child: ServUpperWidget(
+                image:
+                    provider.photo?.isNotEmpty == true ? provider.photo! : '',
+                address: provider.locations![0].address!,
+                name: provider.name!,
+              ),
             ),
             const SliverToBoxAdapter(
               child: SizedBox(
@@ -41,10 +48,12 @@ class ServiceProfileBody extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => Column(
                     children: [
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 18),
-                        child: ProductCard(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 18),
+                        child: ProductCard(
+                          post: provider.posts![index],
+                        ),
                       ),
                       Container(
                         height: 1,
@@ -52,8 +61,13 @@ class ServiceProfileBody extends StatelessWidget {
                       )
                     ],
                   ),
-                  itemCount: 5,
+                  itemCount: provider.posts!.length,
                 ),
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 50,
               ),
             )
           ],

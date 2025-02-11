@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/item_card.dart';
 
 class ItemsList extends StatelessWidget {
   const ItemsList({
     super.key,
+    required this.providers,
   });
-
+  final List<ProviderModel> providers;
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
       children: List.generate(
-        5,
+        providers.length,
         (index) => GestureDetector(
           onTap: () {
-            context.go(AppRouter.kServProfile);
+            context.push(AppRouter.kServProfile, extra: providers[index]);
           },
-          child: const SizedBox(
+          child: SizedBox(
             width: 175,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-              child: ItemCard(),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+              child: ItemCard(
+                provider: providers[index],
+              ),
             ),
           ),
         ),

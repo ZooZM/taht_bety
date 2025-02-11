@@ -41,9 +41,6 @@ class Serverfailure extends Failure {
           return Serverfailure('No Internet Connection');
         }
         return Serverfailure('There was an Error, please try again later');
-
-      default:
-        return Serverfailure('Failure: $message');
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
@@ -15,14 +16,19 @@ class CusttomProfileInfo extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
-              height: 120,
-              width: 120,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/images/OIP.jpg"),
-                  fit: BoxFit.cover,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.16,
+              child: ClipOval(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: CachedNetworkImage(
+                    // color: kBlack,
+                    fit: BoxFit.fill,
+                    imageUrl:
+                        "https://images.deliveryhero.io/image/talabat/Menuitems/Tower__Beef_Meal_512_x_51638253721632353982.png?width=172&height=172",
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
                 ),
               ),
             ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/service_profile_body.dart';
 
 class ServiceProfile extends StatelessWidget {
@@ -6,9 +8,12 @@ class ServiceProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final provider = GoRouterState.of(context).extra as ProviderModel?;
+    return Scaffold(
       body: SafeArea(
-        child: ServiceProfileBody(),
+        child: ServiceProfileBody(
+          provider: provider!,
+        ),
       ),
     );
   }

@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/widgets/categories_list.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/under_widget_home.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/upper_widget_home.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view_model/providers_cubit/providers_cubit.dart';
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
 
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
   Future<void> _reloadPage(BuildContext context) async {
     await context.read<ProvidersCubit>().fetchProviderList();
     await Future.delayed(const Duration(seconds: 1));
+  }
+
+  @override
+  void initState() {
+    _reloadPage(context);
+    super.initState();
   }
 
   @override
@@ -32,6 +44,7 @@ class HomeBody extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: UpperWidgetHome(),
                     ),
+                    CategoriesList(),
                     Expanded(
                       child: UnderWidgetHome(),
                     ),

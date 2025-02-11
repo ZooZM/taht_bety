@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dio/dio.dart';
-import 'package:taht_bety/auth/presentation/view/VerifyCodeScreen.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_button.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';

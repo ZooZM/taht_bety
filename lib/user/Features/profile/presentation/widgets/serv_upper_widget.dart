@@ -4,7 +4,14 @@ import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_prof_i
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_info.dart';
 
 class ServUpperWidget extends StatelessWidget {
-  const ServUpperWidget({super.key});
+  const ServUpperWidget(
+      {super.key,
+      required this.image,
+      required this.name,
+      required this.address});
+  final String image;
+  final String name;
+  final String address;
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +45,12 @@ class ServUpperWidget extends StatelessWidget {
   }
 
   Widget _buildProfileImage() {
-    return const Positioned(
+    return Positioned(
       bottom: 5,
       left: 12,
-      child: ServProfImage(),
+      child: ServProfImage(
+        image: image,
+      ),
     );
   }
 
@@ -50,7 +59,10 @@ class ServUpperWidget extends StatelessWidget {
       top: height * 0.235,
       left: 120,
       right: 12,
-      child: const ServProfileInfo(),
+      child: ServProfileInfo(
+        name: name,
+        address: address,
+      ),
     );
   }
 }

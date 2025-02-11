@@ -566,7 +566,7 @@ packages:
     source: hosted
     version: "7.0.1"
   location_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: location_platform_interface
       sha256: "1e535ccc8b4a9612de4e4319871136b45d2b5d1fb0c2a8bf99687242bf7ca5f7"

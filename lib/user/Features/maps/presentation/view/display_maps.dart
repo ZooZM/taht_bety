@@ -83,10 +83,7 @@ class _DisplayMapsState extends State<DisplayMaps> {
                     ? () {}
                     : () async {
                         CurUser? user = UserStorage.getUserData();
-                        if (user == null) {
-                          print("No user data found!");
-                          return;
-                        }
+
                         UserStorage.saveUserData(
                           token: user.token,
                           userId: user.userId,
