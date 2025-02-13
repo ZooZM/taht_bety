@@ -11,3 +11,24 @@ const kOrange = Color(0xFFf04a4a);
 
 const kAddressBox = "addressBox";
 const kCurUserBox = "curUserBox";
+const kRecentSearchBox = "RecentSearchBox";
+
+Map<String, IconData> categoryIcons = {
+  "R-Electric": Icons.electrical_services,
+  "R-Painters": Icons.format_paint,
+  "R-Carpenters": Icons.handyman,
+  "R-Alometetal": Icons.construction,
+  "R-Air conditioning technician": Icons.ac_unit,
+  "R-Plumber": Icons.plumbing,
+  "HW-Standerd": Icons.cleaning_services,
+  "HW-Deep": Icons.layers,
+  "HW-Cleaning": Icons.clean_hands,
+  "HW-HouseKeeper": Icons.home,
+  "HW-Car wash": Icons.local_car_wash,
+  "HW-Dry cleaning": Icons.local_laundry_service,
+  "F-Restaurants": Icons.restaurant,
+  "M-Supermarket": Icons.shopping_cart,
+  "M-miqla": Icons.local_dining,
+  "HC-Pharmacies": Icons.local_pharmacy,
+  "HC-Clinics": Icons.local_hospital,
+};

@@ -50,6 +50,7 @@ class HomeRepoImpl implements HomeRepo {
               provider = provider.copyWith(distance: distance);
             }
           }
+
           _providers.sort((a, b) => a.distance!.compareTo(b.distance!));
           _providers.add(provider);
         }

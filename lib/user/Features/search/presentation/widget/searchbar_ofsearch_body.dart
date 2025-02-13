@@ -6,8 +6,11 @@ class SearchBarOfSearchBody extends StatelessWidget {
   const SearchBarOfSearchBody({
     super.key,
     required this.onChange,
+    required this.onSubmit,
   });
   final ValueChanged<String> onChange;
+  final ValueChanged<String> onSubmit;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,6 +50,7 @@ class SearchBarOfSearchBody extends StatelessWidget {
               autocorrect: true,
               cursorColor: kPrimaryColor,
               onChanged: onChange,
+              onSubmitted: onSubmit,
             ),
           )
         ],

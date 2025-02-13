@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_prof_image.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_info.dart';
 
@@ -15,53 +16,43 @@ class ServUpperWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
-
+    final double avHeight = MediaQuery.of(context).size.height;
+    final double avWidth = MediaQuery.of(context).size.width;
+    final double cHeight = avHeight * 0.36;
+    final double cWidth = avWidth;
+    final double coverHeight = avHeight * 0.24;
+    final double coverWidth = cWidth;
+    final double imageWidth = 0.25 * avWidth;
+    final double imageHeight = 0.122 * avHeight;
     return SizedBox(
-      width: width,
-      height: height * 0.36,
+      width: cWidth,
+      height: cHeight,
+      // https://s3-alpha-sig.figma.com/img/b741/297c/49ff74de02ee0013dd84741b92dde045?Expires=1740355200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=M1HyrlHyeCZ2W~U734U7WIad301pSaZWbfwpthUSnmJAvXmRTji~Sgd27RlFWj7Vx0yilKHATFGFobLZQgoMd0m428344Za0ix1c4Mc3dHuR9EVAJNwivO4uG5xL4D1BTRONCzIXtdNGMW~JCTmmwMflSdDOU-7SH1OMSPs6xu8Mn-UO5S8tzVOjTj~tk-QB5vxN1nZDsH8lfkxqxoBuw7JKim0Csto9v4K~HGK~Gv7gkVp~F71t-lDcZTg-x3MBGiFPZTmU4i3Tfm5Hr4o04HaapD-O45s2e~CXfTPOFj0CAx0FPs7Kydn6fSvkr3R-RwWlSLH8uL2nmGkMHUV3BQ__
       child: Stack(
         children: [
-          _buildBackgroundImage(width, height),
-          _buildProfileImage(),
-          _buildTextBelowBackground(width, height),
+          const CustomCushedImage(
+            image:
+                "https://s3-alpha-sig.figma.com/img/b741/297c/49ff74de02ee0013dd84741b92dde045?Expires=1740355200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=M1HyrlHyeCZ2W~U734U7WIad301pSaZWbfwpthUSnmJAvXmRTji~Sgd27RlFWj7Vx0yilKHATFGFobLZQgoMd0m428344Za0ix1c4Mc3dHuR9EVAJNwivO4uG5xL4D1BTRONCzIXtdNGMW~JCTmmwMflSdDOU-7SH1OMSPs6xu8Mn-UO5S8tzVOjTj~tk-QB5vxN1nZDsH8lfkxqxoBuw7JKim0Csto9v4K~HGK~Gv7gkVp~F71t-lDcZTg-x3MBGiFPZTmU4i3Tfm5Hr4o04HaapD-O45s2e~CXfTPOFj0CAx0FPs7Kydn6fSvkr3R-RwWlSLH8uL2nmGkMHUV3BQ__",
+            height: 0.25,
+            width: 1,
+          ),
+          Positioned(
+            bottom: (imageHeight / 2) - 18,
+            left: 12,
+            child: ServProfImage(
+              image: image,
+            ),
+          ),
+          Positioned(
+            top: coverHeight + 10,
+            left: imageWidth + 20,
+            right: 12,
+            child: ServProfileInfo(
+              name: name,
+              address: address,
+            ),
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBackgroundImage(double width, double height) {
-    return SizedBox(
-      width: width,
-      height: height * 0.24,
-      child: CachedNetworkImage(
-        fit: BoxFit.cover,
-        imageUrl:
-            "https://s3-alpha-sig.figma.com/img/b741/297c/49ff74de02ee0013dd84741b92dde045?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=gF-JWSJKcIpQRoGjJbDe4ZcoQ0H-lQ59Spxauzy4-FRO0eDQb13HOqDZ-0VtWjnX-rWFWmoK9kXNsxS4a27bizmGvuTpCarspyyrMoUDsGk7DSKNw0r96HYwYoG2Os~NadHPiQEDzAYTmFHkiT1J2ntN2Nakd6AT1WNmtsRwIoA1IlNKzyl5rD15FZkUm-615bwue9ldCu~dRdTlRspXRL3pigOA2wrFgT0DSCOWX3pbteOxSKuQPMnOGZLpx4ZRB~cZY5kLb6ciNGH9WAQ2i2uFAr6qSXBrNtTD7RzW3WUNecF1Pdv0yPwo5S5PmGDjhjOrjB3jXSyBzJ3e8j8mIQ__",
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-      ),
-    );
-  }
-
-  Widget _buildProfileImage() {
-    return Positioned(
-      bottom: 5,
-      left: 12,
-      child: ServProfImage(
-        image: image,
-      ),
-    );
-  }
-
-  Widget _buildTextBelowBackground(double width, double height) {
-    return Positioned(
-      top: height * 0.235,
-      left: 120,
-      right: 12,
-      child: ServProfileInfo(
-        name: name,
-        address: address,
       ),
     );
   }

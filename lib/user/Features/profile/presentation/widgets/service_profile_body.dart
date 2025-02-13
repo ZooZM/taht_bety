@@ -67,7 +67,7 @@ class ServiceProfileBody extends StatelessWidget {
             ),
             const SliverToBoxAdapter(
               child: SizedBox(
-                height: 50,
+                height: 100,
               ),
             )
           ],

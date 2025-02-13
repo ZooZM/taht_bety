@@ -11,8 +11,8 @@ class ServProfImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomCushedImage(
       image: image,
-      height: 0.125,
-      width: 0.27,
+      height: 0.122,
+      width: 0.25,
     );
   }
 }

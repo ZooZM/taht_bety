@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taht_bety/user/Features/Home/presentation/view/widgets/categories_list.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/under_widget_home.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/upper_widget_home.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view_model/providers_cubit/providers_cubit.dart';
@@ -44,7 +43,6 @@ class _HomeBodyState extends State<HomeBody> {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: UpperWidgetHome(),
                     ),
-                    CategoriesList(),
                     Expanded(
                       child: UnderWidgetHome(),
                     ),
