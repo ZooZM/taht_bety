@@ -21,7 +21,7 @@ class HomeRepoImpl implements HomeRepo {
     try {
       CurUser user = UserStorage.getUserData();
       var providerResponse = await apiService.get(
-          endPoint: 'providers/${user.lat}/${user.long}/100/all');
+          endPoint: 'providers/30.171797351360343/31.594296624005946/100/all');
 
       List<ProviderModel> _providers = [];
 

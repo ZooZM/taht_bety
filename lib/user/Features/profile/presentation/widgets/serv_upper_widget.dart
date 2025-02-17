@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_prof_image.dart';
@@ -21,7 +20,6 @@ class ServUpperWidget extends StatelessWidget {
     final double cHeight = avHeight * 0.36;
     final double cWidth = avWidth;
     final double coverHeight = avHeight * 0.24;
-    final double coverWidth = cWidth;
     final double imageWidth = 0.25 * avWidth;
     final double imageHeight = 0.122 * avHeight;
     return SizedBox(
