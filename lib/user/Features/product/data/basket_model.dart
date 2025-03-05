@@ -2,23 +2,28 @@ import 'package:hive/hive.dart';
 
 part 'basket_model.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
 class BasketModel extends HiveObject {
   @HiveField(0)
   final String id;
 
   @HiveField(1)
-  final String postId;
+  final String image;
 
   @HiveField(2)
-  final int count;
+  int count;
+
   @HiveField(3)
   final String providerId;
 
+  @HiveField(4)
+  final int price;
+
   BasketModel({
     required this.id,
-    required this.postId,
+    required this.image,
     required this.count,
     required this.providerId,
+    required this.price,
   });
 }

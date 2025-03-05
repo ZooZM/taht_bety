@@ -1,19 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
 import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
+import 'package:taht_bety/user/Features/product/data/basket_model.dart';
+import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/product_card.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_appbar.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_widget.dart';
+import 'package:taht_bety/user/Features/profile/presentation/widgets/view_basket.dart';
 
-class ServiceProfileBody extends StatelessWidget {
+class ServiceProfileBody extends StatefulWidget {
   const ServiceProfileBody({
     super.key,
     required this.provider,
   });
   final ProviderModel provider;
+
+  @override
+  State<ServiceProfileBody> createState() => _ServiceProfileBodyState();
+}
+
+class _ServiceProfileBodyState extends State<ServiceProfileBody> {
+  late List<BasketModel> basket;
+  int totalPrice = 0;
+  @override
+  void initState() {
+    basket = BasketStorage.getItemsByProvider(widget.provider.providerId!);
+    for (var item in basket) {
+      totalPrice += item.price;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -25,10 +47,11 @@ class ServiceProfileBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ServUpperWidget(
-                image:
-                    provider.photo?.isNotEmpty == true ? provider.photo! : '',
-                address: provider.locations![0].address!,
-                name: provider.name!,
+                image: widget.provider.photo?.isNotEmpty == true
+                    ? widget.provider.photo!
+                    : '',
+                address: widget.provider.locations![0].address!,
+                name: widget.provider.name!,
               ),
               const SizedBox(
                 height: 12,
@@ -42,13 +65,13 @@ class ServiceProfileBody extends StatelessWidget {
               ),
               Column(
                 children: List.generate(
-                  provider.posts!.length,
+                  widget.provider.posts!.length,
                   (index) => Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8, horizontal: 18),
-                        child: ProductCard(post: provider.posts![index]),
+                        child: ProductCard(post: widget.provider.posts![index]),
                       ),
                       Container(height: 1, color: Colors.black26),
                     ],
@@ -65,7 +88,7 @@ class ServiceProfileBody extends StatelessWidget {
               ),
               Flexible(
                 fit: FlexFit.loose,
-                child: Reviews(provider: provider),
+                child: Reviews(provider: widget.provider),
               ),
               const SizedBox(
                 height: 300,
@@ -74,7 +97,7 @@ class ServiceProfileBody extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 16,
+          bottom: 55,
           left: 16,
           child: Container(
             width: 70,
@@ -94,6 +117,19 @@ class ServiceProfileBody extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
           child: ServProfileAppBar(),
         ),
+        Positioned(
+          bottom: 5,
+          right: 5,
+          left: 5,
+          child: ViewBasket(
+            price: totalPrice.toString(),
+            isLoading: false,
+            onTap: () {
+              context.push(AppRouter.kBasket, extra: basket);
+            },
+            count: basket.length,
+          ),
+        )
       ],
     );
   }

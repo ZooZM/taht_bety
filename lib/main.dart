@@ -7,6 +7,8 @@ import 'package:taht_bety/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/service_locator.dart';
+import 'package:taht_bety/user/Features/product/data/basket_model.dart';
+import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 import 'package:taht_bety/user/Features/search/data/hive_models/recent_search_model.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo_implementain.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view_model/cubit/fetch_location_cubit.dart';
@@ -16,18 +18,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
   await Hive.initFlutter();
-  
 
   Hive.registerAdapter(CurUserAdapter());
   Hive.registerAdapter(RecentSearchModelAdapter());
+  Hive.registerAdapter(BasketModelAdapter());
   await Hive.openBox<CurUser>(kCurUserBox);
   await Hive.openBox<RecentSearchModel>(kRecentSearchBox);
-  try {
-    await Hive.openBox(kBasketBox);
-  } catch (e) {
-    await Hive.deleteBoxFromDisk(kBasketBox);
-    await Hive.openBox<CurUser>(kBasketBox);
-  }
+  await BasketStorage.init();
+  print('main');
   runApp(const MyApp());
 }
 

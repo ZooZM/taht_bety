@@ -8,7 +8,7 @@ part of 'basket_model.dart';
 
 class BasketModelAdapter extends TypeAdapter<BasketModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
   BasketModel read(BinaryReader reader) {
@@ -18,24 +18,27 @@ class BasketModelAdapter extends TypeAdapter<BasketModel> {
     };
     return BasketModel(
       id: fields[0] as String,
-      postId: fields[1] as String,
+      image: fields[1] as String,
       count: fields[2] as int,
       providerId: fields[3] as String,
+      price: fields[4] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, BasketModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.postId)
+      ..write(obj.image)
       ..writeByte(2)
       ..write(obj.count)
       ..writeByte(3)
-      ..write(obj.providerId);
+      ..write(obj.providerId)
+      ..writeByte(4)
+      ..write(obj.price);
   }
 
   @override

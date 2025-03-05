@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/user/Features/Home/data/models/provider_model/post.dart';
+import 'package:taht_bety/user/Features/product/presentation/view/widgets/add_to_basket_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/feedback_rating_widget.dart';
-import 'package:taht_bety/user/Features/product/presentation/view/widgets/reviews.dart';
-import 'package:taht_bety/user/Features/product/presentation/widgets/add_to_basket_widget.dart';
-import 'package:taht_bety/user/Features/product/presentation/widgets/food_image_widget.dart';
+import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_image_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_info_widget.dart';
+import 'package:taht_bety/user/Features/product/presentation/view/widgets/reviews.dart';
+import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 
 class ProductDetailsBody extends StatefulWidget {
   const ProductDetailsBody({
@@ -20,6 +21,8 @@ class ProductDetailsBody extends StatefulWidget {
 
 class _ProductDetailsBodyState extends State<ProductDetailsBody> {
   int count = 1;
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -70,7 +73,26 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: AddToBasketWidget(
               price: widget.post.price.toString(),
-              onTap: () {},
+              onTap: () async {
+                print('object');
+                setState(() {
+                  isLoading = true;
+                });
+                await BasketStorage.addToBasket(
+                  id: widget.post.id!,
+                  image: widget.post.images![0],
+                  count: count,
+                  providerId: widget.post.providerId!,
+                  price: widget.post.price!,
+                );
+                setState(() {
+                  isLoading = false;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Added to basket')),
+                );
+              },
+              isLoading: isLoading,
             ),
           ),
         ),
