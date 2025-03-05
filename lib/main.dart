@@ -16,6 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
   await Hive.initFlutter();
+  
 
   Hive.registerAdapter(CurUserAdapter());
   Hive.registerAdapter(RecentSearchModelAdapter());
