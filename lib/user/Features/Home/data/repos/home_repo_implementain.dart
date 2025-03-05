@@ -20,10 +20,13 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<Failure, List<ProviderModel>>> fetchProviderList() async {
     try {
       CurUser user = UserStorage.getUserData();
+      user.lat = "30.171797351360343";
+      user.long = "31.594296624005946";
+
       var providerResponse = await apiService.get(
           endPoint: 'providers/30.171797351360343/31.594296624005946/100/all');
 
-      List<ProviderModel> _providers = [];
+      List<ProviderModel> providers = [];
 
       final providerData =
           providerResponse['data']['providers'] as List<dynamic>?;
@@ -51,15 +54,15 @@ class HomeRepoImpl implements HomeRepo {
             }
           }
 
-          _providers.sort((a, b) => a.distance!.compareTo(b.distance!));
-          _providers.add(provider);
+          providers.sort((a, b) => a.distance!.compareTo(b.distance!));
+          providers.add(provider);
         }
       }
 
-      Data.providers = _providers;
-      return _providers.isEmpty
+      Data.providers = providers;
+      return providers.isEmpty
           ? left(Serverfailure("No providers found"))
-          : right(_providers);
+          : right(providers);
     } catch (e) {
       print(e.toString());
       if (e is DioException) {

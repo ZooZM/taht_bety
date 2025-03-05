@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:draggable_float_widget/draggable_float_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taht_bety/user/Features/Home/presentation/view/widgets/chatbot_button.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/widgets/categories_list.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/under_widget_home.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/upper_widget_home.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view_model/providers_cubit/providers_cubit.dart';
@@ -37,44 +37,32 @@ class _HomeBodyState extends State<HomeBody> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => _reloadPage(context),
-      child: Stack(
-        children: [
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return NotificationListener(
-                onNotification: (notification) {
-                  if (notification is ScrollUpdateNotification) {
-                    eventStreamController.add(OperateEvent.OPERATE_HIDE);
-                  } else if (notification is ScrollEndNotification) {}
-                  return true;
-                },
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: const IntrinsicHeight(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: UpperWidgetHome(),
                     ),
-                    child: const IntrinsicHeight(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: UpperWidgetHome(),
-                          ),
-                          Expanded(
-                            child: UnderWidgetHome(),
-                          ),
-                        ],
-                      ),
+                    CategoriesList(),
+                    Expanded(
+                      child: UnderWidgetHome(),
                     ),
-                  ),
+                  ],
                 ),
-              );
-            },
-          ),
-          ChatBotButton(eventStreamController: eventStreamController),
-        ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

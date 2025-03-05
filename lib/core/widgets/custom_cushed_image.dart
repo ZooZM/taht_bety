@@ -16,8 +16,8 @@ class CustomCushedImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * height,
-      width: MediaQuery.of(context).size.width * width,
+      height: height > 1 ? height : MediaQuery.of(context).size.height * height,
+      width: width > 1 ? width : MediaQuery.of(context).size.width * width,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -38,7 +38,7 @@ class CustomCushedImage extends StatelessWidget {
             child: CachedNetworkImage(
               fit: BoxFit.fill,
               imageUrl: image,
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              errorWidget: (context, url, error) => const Icon(Icons.person),
             )),
       ),
     );

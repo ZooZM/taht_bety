@@ -21,9 +21,11 @@ void main() async {
   Hive.registerAdapter(RecentSearchModelAdapter());
   await Hive.openBox<CurUser>(kCurUserBox);
   await Hive.openBox<RecentSearchModel>(kRecentSearchBox);
-  try {} catch (e) {
-    await Hive.deleteBoxFromDisk(kCurUserBox);
-    await Hive.openBox<CurUser>(kCurUserBox);
+  try {
+    await Hive.openBox(kBasketBox);
+  } catch (e) {
+    await Hive.deleteBoxFromDisk(kBasketBox);
+    await Hive.openBox<CurUser>(kBasketBox);
   }
   runApp(const MyApp());
 }

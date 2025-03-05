@@ -104,7 +104,15 @@ class ProviderModel {
   }
 
   factory ProviderModel.fromJson(Map<String, dynamic> json) => ProviderModel(
-        providerId: json['providerID'] as String?,
+        providerId: json['providerID'] is Map<String, dynamic>
+            ? json['providerID']['_id'] as String?
+            : json['providerID'] as String?,
+        name: json['providerID'] is Map<String, dynamic>
+            ? json['providerID']['name'] as String?
+            : null,
+        email: json['providerID'] is Map<String, dynamic>
+            ? json['providerID']['email'] as String?
+            : null,
         providerType: json['providerType'] as String?,
         id: (json['id'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
         criminalRecord: json['criminalRecord'] as String?,
@@ -140,10 +148,8 @@ class ProviderModel {
         lastPhotoAt: json['lastPhotoAt'] == null
             ? null
             : DateTime.parse(json['lastPhotoAt'] as String),
-        name: json['name'] as String?,
-        email: json['email'] as String?,
         photo: json['photo'] as String?,
-        distance: (json['distance'] as num?)?.toDouble(), // إضافة distance
+        distance: (json['distance'] as num?)?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

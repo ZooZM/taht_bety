@@ -12,6 +12,7 @@ const kOrange = Color(0xFFf04a4a);
 const kAddressBox = "addressBox";
 const kCurUserBox = "curUserBox";
 const kRecentSearchBox = "RecentSearchBox";
+const kBasketBox = "basketBox";
 
 Map<String, IconData> categoryIcons = {
   "R-Electric": Icons.electrical_services,
