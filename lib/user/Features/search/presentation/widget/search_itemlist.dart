@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/item_card.dart';
 
 class SearchItemlist extends StatelessWidget {
   const SearchItemlist({super.key, required this.providers});
-  final List<ProviderModel> providers;
+  final List<ProviderListModel> providers;
   @override
   Widget build(BuildContext context) {
     if (providers.isEmpty) {

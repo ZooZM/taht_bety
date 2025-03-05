@@ -4,7 +4,7 @@ import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/post.dart';
+import 'package:taht_bety/user/Features/profile/data/models/provider_model/post.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({

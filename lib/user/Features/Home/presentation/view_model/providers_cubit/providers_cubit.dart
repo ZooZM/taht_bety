@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:taht_bety/data.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo.dart';
 
 part 'providers_state.dart';
@@ -22,9 +22,9 @@ class ProvidersCubit extends Cubit<ProvidersState> {
   Future<void> filterProvidersByCategory(String category) async {
     emit(ProvidersLoading());
     await Future.delayed(const Duration(seconds: 1));
-    List<ProviderModel> providers = Data.providers;
+    List<ProviderListModel> providers = Data.providers;
     print(providers.length);
-    List<ProviderModel> result = [];
+    List<ProviderListModel> result = [];
     if (category == "A-All") {
       result = providers;
     } else {

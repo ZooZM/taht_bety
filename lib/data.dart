@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/auth/data/models/user/user.dart';
 import 'package:taht_bety/user/Features/Home/data/models/category_Model.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 
 class Data {
   Data();
   static UserModel user = UserModel();
-  static ProviderModel provider = ProviderModel();
-  static List<ProviderModel> providers = [];
+  static ProviderListModel provider = ProviderListModel();
+  static List<ProviderListModel> providers = [];
   static List<CategoryModel> categores = [
     CategoryModel(name: "A-All", hasCliced: true, icon: Icons.category),
     CategoryModel(

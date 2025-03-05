@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/data.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 import 'package:taht_bety/user/Features/search/data/hive_models/recenet_search_model_storge.dart';
 import 'package:taht_bety/user/Features/search/data/hive_models/recent_search_model.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/search/presentation/widget/recent_state.dart';
 import 'package:taht_bety/user/Features/search/presentation/widget/search_itemlist.dart';
 import 'package:taht_bety/user/Features/search/presentation/widget/searchbar_ofsearch_body.dart';
@@ -18,7 +18,7 @@ class SearchBody extends StatefulWidget {
 
 class _SearchBodyState extends State<SearchBody> {
   bool recentState = true;
-  List<ProviderModel> providers = [];
+  List<ProviderListModel> providers = [];
   List<RecentSearchModel> recentSearchList = [];
   void _onSearchChanged(String value) {
     setState(() {

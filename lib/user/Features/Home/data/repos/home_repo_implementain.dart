@@ -8,8 +8,8 @@ import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:taht_bety/core/utils/app_fun.dart';
 import 'package:taht_bety/core/utils/location_service.dart';
 import 'package:taht_bety/data.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo.dart';
+import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 
 class HomeRepoImpl implements HomeRepo {
   final ApiService apiService;
@@ -17,7 +17,7 @@ class HomeRepoImpl implements HomeRepo {
   HomeRepoImpl(this.apiService);
 
   @override
-  Future<Either<Failure, List<ProviderModel>>> fetchProviderList() async {
+  Future<Either<Failure, List<ProviderListModel>>> fetchProviderList() async {
     try {
       CurUser user = UserStorage.getUserData();
       user.lat = "30.171797351360343";
@@ -26,14 +26,14 @@ class HomeRepoImpl implements HomeRepo {
       var providerResponse = await apiService.get(
           endPoint: 'providers/30.171797351360343/31.594296624005946/100/all');
 
-      List<ProviderModel> providers = [];
+      List<ProviderListModel> providers = [];
 
       final providerData =
           providerResponse['data']['providers'] as List<dynamic>?;
 
       if (providerData != null) {
         for (var item in providerData) {
-          ProviderModel provider = ProviderModel.fromJson(item);
+          ProviderListModel provider = ProviderListModel.fromJson(item);
 
           if (provider.locations != null && provider.locations!.isNotEmpty) {
             var providerCoordinates = provider.locations![0].coordinates;

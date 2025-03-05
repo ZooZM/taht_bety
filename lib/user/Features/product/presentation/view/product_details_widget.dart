@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/post.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/product_details_body.dart';
+import 'package:taht_bety/user/Features/profile/data/models/provider_model/post.dart';
 
 class ProductDetailsWidget extends StatelessWidget {
   const ProductDetailsWidget({super.key});

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
-import 'package:taht_bety/user/Features/Home/data/models/provider_model/post.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/add_to_basket_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/feedback_rating_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_image_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_info_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/reviews.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
+import 'package:taht_bety/user/Features/profile/data/models/provider_model/post.dart';
 
 class ProductDetailsBody extends StatefulWidget {
   const ProductDetailsBody({

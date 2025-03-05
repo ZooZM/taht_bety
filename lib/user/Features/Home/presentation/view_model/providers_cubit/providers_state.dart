@@ -14,7 +14,7 @@ final class ProvidersFailure extends ProvidersState {
 }
 
 final class ProvidersSuccess extends ProvidersState {
-  final List<ProviderModel> providers;
+  final List<ProviderListModel> providers;
 
   ProvidersSuccess(this.providers);
 }
