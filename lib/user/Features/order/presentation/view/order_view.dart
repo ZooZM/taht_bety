@@ -20,66 +20,66 @@ class _OrderViewState extends State<OrderView> {
           id: "#922529",
           date: "April,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#922919",
           date: "March,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#922529",
           date: "April,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#922919",
           date: "March,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
     ],
     'Completed': [
       Order(
           id: "#789422",
           date: "September,26",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#145972",
           date: "July,18",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#922529",
           date: "April,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#922919",
           date: "March,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
     ],
     'Cancelled': [
       Order(
           id: "#23543",
           date: "July,13",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#145723",
           date: "July,02",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#922529",
           date: "April,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
       Order(
           id: "#922919",
           date: "March,06",
           store: "Family Market",
-          image: 'images/Frame 2.png'),
+          image: 'assets/images/OIP.jpg'),
     ],
   };
 

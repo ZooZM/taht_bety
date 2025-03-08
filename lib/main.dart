@@ -5,8 +5,10 @@ import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/auth/data/repo/auth_repo_implementain.dart';
 import 'package:taht_bety/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/service_locator.dart';
+import 'package:taht_bety/user/Features/order/presentation/cubit/order_cubit.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 import 'package:taht_bety/user/Features/search/data/hive_models/recent_search_model.dart';
@@ -50,7 +52,9 @@ class MyApp extends StatelessWidget {
           create: (context) => FetchLocationCubit(
             getIt<HomeRepoImpl>()..fetchLocation(),
           ),
-        )
+        ),
+       
+
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

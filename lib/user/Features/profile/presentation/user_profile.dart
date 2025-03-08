@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_button.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_listtile.dart';
@@ -21,7 +23,9 @@ class UserProfile extends StatelessWidget {
               height: 50,
             ),
             CustomListTile(
-              function: () {},
+              function: () {
+                context.push(AppRouter.kSingIn, extra: null);
+              },
               icon: profileItems[0]['icon'],
               title: profileItems[0]['title'],
             ),
@@ -31,7 +35,9 @@ class UserProfile extends StatelessWidget {
               title: profileItems[1]['title'],
             ),
             CustomListTile(
-              function: () {},
+              function: () {
+                 context.push(AppRouter.kOrder, extra: null);
+              },
               icon: profileItems[2]['icon'],
               title: profileItems[2]['title'],
             ),
