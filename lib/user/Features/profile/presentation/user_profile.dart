@@ -36,18 +36,22 @@ class UserProfile extends StatelessWidget {
             ),
             CustomListTile(
               function: () {
-                 context.push(AppRouter.kOrder, extra: null);
+                context.push(AppRouter.kOrder, extra: null);
               },
               icon: profileItems[2]['icon'],
               title: profileItems[2]['title'],
             ),
             CustomListTile(
-              function: () {},
+              function: () {
+                context.push(AppRouter.kHelp);
+              },
               icon: profileItems[3]['icon'],
               title: profileItems[3]['title'],
             ),
             CustomListTile(
-              function: () {},
+              function: () {
+                context.push(AppRouter.kPrivacy);
+              },
               icon: profileItems[4]['icon'],
               title: profileItems[4]['title'],
             ),
