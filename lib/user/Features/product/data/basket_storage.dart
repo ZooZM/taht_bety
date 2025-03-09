@@ -18,6 +18,7 @@ class BasketStorage {
     required int count,
     required String providerId,
     required int price,
+    required String title,
   }) async {
     final item = BasketModel(
       id: id,
@@ -25,6 +26,7 @@ class BasketStorage {
       count: count,
       providerId: providerId,
       price: price,
+      title: title,
     );
 
     try {

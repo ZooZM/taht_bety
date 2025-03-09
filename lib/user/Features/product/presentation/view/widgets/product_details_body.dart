@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/add_to_basket_widget.dart';
-import 'package:taht_bety/user/Features/product/presentation/view/widgets/feedback_rating_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_image_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_info_widget.dart';
-import 'package:taht_bety/user/Features/product/presentation/view/widgets/reviews.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 import 'package:taht_bety/user/Features/profile/data/models/provider_model/post.dart';
 
@@ -56,10 +54,6 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
                   },
                   itemCount: count,
                 ),
-                const SizedBox(height: 12),
-                const FeedbackRatingWidget(),
-                const SizedBox(height: 16),
-                const Reviews(),
                 const SizedBox(height: 50),
               ],
             ),
@@ -74,7 +68,6 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
             child: AddToBasketWidget(
               price: widget.post.price.toString(),
               onTap: () async {
-                print('object');
                 setState(() {
                   isLoading = true;
                 });
@@ -84,6 +77,7 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
                   count: count,
                   providerId: widget.post.providerId!,
                   price: widget.post.price!,
+                  title: widget.post.title!,
                 );
                 setState(() {
                   isLoading = false;

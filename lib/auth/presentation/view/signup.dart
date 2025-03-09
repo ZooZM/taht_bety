@@ -30,12 +30,16 @@ class _SignupState extends State<Signup> {
 
       try {
         final response = await Dio().post(
-          'https://ta7t-bety-anb3dfg0e2dra6hp.germanywestcentral-01.azurewebsites.net/api/v1/auth/signup',
+          'http://192.168.1.17:8000/api/v1/auth/signup',
           data: {
             'name': _nameController.text,
             'email': _emailController.text,
             'password': _passwordController.text,
             'passwordConfirm': _confirmPasswordController.text,
+            'region': 'Cairo',
+            'gender': 'male',
+            'age': '40',
+            'signUpPlatform': 'mobile',
           },
         );
 

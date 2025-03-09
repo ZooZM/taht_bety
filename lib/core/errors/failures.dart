@@ -54,3 +54,8 @@ class Serverfailure extends Failure {
     }
   }
 }
+
+class VerificationFailure extends Failure {
+  final String email;
+  VerificationFailure(this.email) : super('');
+}

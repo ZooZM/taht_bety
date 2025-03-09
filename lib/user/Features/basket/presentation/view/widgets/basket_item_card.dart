@@ -49,7 +49,7 @@ class BasketItemCard extends StatelessWidget {
         },
         child: ListTile(
           leading: Image.network(item.image, width: 50, height: 50),
-          title: Text(item.id),
+          title: Text(item.title),
           subtitle: Text("${item.price} EGP"),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

@@ -32,7 +32,9 @@ class UserModel {
             .toList(),
         favoriteProviders:
             (json['favoriteProviders'] as List<dynamic>?)?.cast<String>(),
-        token: json['token'] as String?,
+        token: json.containsKey('token')
+            ? json['token'] as String?
+            : null, // Handle missing token
       );
 
   Map<String, dynamic> toJson() => {

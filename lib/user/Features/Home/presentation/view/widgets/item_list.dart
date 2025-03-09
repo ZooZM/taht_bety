@@ -19,7 +19,8 @@ class ItemsList extends StatelessWidget {
         providers.length,
         (index) => GestureDetector(
           onTap: () {
-            context.push(AppRouter.kServProfile, extra: providers[index]);
+            context.push(AppRouter.kServProfile,
+                extra: providers[index].userId);
           },
           child: SizedBox(
             width: 175,

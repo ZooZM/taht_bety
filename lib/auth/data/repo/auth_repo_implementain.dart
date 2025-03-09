@@ -41,7 +41,9 @@ class AuthRepoImplementain implements AuthRepo {
         endPoint: endPoint,
         data: {'email': email, 'password': password},
       );
-
+      if (response['data']['error_code'] == "A4000") {
+        return left(VerificationFailure(email));
+      }
       if (response['data'] == null || response['data']['user'] == null) {
         return left(Serverfailure(response['message']));
       }
@@ -55,6 +57,9 @@ class AuthRepoImplementain implements AuthRepo {
       return right(user);
     } catch (e) {
       if (e is DioException) {
+        if (e.response!.data['error_code'] == "A4000") {
+          return left(VerificationFailure(email));
+        }
         return left(Serverfailure.fromDioException(e));
       }
       return left(Serverfailure(e.toString()));

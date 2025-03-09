@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_button.dart';
@@ -90,11 +92,15 @@ class UserProfile extends StatelessWidget {
                                     title: "Cancel",
                                     titleColor: kBlack,
                                   ),
-                                  const CusttomButton(
+                                  CusttomButton(
                                     isborder: false,
                                     color: kOrange,
                                     title: "Log out",
                                     titleColor: kWhite,
+                                    function: () {
+                                      UserStorage.deleteUserData();
+                                      context.go('/');
+                                    },
                                   ),
                                   const Flex(direction: Axis.horizontal),
                                 ],

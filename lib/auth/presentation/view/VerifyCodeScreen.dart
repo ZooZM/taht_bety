@@ -65,13 +65,14 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     }
 
     setState(() => _isLoading = true);
-
+    print(_otpControllers.map((c) => c.text).join());
+    int code = int.parse(_otpControllers.map((c) => c.text).join());
     try {
       final response = await Dio().post(
-        'https://ta7t-bety-anb3dfg0e2dra6hp.germanywestcentral-01.azurewebsites.net/api/v1/auth/verify-email',
+        'http://192.168.1.17:8000/api/v1/auth/verify-email',
         data: {
           'email': _email,
-          'verificationCode': _otpControllers.map((c) => c.text).join(),
+          'verificationCode': code,
         },
       );
 
@@ -98,11 +99,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
     try {
       final response = await Dio().post(
-        'https://ta7t-bety-anb3dfg0e2dra6hp.germanywestcentral-01.azurewebsites.net/api/v1/auth/resend-verification-code',
+        'http://192.168.1.17:8000/api/v1/auth/resend-verification-code',
         data: {'email': _email},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Verification code resent!')),
         );
@@ -139,121 +140,123 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: IconButton(
-                  onPressed: () => context.go('/'),
-                  icon: const Icon(Icons.arrow_back),
-                  color: const Color(0xFF3A4D6F),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    onPressed: () => context.go('/'),
+                    icon: const Icon(Icons.arrow_back),
+                    color: const Color(0xFF3A4D6F),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 40),
-              const Text(
-                "Verify code",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF3A4D6F),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                "Please enter the code we just sent to\n$_email",
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF99A8C2),
-                ),
-              ),
-              const SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(4, (index) {
-                  return SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: TextField(
-                      controller: _otpControllers[index],
-                      focusNode: _otpFocusNodes[index],
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      maxLength: 1,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF3A4D6F),
-                      ),
-                      decoration: InputDecoration(
-                        counterText: "",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF99A8C2),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF99A8C2),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF3A4D6F),
-                          ),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        if (value.length == 1 && index < 3) {
-                          FocusScope.of(context)
-                              .requestFocus(_otpFocusNodes[index + 1]);
-                        }
-                      },
-                    ),
-                  );
-                }),
-              ),
-              const SizedBox(height: 20),
-              TextButton(
-                onPressed: _canResend ? _resendCode : null,
-                child: Text(
-                  _canResend
-                      ? "Didn't receive code? Resend code"
-                      : "Resend code in ${_cooldown}s",
+                const SizedBox(height: 40),
+                const Text(
+                  "Verify code",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14,
-                    color: _canResend ? const Color(0xFF3A4D6F) : Colors.grey,
-                    decoration: TextDecoration.underline,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF3A4D6F),
                   ),
                 ),
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: _isLoading ? null : _verifyCode,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: const Color(0xFF3A4D6F),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                const SizedBox(height: 12),
+                Text(
+                  "Please enter the code we just sent to\n$_email",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Color(0xFF99A8C2),
                   ),
                 ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text(
-                        "Verify",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                const SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(4, (index) {
+                    return SizedBox(
+                      height: 60,
+                      width: 60,
+                      child: TextField(
+                        controller: _otpControllers[index],
+                        focusNode: _otpFocusNodes[index],
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        maxLength: 1,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF3A4D6F),
+                        ),
+                        decoration: InputDecoration(
+                          counterText: "",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Color(0xFF99A8C2),
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Color(0xFF99A8C2),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Color(0xFF3A4D6F),
+                            ),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if (value.length == 1 && index < 3) {
+                            FocusScope.of(context)
+                                .requestFocus(_otpFocusNodes[index + 1]);
+                          }
+                        },
                       ),
-              ),
-            ],
+                    );
+                  }),
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: _canResend ? _resendCode : null,
+                  child: Text(
+                    _canResend
+                        ? "Didn't receive code? Resend code"
+                        : "Resend code in ${_cooldown}s",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: _canResend ? const Color(0xFF3A4D6F) : Colors.grey,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: _isLoading ? null : _verifyCode,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: const Color(0xFF3A4D6F),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                  ),
+                  child: _isLoading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text(
+                          "Verify",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

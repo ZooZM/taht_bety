@@ -13,7 +13,6 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logIn(String email, String password) async {
     if (email.isEmpty || password.isEmpty) {
       emit(AuthFailure(failureMssg: "Email and password cannot be empty"));
-      return;
     }
 
     emit(AuthLoading());
@@ -21,7 +20,12 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final result = await authRepo.login(email, password);
       result.fold(
-        (failure) => emit(AuthFailure(failureMssg: failure.failurMsg)),
+        (failure) => () {
+          if (failure is VerificationFailure) {
+            emit(VerificationFailure((failure as VerificationFailure).email));
+          }
+          emit(AuthFailure(failureMssg: failure.failurMsg));
+        },
         (user) => emit(AuthSuccess(user: user)),
       );
     } catch (e) {

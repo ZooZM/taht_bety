@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:dio/dio.dart';
+import 'package:taht_bety/auth/data/models/user/user.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_button.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';
-import 'package:taht_bety/auth/presentation/view_model/cubit/auth_cubit.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
+import 'package:taht_bety/data.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -18,6 +20,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -26,10 +29,86 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
   }
 
-  void _signIn(BuildContext context) async {
+  @override
+  void initState() {
+    _fetchuser();
+    super.initState();
+  }
+
+  void _fetchuser() async {
+    try {
+      final user = await UserStorage.getUserData();
+      final response = await Dio().get(
+          'http://192.168.1.17:8000/api/v1/users/me',
+          options: Options(headers: {'Authorization': 'Bearer ${user.token}'}));
+      if (response.statusCode == 200) {
+        context.go(AppRouter.kHomePage);
+      }
+    } catch (e) {
+      if (e is DioException) {}
+    }
+  }
+
+  Future<void> _signIn() async {
     if (_formKey.currentState!.validate()) {
-      await BlocProvider.of<AuthCubit>(context)
-          .logIn(_emailController.text, _passwordController.text);
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        final response = await Dio().post(
+          'http://192.168.1.17:8000/api/v1/auth/login',
+          data: {
+            'email': _emailController.text,
+            'password': _passwordController.text,
+          },
+        );
+
+        if (!mounted) return;
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          final userData = response.data['data'];
+          UserModel user = Data.user;
+          user = UserModel.fromJson(userData['user']);
+          user.token = userData['token'];
+
+          UserStorage.saveUserData(
+              token: user.token!, userId: user.id!, lat: '0', long: '0');
+          context.go(AppRouter.kHomePage);
+        } else {
+          throw Exception('Failed to sign in');
+        }
+      } on DioException catch (e) {
+        if (!mounted) return;
+
+        String errorMessage = 'An error occurred during sign in';
+        if (e.response != null && e.response!.data is Map<String, dynamic>) {
+          errorMessage = e.response!.data['message'] ?? errorMessage;
+        }
+        if (e.response!.data['error_code'] == "A4000") {
+          if (mounted) {
+            context.go(AppRouter.kVerify, extra: _emailController.text);
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Please verify your email first"),
+              duration: Duration(seconds: 5),
+            ),
+          );
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            duration: const Duration(seconds: 10),
+          ),
+        );
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     }
   }
 
@@ -81,10 +160,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
                         }
-                        // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\$')
-                        //     .hasMatch(value)) {
-                        //   return 'Please enter a valid email';
-                        // }
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid email';
+                        }
                         return null;
                       },
                     ),
@@ -121,29 +200,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    BlocConsumer<AuthCubit, AuthState>(
-                      listener: (context, state) {
-                        if (state is AuthSuccess) {
-                          context.go(AppRouter.kHomePage);
-                        } else if (state is AuthFailure) {
-                          print(state.failureMssg);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(state.failureMssg),
-                              duration: const Duration(seconds: 10),
-                            ),
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        return CustomButton(
-                          text: 'Sign In',
-                          onPressed: state is AuthLoading
-                              ? null
-                              : () => _signIn(context),
-                          isLoading: state is AuthLoading,
-                        );
-                      },
+                    CustomButton(
+                      text: 'Sign In',
+                      onPressed: _isLoading
+                          ? null
+                          : () {
+                              _signIn();
+                            },
+                      isLoading: _isLoading,
                     ),
                     const SizedBox(height: 32),
                     const Row(

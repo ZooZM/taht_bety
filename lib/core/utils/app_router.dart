@@ -24,6 +24,10 @@ abstract class AppRouter {
     routes: [
       GoRoute(
         path: '/',
+        builder: (context, state) => const SignInScreen(),
+      ),
+      GoRoute(
+        path: kHomePage,
         builder: (context, state) => const HomePage(),
       ),
       GoRoute(
@@ -37,10 +41,6 @@ abstract class AppRouter {
       GoRoute(
         path: kUserProfile,
         builder: (context, state) => const UserProfile(),
-      ),
-      GoRoute(
-        path: kSingIn,
-        builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
         path: kSingUp,

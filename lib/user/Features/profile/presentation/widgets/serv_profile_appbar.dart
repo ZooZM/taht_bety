@@ -22,7 +22,7 @@ class _ServProfileAppBarState extends State<ServProfileAppBar> {
       children: [
         IconButton(
           onPressed: () {
-            context.go('/');
+            context.pop();
           },
           icon: Container(
             decoration: const BoxDecoration(

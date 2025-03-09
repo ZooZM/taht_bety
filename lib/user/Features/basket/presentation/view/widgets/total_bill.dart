@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
+import 'package:taht_bety/core/widgets/custom_circular_progress.dart';
 
 class TotalBill extends StatelessWidget {
   final int totalBill;
-
+  final GestureTapCallback onTap;
+  final bool isLoading;
   const TotalBill({
     super.key,
     required this.totalBill,
+    required this.onTap,
+    required this.isLoading,
   });
 
   @override
@@ -41,7 +45,7 @@ class TotalBill extends StatelessWidget {
             ],
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: onTap,
             child: Container(
               decoration: BoxDecoration(
                 color: ksecondryColor,
@@ -50,8 +54,10 @@ class TotalBill extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               child: Row(
                 children: [
-                  Text("Place order",
-                      style: Styles.text14Light.copyWith(color: kWhite)),
+                  isLoading
+                      ? const CustomCircularprogress(size: 20, color: kWhite)
+                      : Text("Place order",
+                          style: Styles.text14Light.copyWith(color: kWhite)),
                   const SizedBox(width: 8),
                   const Icon(
                     Icons.arrow_forward_ios,

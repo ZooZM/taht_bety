@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:taht_bety/user/Features/product/data/basket_model.dart';
-import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
-import 'package:taht_bety/user/Features/basket/presentation/view/widgets/basket_item_card.dart';
-import 'package:taht_bety/user/Features/basket/presentation/view/widgets/total_bill.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
+import 'package:taht_bety/user/Features/basket/presentation/view/widgets/basket_body.dart';
 
 class Basket extends StatefulWidget {
   const Basket({super.key});
@@ -13,36 +11,15 @@ class Basket extends StatefulWidget {
 }
 
 class _BasketState extends State<Basket> {
-  List<BasketModel> basketItems = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadBasket();
-  }
-
-  void loadBasket() {
-    setState(() {
-      basketItems = BasketStorage.getAllBasketItems();
-    });
-  }
-
-  void removeItem(int index) async {
-    String itemId = basketItems[index].id;
-    await BasketStorage.removeFromBasket(itemId);
-
-    setState(() {
-      basketItems.removeAt(index);
-    });
+  // String? providerId;
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    // providerId = await GoRouterState.of(context).extra as String?;
   }
 
   @override
   Widget build(BuildContext context) {
-    basketItems = GoRouterState.of(context).extra as List<BasketModel>;
-
-    int totalBill =
-        basketItems.fold(0, (sum, item) => sum + (item.price * item.count));
-
+    final providerId = GoRouterState.of(context).extra as String?;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Basket"),
@@ -52,43 +29,12 @@ class _BasketState extends State<Basket> {
             if (GoRouter.of(context).canPop()) {
               GoRouter.of(context).pop();
             } else {
-              context.go('/');
+              context.go(AppRouter.kHomePage);
             }
           },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: basketItems.length,
-              itemBuilder: (context, index) {
-                final item = basketItems[index];
-
-                return BasketItemCard(
-                  item: item,
-                  onRemove: () {
-                    setState(() {
-                      if (item.count > 1) {
-                        item.count--;
-                      }
-                    });
-                  },
-                  onAdd: () {
-                    setState(() {
-                      item.count++;
-                    });
-                  },
-                  onDelete: () {
-                    removeItem(index);
-                  },
-                );
-              },
-            ),
-          ),
-          TotalBill(totalBill: totalBill),
-        ],
-      ),
+      body: BasketBody(providerID: providerId!),
     );
   }
 }

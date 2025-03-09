@@ -19,11 +19,15 @@ class BasketModel extends HiveObject {
   @HiveField(4)
   final int price;
 
+  @HiveField(5)
+  final String title;
+
   BasketModel({
     required this.id,
     required this.image,
     required this.count,
     required this.providerId,
     required this.price,
+    required this.title,
   });
 }

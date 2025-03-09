@@ -2,7 +2,7 @@ class Review {
   String? id;
   String? review;
   int? rating;
-  String? user;
+  ReviewUser? user; // Updated to use a new class
   String? provider;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -21,23 +21,46 @@ class Review {
         id: json['_id'] as String?,
         review: json['review'] as String?,
         rating: json['rating'] as int?,
-        user: json['user'] as String?,
+        user: json['user'] != null && json['user'] is Map<String, dynamic>
+            ? ReviewUser.fromJson(json['user'])
+            : null, // Handle nested user object
         provider: json['provider'] as String?,
         createdAt: json['createdAt'] == null
             ? null
-            : DateTime.parse(json['createdAt'] as String),
+            : DateTime.tryParse(json['createdAt'].toString()),
         updatedAt: json['updatedAt'] == null
             ? null
-            : DateTime.parse(json['updatedAt'] as String),
+            : DateTime.tryParse(json['updatedAt'].toString()),
       );
 
   Map<String, dynamic> toJson() => {
         '_id': id,
         'review': review,
         'rating': rating,
-        'user': user,
+        'user': user?.toJson(), // Convert user object to JSON
         'provider': provider,
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
+      };
+}
+
+// New model for handling `user` data
+class ReviewUser {
+  String? id;
+  String? name;
+  String? email;
+
+  ReviewUser({this.id, this.name, this.email});
+
+  factory ReviewUser.fromJson(Map<String, dynamic> json) => ReviewUser(
+        id: json['_id'] as String?,
+        name: json['name'] as String?,
+        email: json['email'] as String?,
+      );
+
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'name': name,
+        'email': email,
       };
 }

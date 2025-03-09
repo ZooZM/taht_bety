@@ -25,7 +25,7 @@ class CusttomProfileInfo extends StatelessWidget {
                     // color: kBlack,
                     fit: BoxFit.fill,
                     imageUrl:
-                        "https://images.deliveryhero.io/image/talabat/Menuitems/Tower__Beef_Meal_512_x_51638253721632353982.png?width=172&height=172",
+                        "https://nuitems/Tower__Beef_Meal_512_x_51638253721632353982.png?width=172&height=172",
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),
