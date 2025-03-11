@@ -5,6 +5,7 @@ import 'package:taht_bety/auth/presentation/view/signup.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_body.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_page.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/basket.dart';
+import 'package:taht_bety/user/Features/order/presentation/view/order_view.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/product_details_widget.dart';
 import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
@@ -19,6 +20,7 @@ abstract class AppRouter {
   static const String kVerify = '/Verify';
   static const String kProductDetails = '/Product';
   static const String kBasket = '/Basket';
+static const String kOrder = '/Order';
 
   static final router = GoRouter(
     routes: [
@@ -57,6 +59,10 @@ abstract class AppRouter {
       GoRoute(
         path: kBasket,
         builder: (context, state) => const Basket(),
+      ),
+       GoRoute(
+        path: kOrder,
+        builder: (context, state) =>  OrderView(),
       ),
     ],
   );

@@ -10,12 +10,17 @@ class ApiService {
   ApiService(this._dio);
 
   Future<Map<String, dynamic>> get({
+    
     required String endPoint,
     String? token,
+        Map<String, dynamic>? data,
+
   }) async {
     var response = await _dio.get(
+      data: data,
       '$_baseUrl$endPoint',
       options: Options(
+      
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
