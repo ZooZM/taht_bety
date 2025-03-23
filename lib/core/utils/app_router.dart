@@ -11,6 +11,7 @@ import 'package:taht_bety/user/Features/privacy/PrivacyPolicy.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/product_details_widget.dart';
 import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
+import 'package:taht_bety/user/Features/user_profile/presentation/your_profile.dart';
 
 abstract class AppRouter {
   static const String kHomeBody = '/homeBody';
@@ -25,12 +26,13 @@ abstract class AppRouter {
   static const String kOrder = '/Order';
   static const String kHelp = '/Help';
   static const String kPrivacy = '/Privacy';
+  static const String kYourProfile = '/yourProfile';
 
   static final router = GoRouter(
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const SignInScreen(),
+        builder: (context, state) =>  const SignInScreen(),
       ),
       GoRoute(
         path: kHomePage,
@@ -75,6 +77,11 @@ abstract class AppRouter {
       GoRoute(
         path: kPrivacy,
         builder: (context, state) => PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        path: kYourProfile,
+        builder: (context, state) => const YourProfile(),
+      
       ),
     ],
   );
