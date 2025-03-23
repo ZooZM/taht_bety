@@ -24,7 +24,9 @@ class UserProfile extends StatelessWidget {
               height: 50,
             ),
             CustomListTile(
-              function: () {},
+              function: () {
+                context.push(AppRouter.kYourProfile, extra: null);
+              },
               icon: profileItems[0]['icon'],
               title: profileItems[0]['title'],
             ),
