@@ -3,7 +3,14 @@ import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/constants.dart';
 
 class UserStorage {
-  static final Box<CurUser> _box = Hive.box<CurUser>('curUserBox');
+  static late final Box<CurUser> _box;
+  static Future<void> init() async {
+    if (!Hive.isBoxOpen(kCurUserBox)) {
+      _box = await Hive.openBox<CurUser>(kCurUserBox);
+    } else {
+      _box = Hive.box<CurUser>(kCurUserBox);
+    }
+  }
 
   static Future<void> saveUserData({
     required String? token,

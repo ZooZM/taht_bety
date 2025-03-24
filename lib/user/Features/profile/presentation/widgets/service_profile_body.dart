@@ -10,7 +10,6 @@ import 'package:taht_bety/data.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 import 'package:taht_bety/user/Features/profile/data/models/provider_model/provider_model.dart';
-import 'package:taht_bety/user/Features/profile/presentation/widgets/feedback_rating_widget.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/product_card.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_appbar.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_widget.dart';

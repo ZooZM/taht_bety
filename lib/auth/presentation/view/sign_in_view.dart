@@ -83,19 +83,21 @@ class _SignInScreenState extends State<SignInScreen> {
 
         String errorMessage = 'An error occurred during sign in';
         if (e.response != null && e.response!.data is Map<String, dynamic>) {
-          errorMessage = e.response!.data['message'] ?? errorMessage;
-        }
-        if (e.response!.data['error_code'] == "A4000") {
-          if (mounted) {
-            context.go(AppRouter.kVerify, extra: _emailController.text);
+          if (e.response!.data['error_code'] == "A4000") {
+            if (mounted) {
+              context.go(AppRouter.kVerify, extra: _emailController.text);
+            }
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Please verify your email first"),
+                duration: Duration(seconds: 5),
+              ),
+            );
+          } else {
+            errorMessage = e.response!.data['message'] ?? errorMessage;
           }
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Please verify your email first"),
-              duration: Duration(seconds: 5),
-            ),
-          );
         }
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMessage),

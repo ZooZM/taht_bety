@@ -3,8 +3,14 @@ import 'package:taht_bety/constants.dart';
 import 'recent_search_model.dart';
 
 class RecentSearchModelStorage {
-  static final Box<RecentSearchModel> _box =
-      Hive.box<RecentSearchModel>(kRecentSearchBox);
+  static late final Box<RecentSearchModel> _box;
+  static Future<void> init() async {
+    if (!Hive.isBoxOpen(kRecentSearchBox)) {
+      _box = await Hive.openBox<RecentSearchModel>(kRecentSearchBox);
+    } else {
+      _box = Hive.box<RecentSearchModel>(kRecentSearchBox);
+    }
+  }
 
   static Future<void> addSearch({required String name}) async {
     final search = RecentSearchModel(
