@@ -55,6 +55,7 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
                   itemCount: count,
                 ),
                 const SizedBox(height: 50),
+                //  Reviews(reviews: widget.post,)
               ],
             ),
           ),
@@ -66,7 +67,7 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: AddToBasketWidget(
-              price: widget.post.price.toString(),
+              price: (widget.post.price! * count).toString(),
               onTap: () async {
                 setState(() {
                   isLoading = true;

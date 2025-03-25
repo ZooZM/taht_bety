@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:taht_bety/auth/data/models/curuser.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
+import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/widgets/basket_item_card.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/widgets/total_bill.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
@@ -39,35 +42,42 @@ class _BasketBodyState extends State<BasketBody> {
     setState(() {
       _isLoading = true;
     });
-
+    CurUser user = UserStorage.getUserData();
     List<String> postIDs =
         basketItems.expand((item) => List.filled(item.count, item.id)).toList();
     int totalPrice =
         basketItems.fold(0, (sum, item) => sum + (item.price * item.count));
 
+    final orderData = {
+      'providerID': widget.providerID,
+      'postID': postIDs,
+      'price': totalPrice,
+      'description': 'Order from Taht Bety',
+    };
     try {
-      // final response = await Dio().post(
-      //   'https://192.168.1.17/api/v1/orders/create-order',
-      //   data: {
-      //     'providerID': widget.providerID,
-      //     'postID': postIDs,
-      //     'description': 'description4',
-      //     'price': totalPrice,
-      //   },
-      //   options:
-      //       Options(headers: {'Authorization': 'Bearer ${Data.user.token}'}),
-      // );
+      final response = await Dio().post(
+        '${kBaseUrl}orders/create-order',
+        data: orderData,
+        options: Options(
+          headers: {'Authorization': 'Bearer ${user.token}'},
+        ),
+      );
 
-      basketItems.clear();
-      totalBill = 0;
-      // if (response.statusCode == 200 || response.statusCode == 201) {
-      //   print("Order created successfully");
-      // } else {
-      //   print("Error creating order: ${response.data}");
-      // }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Order created successfully"),
+            duration: Duration(seconds: 5),
+          ),
+        );
+        basketItems.clear();
+        totalBill = 0;
+      } else {
+        print("Error creating order: ${response.data}");
+      }
     } catch (e) {
       if (e is DioException) {
-        print(e.response?.data);
+        print("Dio error: ${e.response?.data}");
       } else {
         print("Error creating order: $e");
       }

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
+import 'package:taht_bety/user/Features/profile/data/models/provider_model/review.dart';
 
 class Reviews extends StatelessWidget {
   const Reviews({
     super.key,
+    required this.reviews,
   });
-
+  final Review reviews;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

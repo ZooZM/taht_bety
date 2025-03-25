@@ -53,7 +53,7 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
     if (reviewText.isNotEmpty && _rating > 0) {
       try {
         final response = await Dio().post(
-          'http://192.168.1.17:8000/api/v1/reviews',
+          '$kBaseUrl reviews',
           data: {
             'review': reviewText,
             'rating': _rating,

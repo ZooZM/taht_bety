@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dio/dio.dart';
+import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     int code = int.parse(_otpControllers.map((c) => c.text).join());
     try {
       final response = await Dio().post(
-        'http://192.168.1.17:8000/api/v1/auth/verify-email',
+        '${kBaseUrl}auth/verify-email',
         data: {
           'email': _email,
           'verificationCode': code,
@@ -99,7 +100,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
     try {
       final response = await Dio().post(
-        'http://192.168.1.17:8000/api/v1/auth/resend-verification-code',
+        '${kBaseUrl}auth/resend-verification-code',
         data: {'email': _email},
       );
 

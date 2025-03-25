@@ -6,6 +6,7 @@ import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_button.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';
+import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/data.dart';
 
@@ -38,14 +39,17 @@ class _SignInScreenState extends State<SignInScreen> {
   void _fetchuser() async {
     try {
       final user = await UserStorage.getUserData();
-      final response = await Dio().get(
-          'http://192.168.1.17:8000/api/v1/users/me',
+      final response = await Dio().get('$kBaseUrl/users/me',
           options: Options(headers: {'Authorization': 'Bearer ${user.token}'}));
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         context.go(AppRouter.kHomePage);
       }
     } catch (e) {
-      if (e is DioException) {}
+      if (e is DioException) {
+        if (e.response != null && e.response!.statusCode == 401) {
+          UserStorage.deleteUserData();
+        }
+      }
     }
   }
 
@@ -57,7 +61,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       try {
         final response = await Dio().post(
-          'http://192.168.1.17:8000/api/v1/auth/login',
+          '${kBaseUrl}auth/login',
           data: {
             'email': _emailController.text,
             'password': _passwordController.text,

@@ -6,8 +6,13 @@ import 'package:taht_bety/core/utils/styles.dart';
 class CusttomProfileInfo extends StatelessWidget {
   const CusttomProfileInfo({
     super.key,
+    required this.image,
+    required this.name,
+    required this.email,
   });
-
+  final String image;
+  final String name;
+  final String email;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,8 +29,7 @@ class CusttomProfileInfo extends StatelessWidget {
                   child: CachedNetworkImage(
                     // color: kBlack,
                     fit: BoxFit.fill,
-                    imageUrl:
-                        "https://nuitems/Tower__Beef_Meal_512_x_51638253721632353982.png?width=172&height=172",
+                    imageUrl: image,
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),
@@ -57,12 +61,12 @@ class CusttomProfileInfo extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        const Text(
-          "Zeyad Mostafa",
+        Text(
+          name,
           style: Styles.subtitle18Bold,
         ),
-        const Text(
-          "zeyadmostafa201@gmail.com",
+        Text(
+          email,
           style: Styles.text16SemiBold,
         ),
       ],

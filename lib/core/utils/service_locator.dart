@@ -9,21 +9,13 @@ import 'package:taht_bety/user/Features/Home/data/repos/home_repo_implementain.d
 import 'package:taht_bety/user/Features/order/data/repo/order_repo_implementation.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
+import 'package:taht_bety/user/Features/profile/data/repos/provider_profile_impl.dart';
 import 'package:taht_bety/user/Features/search/data/hive_models/recenet_search_model_storge.dart';
 import 'package:taht_bety/user/Features/search/data/hive_models/recent_search_model.dart';
 
 final getIt = GetIt.instance;
 
 void setup() async {
-  await Hive.initFlutter();
-
-  Hive.registerAdapter(CurUserAdapter());
-  Hive.registerAdapter(RecentSearchModelAdapter());
-  Hive.registerAdapter(BasketModelAdapter());
-  await BasketStorage.init();
-  await UserStorage.init();
-  await RecentSearchModelStorage.init();
-  print('Hive initialized');
   getIt.registerSingleton<HomeRepoImpl>(
     HomeRepoImpl(
       ApiService(
@@ -40,6 +32,13 @@ void setup() async {
   );
   getIt.registerSingleton<OrderRepoImpl>(
     OrderRepoImpl(
+      ApiService(
+        Dio(),
+      ),
+    ),
+  );
+  getIt.registerSingleton<ProviderProfileImpl>(
+    ProviderProfileImpl(
       ApiService(
         Dio(),
       ),
