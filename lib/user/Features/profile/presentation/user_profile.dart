@@ -97,7 +97,7 @@ class UserProfileBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CusttomProfileInfo(
-            image: '',
+            image: user.photo?.isEmpty ?? true ? 'Image' : user.photo!,
             email: user.email?.isEmpty ?? true ? 'Email' : user.email!,
             name: user.name?.isEmpty ?? true ? 'Name' : user.name!,
           ),

@@ -37,11 +37,11 @@ class _ServiceProfileState extends State<ServiceProfile> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is FetchProviderFailure) {
-              print(state.failureMssg);
               return Center(
                 child: Text(state.failureMssg),
               );
             } else if (state is FetchProviderSuccess) {
+              print(state.provider.photo);
               return ServiceProfileBody(
                 provider: state.provider,
               );

@@ -14,6 +14,7 @@ class User {
   List<Location>? locations;
   int? v;
   String? phoneNumber;
+  String? photo; // إضافة متغير photo
 
   User({
     this.id,
@@ -29,6 +30,7 @@ class User {
     this.locations,
     this.v,
     this.phoneNumber,
+    this.photo, // إضافة photo إلى المُنشئ
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -47,6 +49,7 @@ class User {
             .toList(),
         v: json['__v'] as int?,
         phoneNumber: json['phoneNumber'] as String?,
+        photo: json['photo'] as String?, // إضافة photo إلى fromJson
       );
 
   Map<String, dynamic> toJson() => {
@@ -63,5 +66,6 @@ class User {
         'locations': locations?.map((e) => e.toJson()).toList(),
         '__v': v,
         'phoneNumber': phoneNumber,
+        'photo': photo, // إضافة photo إلى toJson
       };
 }

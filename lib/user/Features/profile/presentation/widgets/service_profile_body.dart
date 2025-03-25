@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dio/dio.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
-import 'package:taht_bety/data.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 import 'package:taht_bety/user/Features/profile/data/models/provider_model/provider_model.dart';
@@ -49,18 +49,19 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
   }
 
   Future<void> _submitReview() async {
+    final user = UserStorage.getUserData();
     final reviewText = _reviewController.text;
     if (reviewText.isNotEmpty && _rating > 0) {
       try {
         final response = await Dio().post(
-          '$kBaseUrl reviews',
+          '${kBaseUrl}reviews',
           data: {
             'review': reviewText,
             'rating': _rating,
             'provider': widget.provider.providerId,
           },
           options: Options(
-            headers: {'Authorization': 'Bearer ${Data.user.token}'},
+            headers: {'Authorization': 'Bearer ${user.token}'},
           ),
         );
 
@@ -71,7 +72,12 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
             _rating = 0;
           });
         } else {
-          throw Exception('Failed to submit review');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("please give a Rating and Review"),
+              duration: Duration(seconds: 5),
+            ),
+          );
         }
       } on DioException catch (e) {
         String errorMessage = 'An error occurred during review submission';
@@ -205,10 +211,12 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
                             Row(
                               children: [
                                 CustomCushedImage(
-                                  image:
-                                      widget.provider.photo?.isNotEmpty == true
-                                          ? widget.provider.photo!
-                                          : '',
+                                  image: widget.provider.reviews![index].user
+                                              ?.photo?.isNotEmpty ==
+                                          true
+                                      ? widget
+                                          .provider.reviews![index].user!.photo!
+                                      : '',
                                   height: 50,
                                   width: 50,
                                 ),

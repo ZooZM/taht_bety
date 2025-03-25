@@ -148,7 +148,9 @@ class ProviderModel {
         lastPhotoAt: json['lastPhotoAt'] == null
             ? null
             : DateTime.parse(json['lastPhotoAt'] as String),
-        photo: json['photo'] as String?,
+        photo: json['providerID'] is Map<String, dynamic>
+            ? json['providerID']['photo'] as String?
+            : null,
         distance: (json['distance'] as num?)?.toDouble(),
       );
 
