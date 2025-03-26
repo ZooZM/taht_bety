@@ -87,6 +87,10 @@ class _DisplayMapsState extends State<DisplayMaps> {
                         UserStorage.saveUserData(
                           token: user.token,
                           userId: user.userId,
+                          name: user.name,
+                          email: user.email,
+                          photo: user.photo,
+                          phoneNamber: user.phoneNamber,
                           lat: currentLocation!.latitude.toString(),
                           long: currentLocation!.longitude.toString(),
                         );

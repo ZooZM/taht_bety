@@ -11,10 +11,22 @@ class CurUser extends HiveObject {
   String lat;
   @HiveField(3)
   String long;
+  @HiveField(4)
+  String name;
+  @HiveField(5)
+  String email;
+  @HiveField(6)
+  String photo;
+  @HiveField(7)
+  String phoneNamber;
   CurUser({
     required this.token,
     required this.userId,
     required this.lat,
     required this.long,
+    required this.name,
+    required this.email,
+    required this.photo,
+    required this.phoneNamber,
   });
 }

@@ -17,12 +17,20 @@ class UserStorage {
     required String? userId,
     required String? lat,
     required String? long,
+    required String? name,
+    required String? email,
+    required String? photo,
+    required String? phoneNamber,
   }) async {
     final user = CurUser(
       token: token ?? "unknown",
       userId: userId ?? "unknown",
       lat: lat ?? "0.0",
       long: long ?? "0.0",
+      name: name ?? "unknown",
+      email: email ?? "unknown@example.com",
+      photo: photo ?? "default_photo_url",
+      phoneNamber: phoneNamber ?? "unknown",
     );
 
     await _box.put(kCurUserBox, user);
@@ -30,7 +38,16 @@ class UserStorage {
 
   static CurUser getUserData() {
     return _box.get(kCurUserBox) ??
-        CurUser(token: '', userId: '', lat: '', long: '');
+        CurUser(
+          token: '',
+          userId: '',
+          lat: '',
+          long: '',
+          name: 'unknown',
+          email: 'unknown@example.com',
+          photo: 'default_photo_url',
+          phoneNamber: 'unknown',
+        );
   }
 
   static Future<void> deleteUserData() async {

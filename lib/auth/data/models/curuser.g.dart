@@ -21,13 +21,17 @@ class CurUserAdapter extends TypeAdapter<CurUser> {
       userId: fields[1] as String,
       lat: fields[2] as String,
       long: fields[3] as String,
+      name: fields[4] as String,
+      email: fields[5] as String,
+      photo: fields[6] as String,
+      phoneNamber: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CurUser obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.token)
       ..writeByte(1)
@@ -35,7 +39,15 @@ class CurUserAdapter extends TypeAdapter<CurUser> {
       ..writeByte(2)
       ..write(obj.lat)
       ..writeByte(3)
-      ..write(obj.long);
+      ..write(obj.long)
+      ..writeByte(4)
+      ..write(obj.name)
+      ..writeByte(5)
+      ..write(obj.email)
+      ..writeByte(6)
+      ..write(obj.photo)
+      ..writeByte(7)
+      ..write(obj.phoneNamber);
   }
 
   @override

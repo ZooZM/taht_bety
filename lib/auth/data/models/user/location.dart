@@ -1,23 +1,30 @@
-import 'coordinates.dart';
+import 'package:taht_bety/auth/data/models/user/point.dart';
 
 class Location {
-  Coordinates? coordinates;
-  String? address;
-  bool? isFavorite;
+  final Point coordinates;
+  final String address;
+  final bool isFavorite;
+  final String id;
 
-  Location({this.coordinates, this.address, this.isFavorite});
+  Location({
+    required this.coordinates,
+    required this.address,
+    required this.isFavorite,
+    required this.id,
+  });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-        coordinates: json['coordinates'] == null
-            ? null
-            : Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>),
-        address: json['address'] as String?,
-        isFavorite: json['isFavorite'] as bool?,
+        coordinates:
+            Point.fromJson(json['coordinates'] as Map<String, dynamic>),
+        address: json['address'] as String,
+        isFavorite: json['isFavorite'] as bool,
+        id: json['_id'] as String,
       );
 
   Map<String, dynamic> toJson() => {
-        'coordinates': coordinates?.toJson(),
+        'coordinates': coordinates.toJson(),
         'address': address,
         'isFavorite': isFavorite,
+        '_id': id,
       };
 }

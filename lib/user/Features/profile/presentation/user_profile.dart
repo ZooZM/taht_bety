@@ -5,7 +5,7 @@ import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/user/Features/profile/data/models/user/user.dart';
+import 'package:taht_bety/auth/data/models/user/user.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_button.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_listtile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_profile_info.dart';

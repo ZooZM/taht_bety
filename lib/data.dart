@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:taht_bety/auth/data/models/user/user.dart';
 import 'package:taht_bety/user/Features/Home/data/models/category_Model.dart';
 import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 
 class Data {
   Data();
-  static UserModel user = UserModel();
   static ProviderListModel provider = ProviderListModel();
   static List<ProviderListModel> providers = [];
   static List<CategoryModel> categores = [

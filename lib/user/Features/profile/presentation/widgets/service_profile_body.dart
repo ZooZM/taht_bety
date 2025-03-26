@@ -32,6 +32,7 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
   int totalPrice = 0;
   final TextEditingController _reviewController = TextEditingController();
   int _rating = 0;
+  bool reviewLoading = false;
 
   @override
   void initState() {
@@ -49,8 +50,12 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
   }
 
   Future<void> _submitReview() async {
+    setState(() {
+      reviewLoading = true;
+    });
     final user = UserStorage.getUserData();
     final reviewText = _reviewController.text;
+
     if (reviewText.isNotEmpty && _rating > 0) {
       try {
         final response = await Dio().post(
@@ -92,6 +97,9 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
         );
       }
     }
+    setState(() {
+      reviewLoading = false;
+    });
   }
 
   @override
@@ -179,12 +187,14 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
                     const SizedBox(height: 8),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ksecondryColor,
+                        backgroundColor: reviewLoading
+                            ? ksecondryColor.withOpacity(0.2)
+                            : ksecondryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: _submitReview,
+                      onPressed: reviewLoading ? () {} : _submitReview,
                       child: const Text(
                         "Submit Review",
                         style: TextStyle(color: kWhite),

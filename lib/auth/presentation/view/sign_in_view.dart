@@ -8,7 +8,6 @@ import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
-import 'package:taht_bety/data.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -72,12 +71,21 @@ class _SignInScreenState extends State<SignInScreen> {
 
         if (response.statusCode == 200 || response.statusCode == 201) {
           final userData = response.data['data'];
-          UserModel user = Data.user;
-          user = UserModel.fromJson(userData['user']);
-          user.token = userData['token'];
+          User user = User.fromJson(userData['user']);
 
           UserStorage.saveUserData(
-              token: user.token!, userId: user.id!, lat: '0', long: '0');
+              token: userData['token'],
+              userId: user.id!,
+              name: user.name!,
+              email: user.email!,
+              photo: user.photo!,
+              phoneNamber: user.phoneNumber!,
+              lat: user.locations!.isNotEmpty
+                  ? user.locations![0].coordinates.coordinates[1].toString()
+                  : '0',
+              long: user.locations!.isNotEmpty
+                  ? user.locations![0].coordinates.coordinates[0].toString()
+                  : '0');
           context.go(AppRouter.kHomePage);
         } else {
           throw Exception('Failed to sign in');

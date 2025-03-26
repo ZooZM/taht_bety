@@ -1,50 +1,70 @@
 import 'location.dart';
 
-class UserModel {
+class User {
   String? id;
-  String? email;
   String? name;
+  String? email;
   String? role;
-  bool? active;
+  String? region;
+  int? age;
+  String? gender;
+  String? signUpPlatform;
+  List<dynamic>? favoriteProviders;
+  bool? verified;
   List<Location>? locations;
-  List<String>? favoriteProviders;
-  String? token;
-
-  UserModel({
+  int? v;
+  String? phoneNumber;
+  String? photo;
+  User({
     this.id,
-    this.email,
     this.name,
+    this.email,
     this.role,
-    this.active,
-    this.locations,
+    this.region,
+    this.age,
+    this.gender,
+    this.signUpPlatform,
     this.favoriteProviders,
-    this.token,
+    this.verified,
+    this.locations,
+    this.v,
+    this.phoneNumber,
+    this.photo, // إضافة photo إلى المُنشئ
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         id: json['_id'] as String?,
-        email: json['email'] as String?,
         name: json['name'] as String?,
+        email: json['email'] as String?,
         role: json['role'] as String?,
-        active: json['active'] as bool?,
+        region: json['region'] as String?,
+        age: json['age'] as int?,
+        gender: json['gender'] as String?,
+        signUpPlatform: json['signUpPlatform'] as String?,
+        favoriteProviders: json['favoriteProviders'] as List<dynamic>?,
+        verified: json['verified'] as bool?,
         locations: (json['locations'] as List<dynamic>?)
             ?.map((e) => Location.fromJson(e as Map<String, dynamic>))
             .toList(),
-        favoriteProviders:
-            (json['favoriteProviders'] as List<dynamic>?)?.cast<String>(),
-        token: json.containsKey('token')
-            ? json['token'] as String?
-            : null, // Handle missing token
+        v: json['__v'] as int?,
+        phoneNumber: json['phoneNumber'] as String?,
+        photo: json['photo'] as String?, // إضافة photo إلى fromJson
       );
 
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'email': email,
         'name': name,
+        'email': email,
         'role': role,
-        'active': active,
-        'locations': locations?.map((e) => e.toJson()).toList(),
+        'region': region,
+        'age': age,
+        'gender': gender,
+        'signUpPlatform': signUpPlatform,
         'favoriteProviders': favoriteProviders,
-        'token': token,
+        'verified': verified,
+        'locations': locations?.map((e) => e.toJson()).toList(),
+        '__v': v,
+        'phoneNumber': phoneNumber,
+        'photo': photo, // إضافة photo إلى toJson
       };
 }
