@@ -24,7 +24,7 @@ class CurUserAdapter extends TypeAdapter<CurUser> {
       name: fields[4] as String,
       email: fields[5] as String,
       photo: fields[6] as String,
-      phoneNamber: fields[7] as String,
+      phoneNumber: fields[7] as String,
     );
   }
 
@@ -47,7 +47,7 @@ class CurUserAdapter extends TypeAdapter<CurUser> {
       ..writeByte(6)
       ..write(obj.photo)
       ..writeByte(7)
-      ..write(obj.phoneNamber);
+      ..write(obj.phoneNumber);
   }
 
   @override

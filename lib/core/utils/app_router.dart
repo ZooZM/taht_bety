@@ -11,7 +11,11 @@ import 'package:taht_bety/user/Features/privacy/PrivacyPolicy.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/product_details_widget.dart';
 import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
+import 'package:taht_bety/user/Features/settings/presentation/screens/notifications.dart';
+import 'package:taht_bety/user/Features/settings/presentation/screens/password_manger.dart';
 import 'package:taht_bety/user/Features/user_profile/presentation/your_profile.dart';
+
+import '../../user/Features/settings/presentation/screens/settings.dart';
 
 abstract class AppRouter {
   static const String kHomeBody = '/homeBody';
@@ -27,6 +31,9 @@ abstract class AppRouter {
   static const String kHelp = '/Help';
   static const String kPrivacy = '/Privacy';
   static const String kYourProfile = '/yourProfile';
+  static const String kSettings = '/Settings';
+  static const String kNotification = '/Notification';
+  static const String kPasswordManger = '/PasswordManger';
 
   static final router = GoRouter(
     routes: [
@@ -83,6 +90,22 @@ abstract class AppRouter {
         builder: (context, state) => const YourProfile(),
       
       ),
+      GoRoute(
+        path: kSettings,
+        builder: (context, state) => const SettingsScreen(),
+      
+      ),
+      GoRoute(
+        path: kPasswordManger,
+        builder: (context, state) =>  PasswordMangerScreen(),
+      
+      ),
+      GoRoute(
+        path: kNotification,
+        builder: (context, state) => const NotificationsScreen(),
+      
+      ),
+   
     ],
   );
 }

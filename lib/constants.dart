@@ -9,7 +9,7 @@ const kWhite = Color(0xFFffffff);
 const kGray = Color(0xFFc4cbd9);
 const kOrange = Color(0xFFf04a4a);
 
-const kBaseUrl = "http://192.168.100.6:8000/api/v1/";
+const kBaseUrl = "http://localhost:8000/api/v1/";
 
 const kAddressBox = "addressBox";
 const kCurUserBox = "curUserBox";

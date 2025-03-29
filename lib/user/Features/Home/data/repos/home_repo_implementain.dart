@@ -24,11 +24,25 @@ class HomeRepoImpl implements HomeRepo {
         return left(
             Serverfailure("Location not found, Please choose valid location"));
       }
-      var providerResponse = await apiService.get(
+      print(user.lat);
+      print(user.long);
+       var providerResponse =
+        // Dio().get(
+        //   'localhost:8000/api/v1/providers/${user.lat}/${user.long}/100/all',
+        //   options: Options(
+        //     headers: {
+        //       'Authorization': 'Bearer ${user.token}',
+        //       'Content-Type': 'application/json',
+        //     },
+        //   ));
+      
+      
+       await apiService.get(
           endPoint: 'providers/${user.lat}/${user.long}/100/all');
 
       List<ProviderListModel> providers = [];
 
+         
       final providerData =
           providerResponse['data']['providers'] as List<dynamic>?;
 

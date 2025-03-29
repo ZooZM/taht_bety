@@ -90,7 +90,7 @@ class _DisplayMapsState extends State<DisplayMaps> {
                           name: user.name,
                           email: user.email,
                           photo: user.photo,
-                          phoneNamber: user.phoneNamber,
+                          phoneNamber: user.phoneNumber,
                           lat: currentLocation!.latitude.toString(),
                           long: currentLocation!.longitude.toString(),
                         );

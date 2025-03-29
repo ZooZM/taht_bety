@@ -72,20 +72,21 @@ class _SignInScreenState extends State<SignInScreen> {
         if (response.statusCode == 200 || response.statusCode == 201) {
           final userData = response.data['data'];
           User user = User.fromJson(userData['user']);
-
+          print(user.locations![0].coordinates.coordinates[1].toString());
           UserStorage.saveUserData(
-              token: userData['token'],
-              userId: user.id!,
-              name: user.name!,
-              email: user.email!,
-              photo: user.photo!,
-              phoneNamber: user.phoneNumber!,
-              lat: user.locations!.isNotEmpty
-                  ? user.locations![0].coordinates.coordinates[1].toString()
-                  : '0',
-              long: user.locations!.isNotEmpty
-                  ? user.locations![0].coordinates.coordinates[0].toString()
-                  : '0');
+            token: userData['token'],
+            userId: user.id!,
+            name: user.name!,
+            email: user.email!,
+            photo: user.photo!,
+            phoneNamber: user.phoneNumber!,
+            lat: (user.locations != null && user.locations!.isNotEmpty)
+                ? user.locations!.first.coordinates.coordinates[1].toString()
+                : '0',
+            long: (user.locations != null && user.locations!.isNotEmpty)
+                ? user.locations!.first.coordinates.coordinates[0].toString()
+                : '0',
+          );
           context.go(AppRouter.kHomePage);
         } else {
           throw Exception('Failed to sign in');

@@ -37,7 +37,7 @@ class _UnderWidgetHomeState extends State<UnderWidgetHome> {
           );
         } else if (state is ProvidersFailure) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height / 1.9,
+            height: MediaQuery.of(context).size.height / 1.5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

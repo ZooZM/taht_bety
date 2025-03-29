@@ -24,6 +24,12 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   @override
+  void didChangeDependencies() {
+    _reloadPage(context);
+    super.didChangeDependencies();
+  }
+
+  @override
   void initState() {
     _reloadPage(context);
     eventStreamController = StreamController.broadcast();
