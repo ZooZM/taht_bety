@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taht_bety/auth/data/models/curuser.dart';
+import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
@@ -29,14 +30,28 @@ class _UserProfileState extends State<UserProfile> {
   Future<User> _fetchuser() async {
     try {
       final curUser = UserStorage.getUserData();
-      final user = User(
-        name: curUser.name,
-        email: curUser.email,
-        photo: curUser.photo,
+      final token = curUser.token;
+      if (token.isEmpty) {
+        throw Exception('Token is missing');
+      }
+      print(token);
+      final dio = Dio();
+      dio.options.connectTimeout = const Duration(milliseconds: 20000);
+      dio.options.receiveTimeout = const Duration(milliseconds: 20000);
+
+      final response = await dio.get(
+        '${kBaseUrl}users/me',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
-      return user;
+      return User.fromJson(response.data['data']['user']);
     } catch (e) {
-      throw Exception('Failed to load user data: $e');
+      if (e is DioException) {
+        if (e.response != null && e.response!.statusCode == 401) {
+          throw Exception(e.message);
+        }
+      }
+      print(e.toString());
+      throw Exception(e.toString());
     }
   }
 
@@ -99,7 +114,9 @@ class UserProfileBody extends StatelessWidget {
             title: profileItems[0]['title'],
           ),
           CustomListTile(
-            function: () {},
+            function: () {
+              context.push(AppRouter.kSettings, extra: null);
+            },
             icon: profileItems[1]['icon'],
             title: profileItems[1]['title'],
           ),

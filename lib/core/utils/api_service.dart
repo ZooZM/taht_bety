@@ -47,4 +47,75 @@ class ApiService {
 
     return response.data;
   }
+  Future<Map<String, dynamic>> put({
+    required String endPoint,
+    required Map<String, dynamic> data,
+    String? token,
+  }) async {
+    var response = await _dio.put(
+      '$_baseUrl$endPoint',
+      data: data,
+      options: Options(
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      ),
+    );
+
+    return response.data;
+  }
+  Future<Map<String, dynamic>> delete({
+    required String endPoint,
+    String? token,
+  }) async {
+    var response = await _dio.delete(
+      '$_baseUrl$endPoint',
+      options: Options(
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      ),
+    );
+
+    return response.data;
+  }
+  Future<Map<String, dynamic>> patch({
+    required String endPoint,
+    required Map<String, dynamic> data,
+    String? token,
+  }) async {
+    var response = await _dio.patch(
+      '$_baseUrl$endPoint',
+      data: data,
+      options: Options(
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      ),
+    );
+
+    return response.data;
+  }
+  Future<Map<String, dynamic>> uploadFile({
+    required String endPoint,
+    required FormData data,
+    String? token,
+  }) async {
+    var response = await _dio.post(
+      '$_baseUrl$endPoint',
+      data: data,
+      options: Options(
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+    );
+
+    return response.data;
+  }
+  
 }

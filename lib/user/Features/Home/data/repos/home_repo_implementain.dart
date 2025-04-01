@@ -26,8 +26,18 @@ class HomeRepoImpl implements HomeRepo {
       }
       print(user.lat);
       print(user.long);
-      var providerResponse = await apiService.get(
-          endPoint: 'providers/${user.lat}/${user.long}/100/all');
+      var providerResponse =
+          // Dio().get(
+          //   'localhost:8000/api/v1/providers/${user.lat}/${user.long}/100/all',
+          //   options: Options(
+          //     headers: {
+          //       'Authorization': 'Bearer ${user.token}',
+          //       'Content-Type': 'application/json',
+          //     },
+          //   ));
+
+          await apiService.get(
+              endPoint: 'providers/${user.lat}/${user.long}/100/all');
 
       List<ProviderListModel> providers = [];
 

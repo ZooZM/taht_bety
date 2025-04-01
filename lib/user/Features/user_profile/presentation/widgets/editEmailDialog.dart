@@ -87,6 +87,7 @@ class EditEmailDialog extends StatelessWidget {
 
 void showEditEmailDialog(BuildContext context) async {
   final newName = await showDialog(
+    
     context: context,
     builder: (context) => EditEmailDialog(),
   );

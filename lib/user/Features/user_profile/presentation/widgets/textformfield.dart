@@ -20,9 +20,10 @@ class CustomTextForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 30),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
       child: TextFormField(
+        obscuringCharacter: '*',
         obscureText: isPassword,
         keyboardType: keyboardType,
         validator: validate,
@@ -33,7 +34,8 @@ class CustomTextForm extends StatelessWidget {
         decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: Color(0xFF99A8C2))),
+                borderSide:
+                    const BorderSide(width: 2.0, color: Color(0xFF99A8C2))),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             floatingLabelStyle: const TextStyle(
               color: Color(0xFF99A8C2),
@@ -43,7 +45,8 @@ class CustomTextForm extends StatelessWidget {
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: Color(0xFF99A8C2))),
+                borderSide:
+                    const BorderSide(width: 2.0, color: Color(0xFF99A8C2))),
             label: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text(labelText)),

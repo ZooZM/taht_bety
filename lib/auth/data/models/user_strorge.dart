@@ -34,7 +34,7 @@ class UserStorage {
       name: name ?? "unknown",
       email: email ?? "unknown@example.com",
       photo: photo ?? "default_photo_url",
-      phoneNamber: phoneNamber ?? "unknown",
+      phoneNumber: phoneNamber ?? "unknown",
     );
 
     await _box.put(kCurUserBox, user);
@@ -50,11 +50,34 @@ class UserStorage {
           name: 'unknown',
           email: 'unknown@example.com',
           photo: 'default_photo_url',
-          phoneNamber: 'unknown',
+          phoneNumber: 'unknown',
         );
   }
 
   static Future<void> deleteUserData() async {
     await _box.delete(kCurUserBox);
+  }
+
+  static Future<void> updateUserData({
+    String? token,
+    String? userId,
+    String? lat,
+    String? long,
+    String? name,
+    String? email,
+    String? photo,
+    String? phoneNamber,
+  }) async {
+    final user = getUserData();
+    user.token = token ?? user.token;
+    user.userId = userId ?? user.userId;
+    user.lat = lat ?? user.lat;
+    user.long = long ?? user.long;
+    user.name = name ?? user.name;
+    user.email = email ?? user.email;
+    user.photo = photo ?? user.photo;
+    user.phoneNumber = phoneNamber ?? user.phoneNumber;
+
+    await _box.put(kCurUserBox, user);
   }
 }

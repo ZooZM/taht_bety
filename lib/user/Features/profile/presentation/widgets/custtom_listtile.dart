@@ -25,7 +25,7 @@ class CustomListTile extends StatelessWidget {
       ),
       trailing: const Icon(
         Icons.arrow_forward_ios,
-        size: 25,
+        size: 18,
       ),
     );
   }

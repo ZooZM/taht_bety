@@ -18,7 +18,7 @@ class CurUser extends HiveObject {
   @HiveField(6)
   String photo;
   @HiveField(7)
-  String phoneNamber;
+  String phoneNumber;
   CurUser({
     required this.token,
     required this.userId,
@@ -27,6 +27,6 @@ class CurUser extends HiveObject {
     required this.name,
     required this.email,
     required this.photo,
-    required this.phoneNamber,
+    required this.phoneNumber,
   });
 }
