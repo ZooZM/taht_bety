@@ -12,6 +12,14 @@ class BasketStorage {
     }
   }
 
+  Future<void> clear() async {
+    await _box.clear();
+  }
+
+  static Future<void> deleteBox() async {
+    await Hive.deleteBoxFromDisk('basketbox');
+  }
+
   static Future<void> addToBasket({
     required String id,
     required String image,

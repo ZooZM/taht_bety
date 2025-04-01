@@ -38,7 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void _fetchuser() async {
     try {
       final user = await UserStorage.getUserData();
-      final response = await Dio().get('$kBaseUrl/users/me',
+      final response = await Dio().get('${kBaseUrl}users/me',
           options: Options(headers: {'Authorization': 'Bearer ${user.token}'}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         context.go(AppRouter.kHomePage);

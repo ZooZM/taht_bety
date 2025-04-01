@@ -12,6 +12,10 @@ class RecentSearchModelStorage {
     }
   }
 
+  static Future<void> deletFromBox() async {
+    await Hive.deleteBoxFromDisk(kRecentSearchBox);
+  }
+
   static Future<void> addSearch({required String name}) async {
     final search = RecentSearchModel(
       id: (DateTime.now().microsecondsSinceEpoch ~/ 1000) % 0xFFFFFFFF,

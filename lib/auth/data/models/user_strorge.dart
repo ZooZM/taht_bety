@@ -12,6 +12,10 @@ class UserStorage {
     }
   }
 
+  static Future<void> deletFromBox() async {
+    await Hive.deleteBoxFromDisk(kCurUserBox);
+  }
+
   static Future<void> saveUserData({
     required String? token,
     required String? userId,

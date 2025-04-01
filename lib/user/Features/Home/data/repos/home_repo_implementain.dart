@@ -20,10 +20,12 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<Failure, List<ProviderListModel>>> fetchProviderList() async {
     try {
       CurUser user = UserStorage.getUserData();
-      if (user.lat == '0' && user.long == '0') {
+      if (user.lat == '0.0' && user.long == '0.0') {
         return left(
             Serverfailure("Location not found, Please choose valid location"));
       }
+      print(user.lat);
+      print(user.long);
       var providerResponse = await apiService.get(
           endPoint: 'providers/${user.lat}/${user.long}/100/all');
 
