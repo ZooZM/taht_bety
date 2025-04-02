@@ -13,27 +13,23 @@ class TabBarHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: tabs.map((tab) {
         int index = tabs.indexOf(tab);
         return GestureDetector(
           onTap: () => onTabSelected(index),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Column(
-              children: [
-                Text(tab,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: selectedIndex == index
-                            ? const Color(0xff15243F)
-                            : Colors.grey)),
-                if (selectedIndex == index)
-                  Container(
-                      height: 3, width: 80, color: const Color(0xff15243F)),
-              ],
-            ),
+          child: Column(
+            children: [
+              Text(tab,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: selectedIndex == index
+                          ? const Color(0xff15243F)
+                          : Colors.grey)),
+              if (selectedIndex == index)
+                Container(height: 3, width: 60, color: const Color(0xff15243F)),
+            ],
           ),
         );
       }).toList(),

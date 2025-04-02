@@ -8,7 +8,7 @@ import 'widgets/editEmailDialog.dart';
 import 'widgets/editNameDialog.dart';
 import 'widgets/editPhoneNumberDialog.dart';
 
- // Dark Blue
+// Dark Blue
 
 class YourProfile extends StatelessWidget {
   const YourProfile({super.key});
@@ -145,9 +145,11 @@ class YourProfile extends StatelessWidget {
             padding: const EdgeInsets.only(top: profilePictureSize / 2),
             child: Column(
               children: [
-                _buildListTile(context, "Name", name,name,email,phoneNumber),
-                _buildListTile(context, "Email", email,name,email,phoneNumber),
-                _buildListTile(context, "Phone Number", phoneNumber,name,email,phoneNumber),
+                _buildListTile(context, "Name", name, name, email, phoneNumber),
+                _buildListTile(
+                    context, "Email", email, name, email, phoneNumber),
+                _buildListTile(context, "Phone Number", phoneNumber, name,
+                    email, phoneNumber),
               ],
             ),
           ),
@@ -156,8 +158,8 @@ class YourProfile extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile(BuildContext context, String title, String value,String name,
-      String email, String phoneNumber) {
+  Widget _buildListTile(BuildContext context, String title, String value,
+      String name, String email, String phoneNumber) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(

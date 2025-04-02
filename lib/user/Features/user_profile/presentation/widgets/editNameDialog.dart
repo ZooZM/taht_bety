@@ -72,7 +72,7 @@ class EditNameDialog extends StatelessWidget {
                             name: newName,
                             email: email,
                             phoneNumber: phoneNumber);
-                        
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Name updated successfully"),
@@ -80,7 +80,7 @@ class EditNameDialog extends StatelessWidget {
                         );
 
                         Navigator.pop(context, newName);
-                      } 
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2C3E5A),

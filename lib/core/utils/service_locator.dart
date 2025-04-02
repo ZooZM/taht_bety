@@ -14,7 +14,7 @@ import 'package:taht_bety/user/Features/search/data/hive_models/recent_search_mo
 
 final getIt = GetIt.instance;
 
-void setup() async {
+Future<void> setup() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(CurUserAdapter());

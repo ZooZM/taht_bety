@@ -4,7 +4,7 @@ import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/core/errors/failures.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
-import 'package:taht_bety/user/Features/order/data/models/order_model.dart';
+import 'package:taht_bety/user/Features/order/data/models/order_model/order_model.dart';
 import 'package:taht_bety/user/Features/order/data/repo/order_repo.dart';
 
 class OrderRepoImpl implements OrderRepo {
@@ -17,15 +17,12 @@ class OrderRepoImpl implements OrderRepo {
     try {
       // Get current user details
       CurUser user = UserStorage.getUserData();
-      
+
       // Make API request
       var response = await apiService.get(
-      data: {
-            "title": "post",
-             "content": "content"
-          },
-        token: user.token,
-          endPoint: 'orders/my-orders'); // Assuming the endpoint requires user ID
+          token: user.token,
+          endPoint:
+              'orders/my-orders'); // Assuming the endpoint requires user ID
 
       List<OrderModel> orders = [];
 

@@ -47,6 +47,7 @@ class ApiService {
 
     return response.data;
   }
+
   Future<Map<String, dynamic>> put({
     required String endPoint,
     required Map<String, dynamic> data,
@@ -65,6 +66,7 @@ class ApiService {
 
     return response.data;
   }
+
   Future<Map<String, dynamic>> delete({
     required String endPoint,
     String? token,
@@ -81,14 +83,15 @@ class ApiService {
 
     return response.data;
   }
+
   Future<Map<String, dynamic>> patch({
     required String endPoint,
-    required Map<String, dynamic> data,
+    Map<String, dynamic>? data,
     String? token,
   }) async {
     var response = await _dio.patch(
       '$_baseUrl$endPoint',
-      data: data,
+      data: data ?? {},
       options: Options(
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
@@ -99,6 +102,7 @@ class ApiService {
 
     return response.data;
   }
+
   Future<Map<String, dynamic>> uploadFile({
     required String endPoint,
     required FormData data,
@@ -117,5 +121,4 @@ class ApiService {
 
     return response.data;
   }
-  
 }

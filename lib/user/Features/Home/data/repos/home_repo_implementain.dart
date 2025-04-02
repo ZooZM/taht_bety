@@ -26,18 +26,8 @@ class HomeRepoImpl implements HomeRepo {
       }
       print(user.lat);
       print(user.long);
-      var providerResponse =
-          // Dio().get(
-          //   'localhost:8000/api/v1/providers/${user.lat}/${user.long}/100/all',
-          //   options: Options(
-          //     headers: {
-          //       'Authorization': 'Bearer ${user.token}',
-          //       'Content-Type': 'application/json',
-          //     },
-          //   ));
-
-          await apiService.get(
-              endPoint: 'providers/${user.lat}/${user.long}/100/all');
+      var providerResponse = await apiService.get(
+          endPoint: 'providers/${user.lat}/${user.long}/100/all');
 
       List<ProviderListModel> providers = [];
 
@@ -79,6 +69,9 @@ class HomeRepoImpl implements HomeRepo {
     } catch (e) {
       print(e.toString());
       if (e is DioException) {
+        if (e.response!.data!["message"].toLowerCase().contains('no providers found.')) {
+          return left(Serverfailure("No providers found, on this location."));
+        }
         return left(Serverfailure.fromDioException(e));
       }
       return left(Serverfailure(e.toString()));

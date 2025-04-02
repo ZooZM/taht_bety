@@ -12,7 +12,7 @@ class BasketStorage {
     }
   }
 
-  Future<void> clear() async {
+  static Future<void> clear() async {
     await _box.clear();
   }
 
@@ -27,6 +27,7 @@ class BasketStorage {
     required String providerId,
     required int price,
     required String title,
+    required String description,
   }) async {
     final item = BasketModel(
       id: id,
@@ -35,6 +36,7 @@ class BasketStorage {
       providerId: providerId,
       price: price,
       title: title,
+      description: description,
     );
 
     try {

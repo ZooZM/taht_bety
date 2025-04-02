@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:taht_bety/user/Features/order/data/models/order_model.dart';
-
+import 'package:taht_bety/user/Features/order/data/models/order_model/order_model.dart';
 
 abstract class OrderState extends Equatable {
   @override

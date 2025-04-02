@@ -8,7 +8,9 @@ sealed class ProfileState extends Equatable {
 }
 
 final class ProfileInitial extends ProfileState {}
+
 final class ProfileLoading extends ProfileState {}
+
 final class ProfileLoaded extends ProfileState {
   final String name;
   final String email;
@@ -24,8 +26,8 @@ final class ProfileLoaded extends ProfileState {
 
   @override
   List<Object> get props => [name, email, photo, phoneNumber];
-
 }
+
 final class ProfileError extends ProfileState {
   final String message;
 
@@ -34,6 +36,7 @@ final class ProfileError extends ProfileState {
   @override
   List<Object> get props => [message];
 }
+
 final class ProfileUpdated extends ProfileState {
   final String message;
 
@@ -42,6 +45,7 @@ final class ProfileUpdated extends ProfileState {
   @override
   List<Object> get props => [message];
 }
+
 final class ProfileUpdateError extends ProfileState {
   final String message;
 
@@ -50,5 +54,3 @@ final class ProfileUpdateError extends ProfileState {
   @override
   List<Object> get props => [message];
 }
-
-

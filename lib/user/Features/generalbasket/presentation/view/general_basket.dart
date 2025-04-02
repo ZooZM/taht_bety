@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
-import 'package:taht_bety/user/Features/basket/presentation/view/widgets/basket_body.dart';
+import 'package:taht_bety/user/Features/generalbasket/presentation/view/widgets/general_basket_body.dart';
+import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 
-class Basket extends StatelessWidget {
-  const Basket({super.key});
+class GeneralBasket extends StatelessWidget {
+  const GeneralBasket({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final providerId = GoRouterState.of(context).extra as String?;
+    final baskets = GoRouterState.of(context).extra as List<BasketModel>?;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Basket"),
@@ -23,7 +24,7 @@ class Basket extends StatelessWidget {
           },
         ),
       ),
-      body: BasketBody(providerID: providerId!),
+      body: GeneralBasketBody(basketItems: baskets!),
     );
   }
 }

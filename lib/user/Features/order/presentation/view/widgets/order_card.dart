@@ -1,12 +1,52 @@
 import 'package:flutter/material.dart';
-
-import 'order_class.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
+import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/api_service.dart';
+import 'package:taht_bety/core/utils/styles.dart';
+import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
+import 'package:taht_bety/user/Features/order/data/models/order_model/order_model.dart';
+import 'package:taht_bety/user/Features/order/presentation/cubit/order_cubit.dart';
 
 class OrderCard extends StatelessWidget {
-  final Order order;
+  final OrderModel order;
   final String category;
 
   const OrderCard({required this.order, required this.category});
+
+  Future<void> _cancelOrder(BuildContext context) async {
+    try {
+      final user = UserStorage.getUserData();
+      final _dio = Dio();
+      final response = await ApiService(_dio).patch(
+        endPoint: 'orders/cancel-order/${order.id}',
+        token: user.token,
+      );
+
+      if (response['success']) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Order canceled successfully"),
+          ),
+        );
+        context.read<OrderCubit>().fetchOrders();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to cancel the order"),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error: ${e.toString()}"),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +59,15 @@ class OrderCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              order.image,
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
-            ),
-          ),
+          CustomCushedImage(
+              image: order.providerId?.photo ?? '', height: 80, width: 80),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Order ${order.id}',
+                  'Order: ${order.id}',
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -42,15 +75,12 @@ class OrderCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  order.date,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  order.description ?? 'Unknown Provider',
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  order.store,
+                  order.providerId?.name ?? 'Unknown Provider',
                   style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
@@ -59,26 +89,34 @@ class OrderCard extends StatelessWidget {
           Column(
             children: [
               const SizedBox(
-                height: 30,
+                height: 15,
               ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffCFD9E9),
+              Text(
+                "${order.price.toString()} EGP",
+                style: Styles.text16SemiBold.copyWith(
+                  color: kPrimaryColor,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await _cancelOrder(context);
+                },
+                child: Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  textStyle: const TextStyle(fontSize: 12),
-                  minimumSize: const Size(0, 30),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: kPrimaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-                child: Text(
-                  category == 'Active'
-                      ? 'Track Order'
-                      : category == 'Completed'
-                          ? 'Leave Review'
-                          : 'Re-Order',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
+              )
             ],
           ),
         ],

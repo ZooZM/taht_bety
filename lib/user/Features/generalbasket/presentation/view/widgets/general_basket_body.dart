@@ -8,15 +8,14 @@ import 'package:taht_bety/user/Features/basket/presentation/view/widgets/total_b
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 
-class BasketBody extends StatefulWidget {
-  const BasketBody({super.key, required this.providerID});
-  final String providerID;
+class GeneralBasketBody extends StatefulWidget {
+  const GeneralBasketBody({super.key, required this.basketItems});
+  final List<BasketModel> basketItems;
   @override
-  State<BasketBody> createState() => _BasketBodyState();
+  State<GeneralBasketBody> createState() => _GeneralBasketBodyState();
 }
 
-class _BasketBodyState extends State<BasketBody> {
-  late List<BasketModel> basketItems;
+class _GeneralBasketBodyState extends State<GeneralBasketBody> {
   bool _isLoading = false;
   int totalBill = 0;
   final TextEditingController _descriptionController = TextEditingController();
@@ -24,10 +23,9 @@ class _BasketBodyState extends State<BasketBody> {
   @override
   void initState() {
     super.initState();
-    basketItems = BasketStorage.getItemsByProvider(widget.providerID);
 
-    totalBill =
-        basketItems.fold(0, (sum, item) => sum + (item.price * item.count));
+    totalBill = widget.basketItems
+        .fold(0, (sum, item) => sum + (item.price * item.count));
   }
 
   @override
@@ -37,33 +35,45 @@ class _BasketBodyState extends State<BasketBody> {
   }
 
   void removeItem(int index) async {
-    String itemId = basketItems[index].id;
+    String itemId = widget.basketItems[index].id;
     await BasketStorage.removeFromBasket(itemId);
 
     setState(() {
-      basketItems.removeAt(index);
+      widget.basketItems.removeAt(index);
     });
   }
 
-  Future<void> _order() async {
+  Future<void> _order(String providerID) async {
     setState(() {
       _isLoading = true;
     });
-    CurUser user = UserStorage.getUserData();
-    List<String> postIDs =
-        basketItems.expand((item) => List.filled(item.count, item.id)).toList();
-    int totalPrice =
-        basketItems.fold(0, (sum, item) => sum + (item.price * item.count));
 
-    final orderData = {
-      'providerID': widget.providerID,
-      'postID': postIDs,
-      'price': totalPrice,
-      'description': _descriptionController.text.isNotEmpty
-          ? _descriptionController.text
-          : 'Order from Taht Bety',
-    };
     try {
+      // جلب بيانات المستخدم
+      CurUser user = UserStorage.getUserData();
+
+      // إنشاء قائمة `postIDs` بناءً على `basketItems`
+      List<String> postIDs = widget.basketItems
+          .expand((item) => List.filled(item.count, item.id))
+          .toList();
+
+      // حساب السعر الإجمالي
+      int totalPrice = widget.basketItems.fold(
+        0,
+        (sum, item) => sum + (item.price * item.count),
+      );
+
+      // إعداد بيانات الطلب
+      final orderData = {
+        'providerID': providerID,
+        'postID': postIDs,
+        'price': totalPrice,
+        'description': _descriptionController.text.isNotEmpty
+            ? _descriptionController.text
+            : 'Order from Taht Bety',
+      };
+
+      // إرسال الطلب إلى الخادم
       final response = await Dio().post(
         '${kBaseUrl}orders/create-order',
         data: orderData,
@@ -72,6 +82,7 @@ class _BasketBodyState extends State<BasketBody> {
         ),
       );
 
+      // التحقق من نجاح الطلب
       if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -79,9 +90,13 @@ class _BasketBodyState extends State<BasketBody> {
             duration: Duration(seconds: 3),
           ),
         );
-        basketItems.clear();
-        totalBill = 0;
-        _descriptionController.clear();
+
+        // مسح السلة وإعادة تعيين القيم
+        setState(() {
+          widget.basketItems.clear();
+          totalBill = 0;
+          _descriptionController.clear();
+        });
       } else {
         print("Error creating order: ${response.data}");
       }
@@ -104,9 +119,9 @@ class _BasketBodyState extends State<BasketBody> {
       children: [
         Expanded(
           child: ListView.builder(
-            itemCount: basketItems.length,
+            itemCount: widget.basketItems.length,
             itemBuilder: (context, index) {
-              final item = basketItems[index];
+              final item = widget.basketItems[index];
 
               return BasketItemCard(
                 item: item,
@@ -144,7 +159,30 @@ class _BasketBodyState extends State<BasketBody> {
         ),
         TotalBill(
           totalBill: totalBill,
-          onTap: _isLoading ? () {} : _order,
+          onTap: _isLoading
+              ? () {}
+              : () async {
+                  if (widget.basketItems.isNotEmpty) {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    final basketItemsCopy = List.from(widget.basketItems);
+                    for (var item in basketItemsCopy) {
+                      await _order(item.providerId);
+                    }
+                    BasketStorage.clear();
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Your basket is empty"),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                  }
+                },
           isLoading: _isLoading,
         ),
       ],

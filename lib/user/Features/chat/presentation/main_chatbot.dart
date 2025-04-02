@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../constants.dart';
@@ -126,10 +125,7 @@ questions and receive answers using
                     radius: 27,
                     child: IconButton(
                         color: kPrimaryColor,
-                        onPressed: () {
-
-                          
-                        },
+                        onPressed: () {},
                         icon: const Icon(
                           Icons.chat_rounded,
                           size: 35,

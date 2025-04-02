@@ -22,6 +22,9 @@ class BasketModel extends HiveObject {
   @HiveField(5)
   final String title;
 
+  @HiveField(6)
+  final String description;
+
   BasketModel({
     required this.id,
     required this.image,
@@ -29,5 +32,6 @@ class BasketModel extends HiveObject {
     required this.providerId,
     required this.price,
     required this.title,
+    required this.description,
   });
 }

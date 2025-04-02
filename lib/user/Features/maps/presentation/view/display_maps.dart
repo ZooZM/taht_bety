@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:taht_bety/auth/data/models/curuser.dart';
-import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/location_service.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/maps/presentation/view/widgets/lower_widget_of_maps.dart';
 import 'package:taht_bety/user/Features/maps/presentation/view/widgets/maps_app_bar.dart';
+import 'package:taht_bety/user/Features/maps/presentation/view_model/cubit/updatelocation_cubit.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_button.dart';
 
 class DisplayMaps extends StatefulWidget {
-  const DisplayMaps({super.key, required this.voidCallbackAction});
-  final void Function() voidCallbackAction;
+  const DisplayMaps({super.key});
   @override
   State<DisplayMaps> createState() => _DisplayMapsState();
 }
@@ -23,6 +24,7 @@ class _DisplayMapsState extends State<DisplayMaps> {
   LatLng? currentLocation;
   LatLng? centerCoordinates;
   bool isloading = true;
+
   @override
   void initState() {
     initialCameraPoistion =
@@ -35,78 +37,98 @@ class _DisplayMapsState extends State<DisplayMaps> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: [
-          GoogleMap(
-            initialCameraPosition: initialCameraPoistion,
-            onMapCreated: (controller) {
-              mapController = controller;
-              updateCurrentLocation();
-            },
-            onCameraMove: (position) {
-              setState(() {
-                isloading = true;
-                centerCoordinates = position.target;
-              });
-            },
-            onCameraIdle: () {
-              setState(() {
-                isloading = false;
-              });
-              currentLocation = centerCoordinates;
-            },
-            markers: markers,
-            zoomControlsEnabled: false,
-            myLocationEnabled: true,
-          ),
-          const Center(
-            child: IgnorePointer(
-              ignoring: true,
-              child: Icon(
-                Icons.location_pin,
-                size: 40,
-                color: ksecondryColor,
-              ),
-            ),
-          ),
-          Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: LowerWidgetOfMaps(
-                isLoading: isloading,
-                onArrowPress: () async {
-                  await updateCurrentLocation();
-                },
-                onButtonPress: isloading
-                    ? () {}
-                    : () async {
-                        CurUser? user = UserStorage.getUserData();
-
-                        UserStorage.saveUserData(
-                          token: user.token,
-                          userId: user.userId,
-                          name: user.name,
-                          email: user.email,
-                          photo: user.photo,
-                          phoneNamber: user.phoneNumber,
-                          lat: currentLocation!.latitude.toString(),
-                          long: currentLocation!.longitude.toString(),
-                        );
-                        print(user.lat);
-                        widget.voidCallbackAction();
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) => UpdatelocationCubit(),
+        child: BlocConsumer<UpdatelocationCubit, UpdatelocationState>(
+          listener: (context, state) {
+            if (state is UpdatelocationSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Location updated successfully!")),
+              );
+              mapController.dispose();
+              context.go(AppRouter.kHomePage);
+            } else if (state is UpdatelocationError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+            }
+          },
+          builder: (context, state) {
+            return SafeArea(
+              child: Stack(
+                children: [
+                  GoogleMap(
+                    mapToolbarEnabled: false,
+                    initialCameraPosition: initialCameraPoistion,
+                    onMapCreated: (controller) {
+                      mapController = controller;
+                      updateCurrentLocation();
+                    },
+                    onCameraMove: (position) {
+                      setState(() {
+                        isloading = true;
+                        centerCoordinates = position.target;
+                      });
+                    },
+                    onCameraIdle: () {
+                      setState(() {
+                        isloading = false;
+                      });
+                      currentLocation = centerCoordinates;
+                    },
+                    markers: markers,
+                    zoomControlsEnabled: false,
+                    myLocationEnabled: true,
+                  ),
+                  const Center(
+                    child: IgnorePointer(
+                      ignoring: true,
+                      child: Icon(
+                        Icons.location_pin,
+                        size: 40,
+                        color: ksecondryColor,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: LowerWidgetOfMaps(
+                      isLoading: isloading,
+                      onArrowPress: () async {
+                        await updateCurrentLocation();
                       },
-              )),
-          MapsAppBar(
-            isLoading: isloading,
-            onPress: isloading
-                ? () {}
-                : () {
-                    widget.voidCallbackAction();
-                  },
-          ),
-        ],
+                      onButtonPress: isloading
+                          ? () {}
+                          : () async {
+                              if (currentLocation != null) {
+                                context
+                                    .read<UpdatelocationCubit>()
+                                    .updateLocation(
+                                      latitude: currentLocation!.latitude,
+                                      longitude: currentLocation!.longitude,
+                                      address: "Delivery Address",
+                                      isFavorite: true,
+                                    );
+                              }
+                            },
+                    ),
+                  ),
+                  MapsAppBar(
+                    isLoading: isloading,
+                    onPress: isloading
+                        ? () {}
+                        : () {
+                            context.go(AppRouter.kHomePage);
+                          },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -128,7 +150,6 @@ class _DisplayMapsState extends State<DisplayMaps> {
           .animateCamera(CameraUpdate.newCameraPosition(updatedCameraPos));
     } on LocationEnabledException catch (e) {
       return showModalBottomSheet(
-        // ignore: use_build_context_synchronously
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25))),

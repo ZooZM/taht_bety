@@ -79,6 +79,7 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
                   providerId: widget.post.providerId!,
                   price: widget.post.price!,
                   title: widget.post.title!,
+                  description: widget.post.content!,
                 );
                 setState(() {
                   isLoading = false;

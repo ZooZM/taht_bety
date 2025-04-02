@@ -10,6 +10,7 @@ import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 import 'package:taht_bety/user/Features/product/data/basket_storage.dart';
 import 'package:taht_bety/user/Features/profile/data/models/provider_model/provider_model.dart';
+import 'package:taht_bety/user/Features/profile/data/models/provider_model/review.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/product_card.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_appbar.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_widget.dart';
@@ -71,10 +72,25 @@ class _ServiceProfileBodyState extends State<ServiceProfileBody> {
         );
 
         if (response.statusCode == 200 || response.statusCode == 201) {
-          print('Review submitted: $reviewText');
+          final user = UserStorage.getUserData();
+          final review = Review(
+            user: ReviewUser(
+              name: user.name,
+              photo: user.photo,
+              id: user.userId,
+            ),
+            review: reviewText,
+            rating: _rating,
+            createdAt: DateTime.now(),
+            id: response.data['data']['_id'],
+            provider: widget.provider.providerId,
+            updatedAt: DateTime.now(),
+          );
+          // print('Review submitted: $reviewText');
           _reviewController.clear();
           setState(() {
             _rating = 0;
+            widget.provider.reviews!.add(review);
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(

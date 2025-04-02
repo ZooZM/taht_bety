@@ -7,7 +7,8 @@ class Coordinates {
   factory Coordinates.fromJson(Map<String, dynamic> json) => Coordinates(
         type: json['type'] as String?,
         coordinates: (json['coordinates'] as List<dynamic>?)
-            ?.map((e) => (e as num).toDouble()) // Ensures correct type conversion
+            ?.map(
+                (e) => (e as num).toDouble()) // Ensures correct type conversion
             .toList(),
       );
 
@@ -16,4 +17,3 @@ class Coordinates {
         'coordinates': coordinates,
       };
 }
-

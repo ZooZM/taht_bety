@@ -5,7 +5,9 @@ import 'package:taht_bety/auth/presentation/view/signup.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_body.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_page.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/basket.dart';
+import 'package:taht_bety/user/Features/generalbasket/presentation/view/general_basket.dart';
 import 'package:taht_bety/user/Features/help/help_center_view.dart';
+import 'package:taht_bety/user/Features/maps/presentation/view/display_maps.dart';
 import 'package:taht_bety/user/Features/order/presentation/view/order_view.dart';
 import 'package:taht_bety/user/Features/privacy/PrivacyPolicy.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/product_details_widget.dart';
@@ -29,12 +31,16 @@ abstract class AppRouter {
   static const String kVerify = '/Verify';
   static const String kProductDetails = '/Product';
   static const String kBasket = '/Basket';
+  static const String kGeneralBasket = '/GeneralBasket';
+
   static const String kOrder = '/Order';
   static const String kHelp = '/Help';
   static const String kPrivacy = '/Privacy';
   static const String kYourProfile = '/yourProfile';
   static const String kSettings = '/Settings';
   static const String kNotification = '/Notification';
+  static const String kChatBot = '/ChatBot';
+  static const String kMaps = '/Maps';
   static const String kPasswordManger = '/PasswordManger';
 
   static final router = GoRouter(
@@ -102,6 +108,14 @@ abstract class AppRouter {
       GoRoute(
         path: kNotification,
         builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: kMaps,
+        builder: (context, state) => const DisplayMaps(),
+      ),
+      GoRoute(
+        path: kGeneralBasket,
+        builder: (context, state) => const GeneralBasket(),
       ),
     ],
   );

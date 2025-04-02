@@ -7,6 +7,7 @@ import 'package:taht_bety/auth/presentation/view/widgets/custom_button.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -37,10 +38,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _fetchuser() async {
     try {
-      final user = await UserStorage.getUserData();
-      final response = await Dio().get('${kBaseUrl}users/me',
-          options: Options(headers: {'Authorization': 'Bearer ${user.token}'}));
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      final user = UserStorage.getUserData();
+      final _dio = Dio();
+      final response =
+          await ApiService(_dio).get(endPoint: 'users/me', token: user.token);
+      if (response['success']) {
         context.go(AppRouter.kHomePage);
       }
     } catch (e) {
