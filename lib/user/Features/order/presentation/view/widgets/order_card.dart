@@ -100,23 +100,25 @@ class OrderCard extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              GestureDetector(
-                onTap: () async {
-                  await _cancelOrder(context);
-                },
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              )
+              order.status != 'canceled'
+                  ? GestureDetector(
+                      onTap: () async {
+                        await _cancelOrder(context);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
+                  : const SizedBox()
             ],
           ),
         ],
