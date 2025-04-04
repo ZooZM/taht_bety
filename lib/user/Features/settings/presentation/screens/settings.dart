@@ -47,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
               title: "Notification Settings",
               icon: Icons.notifications_outlined,
               function: () {
-                context.push(AppRouter.kNotification, extra: null);
+                context.push(AppRouter.kNotificationSettings, extra: null);
               },
             ),
             const Padding(

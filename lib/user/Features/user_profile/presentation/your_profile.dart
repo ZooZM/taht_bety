@@ -15,53 +15,51 @@ class YourProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ProfileCubit>(context).fetchUser();
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
-        child: BlocProvider(
-          create: (context) => ProfileCubit()..fetchUser(),
-          child: Column(
-            children: [
-              _buildHeader(context),
-              Expanded(
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 100, // Fixed top position
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                          ),
-                        ),
-                        child: BlocBuilder<ProfileCubit, ProfileState>(
-                          builder: (context, state) {
-                            if (state is ProfileLoading) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            } else if (state is ProfileLoaded) {
-                              return _buildProfileInfo(context, state.photo,
-                                  state.name, state.email, state.phoneNumber);
-                            } else if (state is ProfileError) {
-                              return Center(child: Text(state.message));
-                            } else {
-                              return const Center(
-                                  child: Text('Something went wrong'));
-                            }
-                          },
+        child: Column(
+          children: [
+            _buildHeader(context),
+            Expanded(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 100, // Fixed top position
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
                         ),
                       ),
+                      child: BlocBuilder<ProfileCubit, ProfileState>(
+                        builder: (context, state) {
+                          if (state is ProfileLoading) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (state is ProfileLoaded) {
+                            return _buildProfileInfo(context, state.photo,
+                                state.name, state.email, state.phoneNumber);
+                          } else if (state is ProfileError) {
+                            return Center(child: Text(state.message));
+                          } else {
+                            return const Center(
+                                child: Text('Something went wrong'));
+                          }
+                        },
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

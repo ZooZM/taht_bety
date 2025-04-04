@@ -56,9 +56,10 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       final Dio _dio = Dio();
       final response = await ApiService(_dio).patch(
-          endPoint: endPoint,
-          data: data,
-          token: UserStorage.getUserData().token);
+        endPoint: endPoint,
+        data: data,
+        token: UserStorage.getUserData().token,
+      );
 
       print('API Response: $response'); // Debugging
 
@@ -68,14 +69,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         await UserStorage.updateUserData(
           name: updatedUser['name'],
           email: updatedUser['email'],
-          phoneNamber: updatedUser['phoneNumber'],
+          phoneNamber: updatedUser['phoneNumber'], // Corrected typo
         );
-        emit(ProfileLoaded(
-          name: updatedUser.name!,
-          email: updatedUser.email!,
-          photo: updatedUser.photo!,
-          phoneNumber: updatedUser.phoneNumber!,
-        ));
+        fetchUser();
       } else {
         throw Exception('Failed to update profile. Please try again.');
       }

@@ -17,6 +17,7 @@ import 'package:taht_bety/user/Features/settings/presentation/screens/notificati
 import 'package:taht_bety/user/Features/settings/presentation/screens/password_manger.dart';
 import 'package:taht_bety/user/Features/user_profile/presentation/your_profile.dart';
 
+import '../../user/Features/Home/presentation/view/notification.dart';
 import '../../user/Features/chat/presentation/chatbot.dart';
 import '../../user/Features/chat/presentation/main_chatbot.dart';
 import '../../user/Features/settings/presentation/screens/settings.dart';
@@ -38,6 +39,7 @@ abstract class AppRouter {
   static const String kPrivacy = '/Privacy';
   static const String kYourProfile = '/yourProfile';
   static const String kSettings = '/Settings';
+  static const String kNotificationSettings = '/NotificationSettings';
   static const String kNotification = '/Notification';
   static const String kChatBot = '/ChatBot';
   static const String kMaps = '/Maps';
@@ -106,8 +108,12 @@ abstract class AppRouter {
         builder: (context, state) => PasswordMangerScreen(),
       ),
       GoRoute(
+        path: kNotificationSettings,
+        builder: (context, state) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(
         path: kNotification,
-        builder: (context, state) => const NotificationsScreen(),
+        builder: (context, state) =>  NotificationScreen(),
       ),
       GoRoute(
         path: kMaps,

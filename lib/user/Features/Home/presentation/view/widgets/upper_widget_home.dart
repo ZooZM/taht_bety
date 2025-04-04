@@ -21,10 +21,10 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -37,7 +37,12 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
                 DeliveryToWidget(),
               ],
             ),
-            NotificationIcon(),
+            InkWell(
+                onTap: () {
+               
+                  context.go(AppRouter.kNotification);
+                },
+                child: const NotificationIcon()),
           ],
         ),
         const SizedBox(
