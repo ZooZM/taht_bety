@@ -13,13 +13,13 @@ class OrderCard extends StatelessWidget {
   final OrderModel order;
   final String category;
 
-  const OrderCard({required this.order, required this.category});
+  const OrderCard({super.key, required this.order, required this.category});
 
   Future<void> _cancelOrder(BuildContext context) async {
     try {
       final user = UserStorage.getUserData();
-      final _dio = Dio();
-      final response = await ApiService(_dio).patch(
+      final dio = Dio();
+      final response = await ApiService(dio).patch(
         endPoint: 'orders/cancel-order/${order.id}',
         token: user.token,
       );

@@ -16,8 +16,8 @@ import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profil
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_widget.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/view_basket.dart';
 
-class ServiceProfileBody extends StatefulWidget {
-  const ServiceProfileBody({
+class ServiceProfileBodyF extends StatefulWidget {
+  const ServiceProfileBodyF({
     super.key,
     required this.provider,
   });
@@ -25,10 +25,10 @@ class ServiceProfileBody extends StatefulWidget {
 
   static int nStars = 0;
   @override
-  State<ServiceProfileBody> createState() => _ServiceProfileBodyState();
+  State<ServiceProfileBodyF> createState() => _ServiceProfileBodyFState();
 }
 
-class _ServiceProfileBodyState extends State<ServiceProfileBody> {
+class _ServiceProfileBodyFState extends State<ServiceProfileBodyF> {
   late List<BasketModel> basket;
   int totalPrice = 0;
   final TextEditingController _reviewController = TextEditingController();

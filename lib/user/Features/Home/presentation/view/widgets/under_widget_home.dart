@@ -33,6 +33,9 @@ class _UnderWidgetHomeState extends State<UnderWidgetHome> {
               ItemsList(
                 providers: state.providers,
               ),
+              state.providers.length >= 2
+                  ? const SizedBox()
+                  : SizedBox(height: MediaQuery.of(context).size.height / 3),
             ],
           );
         } else if (state is ProvidersFailure) {

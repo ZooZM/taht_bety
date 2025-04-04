@@ -69,9 +69,14 @@ class HomeRepoImpl implements HomeRepo {
     } catch (e) {
       print(e.toString());
       if (e is DioException) {
-        if (e.response!.data!["message"].toLowerCase().contains('no providers found.')) {
-          return left(Serverfailure("No providers found, on this location."));
+        if (e.response != null && e.response!.data != null) {
+          if (e.response!.data!["message"]
+              .toLowerCase()
+              .contains('no providers found.')) {
+            return left(Serverfailure("No providers found, on this location."));
+          }
         }
+
         return left(Serverfailure.fromDioException(e));
       }
       return left(Serverfailure(e.toString()));

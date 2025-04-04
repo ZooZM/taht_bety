@@ -1,19 +1,69 @@
 import 'package:flutter/material.dart';
-
-import 'textformfield.dart';
+import 'package:dio/dio.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
+import 'package:taht_bety/constants.dart';
 
 class ChangePhoneDialog extends StatefulWidget {
+  const ChangePhoneDialog({super.key});
+
   @override
   _ChangePhoneDialogState createState() => _ChangePhoneDialogState();
 }
 
 class _ChangePhoneDialogState extends State<ChangePhoneDialog> {
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _codeController = TextEditingController();
   final TextEditingController _newPhoneController = TextEditingController();
-  bool _isVerifying = false;
-  bool _isEnteringNewPhone = false;
-  final int _timerSeconds = 90;
+  bool _isLoading = false;
+
+  Future<void> _changePhoneNumber() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final user = UserStorage.getUserData();
+      final response = await Dio().patch(
+        '${kBaseUrl}users/update-me',
+        data: {'phoneNumber': _newPhoneController.text},
+        options: Options(
+          headers: {'Authorization': 'Bearer ${user.token}'},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Phone number updated successfully"),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to update phone number"),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error: ${e.toString()}"),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _newPhoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,165 +74,56 @@ class _ChangePhoneDialogState extends State<ChangePhoneDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (!_isVerifying) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.close_rounded,
-                      color: Colors.black,
-                      weight: 2,
-                    ),
-                    onPressed: () => Navigator.pop(context),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    color: Colors.black,
+                    weight: 2,
                   ),
-                ],
-              ),
-              const Text(
-                "Before you change your phone number, verify your current number\n(+201******439)",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xff15243f),
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _isVerifying = true;
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2C3E5A),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  fixedSize: const Size(120, 50),
+                  onPressed: () => Navigator.pop(context),
                 ),
-                child: const Text("Send code",
-                    style: TextStyle(color: Colors.white)),
+              ],
+            ),
+            const Text(
+              "Enter your new phone number",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: Color(0xff15243f),
+                fontWeight: FontWeight.bold,
               ),
-            ] else if (!_isEnteringNewPhone) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.close_rounded,
-                      color: Colors.black,
-                      weight: 2,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              const Text(
-                "Enter code",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xff15243f),
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  5,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      width: 35,
-                      height: 35,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.number,
-                        maxLength: 1,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            counterText: ""),
-                      ),
-                    ),
-                  ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _newPhoneController,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                hintText: "New Phone Number",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      // Handle resend code logic
-                    },
-                    child: const Text("Send new code",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xff15243f),
-                            fontWeight: FontWeight.w500)),
-                  ),
-                  Text(
-                    "1:${_timerSeconds ~/ 10}${_timerSeconds % 10}",
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xff15243f),
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _isEnteringNewPhone = true;
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2C3E5A),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  fixedSize: const Size(120, 50),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _changePhoneNumber,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2C3E5A),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                child:
-                    const Text("Verify", style: TextStyle(color: Colors.white)),
+                fixedSize: const Size(120, 50),
               ),
-            ] else ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.close_rounded,
-                      color: Colors.black,
-                      weight: 2,
+              child: _isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : const Text(
+                      "Change",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              CustomTextForm(
-                keyboardType: TextInputType.emailAddress,
-                validate: (val) {
-                  return null;
-                },
-                labelText: "New Phone Number",
-                mycontroller: _newPhoneController,
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2C3E5A),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  fixedSize: const Size(120, 50),
-                ),
-                child:
-                    const Text("Change", style: TextStyle(color: Colors.white)),
-              ),
-            ],
+            ),
           ],
         ),
       ),
@@ -193,6 +134,6 @@ class _ChangePhoneDialogState extends State<ChangePhoneDialog> {
 void showChangePhoneDialog(BuildContext context) {
   showDialog(
     context: context,
-    builder: (context) => ChangePhoneDialog(),
+    builder: (context) => const ChangePhoneDialog(),
   );
 }

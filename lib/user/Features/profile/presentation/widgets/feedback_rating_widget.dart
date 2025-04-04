@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/user/Features/profile/presentation/widgets/service_profile_body.dart';
+import 'package:taht_bety/user/Features/profile/presentation/widgets/service_profile_body_f.dart';
 
 List stars = List.generate(5, (index) => false);
 
@@ -43,7 +43,7 @@ class _FeedbackRatingWidgetState extends State<FeedbackRatingWidget> {
                       }
                       for (int i = 0; i < stars.length; i++) {
                         if (stars[i] == true) {
-                          ServiceProfileBody.nStars = i + 1;
+                          ServiceProfileBodyF.nStars = i + 1;
                         }
                       }
                     }
