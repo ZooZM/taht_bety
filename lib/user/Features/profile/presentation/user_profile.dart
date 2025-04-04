@@ -22,6 +22,7 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     _fetchuser();
+
     super.initState();
   }
 

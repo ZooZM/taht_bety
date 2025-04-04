@@ -16,6 +16,7 @@ import 'core/utils/bloc_observer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
+  
   await setup();
 
   runApp(const MyApp());

@@ -68,7 +68,7 @@ class EditNameDialog extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         // Save the new name
                         String newName = _nameController.text.toString();
-                        await ProfileCubit().updateUser(
+                        BlocProvider.of<ProfileCubit>(context).updateUser(
                             name: newName,
                             email: email,
                             phoneNumber: phoneNumber);
@@ -79,7 +79,7 @@ class EditNameDialog extends StatelessWidget {
                           ),
                         );
 
-                        Navigator.pop(context, newName);
+                        Navigator.pop(context);
                       }
                     },
                     style: ElevatedButton.styleFrom(
