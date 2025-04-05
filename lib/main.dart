@@ -12,6 +12,11 @@ import 'package:taht_bety/user/Features/profile/presentation/view_model/cubit/fe
 import 'package:taht_bety/user/Features/user_profile/presentation/cubit/profile_cubit.dart';
 
 import 'core/utils/bloc_observer.dart';
+import 'user/Features/Home/presentation/view/notification.dart';
+import 'user/Features/chat/presentation/chatbot.dart';
+import 'user/Features/chat/presentation/main_chatbot.dart';
+import 'user/Features/product/presentation/view/category_details_screen.dart';
+import 'user/Features/profile/presentation/widgets/service_profile_body_m.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +58,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ],
+      // child: const MaterialApp(
+      //   debugShowCheckedModeBanner: false,
+      //   home:ChatScreen(), // Replace with your initial screen
+      // ),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: AppRouter.router,

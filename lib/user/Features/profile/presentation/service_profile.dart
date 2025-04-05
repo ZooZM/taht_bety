@@ -46,7 +46,7 @@ class _ServiceProfileState extends State<ServiceProfile> {
               switch (state.provider.providerType) {
                 case 'M-Supermarket':
                 case 'M-miqla':
-                  return const ServiceProfileBodyM();
+                  return  ServiceProfileBodyM();
 
                 case 'R-Electric':
                 case 'R-Painters':
@@ -54,7 +54,7 @@ class _ServiceProfileState extends State<ServiceProfile> {
                 case 'R-Alometetal':
                 case 'R-Air conditioning technician':
                 case 'R-Plumber':
-                  return const ServiceProfileBodyR();
+                  return ServiceProfileBodyR(provider: state.provider,);
 
                 case 'F-Restaurants':
                   return ServiceProfileBodyF(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 
 import '../../../../constants.dart';
 
@@ -125,20 +127,15 @@ questions and receive answers using
                     radius: 27,
                     child: IconButton(
                         color: kPrimaryColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.go(AppRouter.kChatBot);
+                        },
                         icon: const Icon(
                           Icons.chat_rounded,
                           size: 35,
                         )),
                   ),
                 )
-                // CircleAvatar(
-                //     backgroundColor: kPrimaryColor,
-                //     radius: 40,
-                //     child: Image.asset(
-                //       'assets/icons/chatbotw.png',
-                //       fit: BoxFit.cover,
-                //     )),
               ],
             ),
           ),

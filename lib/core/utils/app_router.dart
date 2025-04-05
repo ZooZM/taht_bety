@@ -5,6 +5,7 @@ import 'package:taht_bety/auth/presentation/view/signup.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_body.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_page.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/basket.dart';
+import 'package:taht_bety/user/Features/chat/presentation/chat_provider.dart';
 import 'package:taht_bety/user/Features/generalbasket/presentation/view/general_basket.dart';
 import 'package:taht_bety/user/Features/help/help_center_view.dart';
 import 'package:taht_bety/user/Features/maps/presentation/view/display_maps.dart';
@@ -42,6 +43,8 @@ abstract class AppRouter {
   static const String kNotificationSettings = '/NotificationSettings';
   static const String kNotification = '/Notification';
   static const String kChatBot = '/ChatBot';
+  static const String kMainChatBot = '/MainChatBot';
+  static const String kChatProvider = '/ChatProvider';
   static const String kMaps = '/Maps';
   static const String kPasswordManger = '/PasswordManger';
 
@@ -122,6 +125,18 @@ abstract class AppRouter {
       GoRoute(
         path: kGeneralBasket,
         builder: (context, state) => const GeneralBasket(),
+      ),
+      GoRoute(
+        path: kChatBot,
+        builder: (context, state) => const ChatScreen(),
+      ),
+      GoRoute(
+        path: kMainChatBot,
+        builder: (context, state) => const MainChatbot(),
+      ),
+      GoRoute(
+        path: kChatProvider,
+        builder: (context, state) => const ChatProviderScreen(),
       ),
     ],
   );

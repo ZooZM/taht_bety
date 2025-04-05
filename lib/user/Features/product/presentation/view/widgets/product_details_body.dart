@@ -18,6 +18,12 @@ class ProductDetailsBody extends StatefulWidget {
 }
 
 class _ProductDetailsBodyState extends State<ProductDetailsBody> {
+  @override
+  void initState() {
+    super.initState();
+    print('Post : ${widget.post.toString()}');
+  }
+
   int count = 1;
   bool isLoading = false;
 
