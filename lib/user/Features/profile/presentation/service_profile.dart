@@ -43,28 +43,23 @@ class _ServiceProfileState extends State<ServiceProfile> {
                 child: Text(state.failureMssg),
               );
             } else if (state is FetchProviderSuccess) {
-              switch (state.provider.providerType) {
-                case 'M-Supermarket':
-                case 'M-miqla':
-                  return  ServiceProfileBodyM();
+              final providerType = state.provider.providerType;
 
-                case 'R-Electric':
-                case 'R-Painters':
-                case 'R-Carpenters':
-                case 'R-Alometetal':
-                case 'R-Air conditioning technician':
-                case 'R-Plumber':
-                  return ServiceProfileBodyR(provider: state.provider,);
-
-                case 'F-Restaurants':
-                  return ServiceProfileBodyF(
-                    provider: state.provider,
-                  );
-
-                default:
-                  return const Center(
-                    child: Text('Unknown provider type'),
-                  );
+              if (providerType!.startsWith('M')) {
+                return ServiceProfileBodyM();
+              } else if (providerType.startsWith('R') ||
+                  providerType.startsWith('HW')) {
+                return ServiceProfileBodyR(provider: state.provider);
+              } else if (providerType.startsWith('F')) {
+                return ServiceProfileBodyF(provider: state.provider);
+              } else if (providerType.startsWith('HC')) {
+                return const Center(
+                  child: Text('Healthcare Provider'),
+                );
+              } else {
+                return const Center(
+                  child: Text('Unknown provider type'),
+                );
               }
             } else {
               return const Center(

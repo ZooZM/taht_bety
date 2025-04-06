@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "taht_bety",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "taht_bety (Windows)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows",
+            "args": ["--enable-software-rendering"]
+        },
+        {
+            "name": "taht_bety (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "taht_bety (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "taht_bety (Windows - profile)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "taht_bety (Windows - release)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows",
+            "flutterMode": "release"
+        }
+    ]
+}

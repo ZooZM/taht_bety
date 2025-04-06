@@ -67,7 +67,7 @@ class HomeRepoImpl implements HomeRepo {
           ? left(Serverfailure("No providers found"))
           : right(providers);
     } catch (e) {
-      print(e.toString());
+      print("e: ${e.toString()}");
       if (e is DioException) {
         if (e.response != null && e.response!.data != null) {
           if (e.response!.data!["message"]

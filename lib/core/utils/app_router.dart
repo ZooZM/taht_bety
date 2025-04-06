@@ -14,6 +14,7 @@ import 'package:taht_bety/user/Features/privacy/PrivacyPolicy.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/product_details_widget.dart';
 import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
+import 'package:taht_bety/user/Features/service/presentation/view/service_details.dart';
 import 'package:taht_bety/user/Features/settings/presentation/screens/notifications.dart';
 import 'package:taht_bety/user/Features/settings/presentation/screens/password_manger.dart';
 import 'package:taht_bety/user/Features/user_profile/presentation/your_profile.dart';
@@ -34,7 +35,7 @@ abstract class AppRouter {
   static const String kProductDetails = '/Product';
   static const String kBasket = '/Basket';
   static const String kGeneralBasket = '/GeneralBasket';
-
+  static const String kServiceDetails = '/Service';
   static const String kOrder = '/Order';
   static const String kHelp = '/Help';
   static const String kPrivacy = '/Privacy';
@@ -116,7 +117,7 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kNotification,
-        builder: (context, state) =>  NotificationScreen(),
+        builder: (context, state) => NotificationScreen(),
       ),
       GoRoute(
         path: kMaps,
@@ -137,6 +138,10 @@ abstract class AppRouter {
       GoRoute(
         path: kChatProvider,
         builder: (context, state) => const ChatProviderScreen(),
+      ),
+      GoRoute(
+        path: kServiceDetails,
+        builder: (context, state) => const ServiceDetails(),
       ),
     ],
   );

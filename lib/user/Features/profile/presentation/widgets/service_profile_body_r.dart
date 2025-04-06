@@ -153,7 +153,16 @@ class _ServiceProfileBodyRState extends State<ServiceProfileBodyR> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8, horizontal: 18),
-                        child: ProductCard(post: widget.provider.posts![index]),
+                        child: GestureDetector(
+                          onTap: () {
+                            context.push(
+                              AppRouter.kServiceDetails,
+                              extra: widget.provider.posts![index],
+                            );
+                          },
+                          child:
+                              ProductCard(post: widget.provider.posts![index]),
+                        ),
                       ),
                       Container(height: 1, color: Colors.black26),
                     ],
