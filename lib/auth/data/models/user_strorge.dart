@@ -25,6 +25,7 @@ class UserStorage {
     required String? email,
     required String? photo,
     required String? phoneNamber,
+    required List<String>? favProviders,
   }) async {
     final user = CurUser(
       token: token ?? "unknown",
@@ -35,6 +36,7 @@ class UserStorage {
       email: email ?? "unknown@example.com",
       photo: photo ?? "default_photo_url",
       phoneNumber: phoneNamber ?? "unknown",
+      favProviders: favProviders ?? [],
     );
 
     await _box.put(kCurUserBox, user);
@@ -51,6 +53,7 @@ class UserStorage {
           email: 'unknown@example.com',
           photo: 'default_photo_url',
           phoneNumber: 'unknown',
+          favProviders: [],
         );
   }
 
@@ -67,6 +70,7 @@ class UserStorage {
     String? email,
     String? photo,
     String? phoneNamber,
+    List<String>? favProviders,
   }) async {
     final user = getUserData();
     user.token = token ?? user.token;
@@ -77,6 +81,7 @@ class UserStorage {
     user.email = email ?? user.email;
     user.photo = photo ?? user.photo;
     user.phoneNumber = phoneNamber ?? user.phoneNumber;
+    user.favProviders = favProviders ?? user.favProviders;
 
     await _box.put(kCurUserBox, user);
   }

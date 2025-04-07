@@ -9,7 +9,7 @@ class User {
   int? age;
   String? gender;
   String? signUpPlatform;
-  List<dynamic>? favoriteProviders;
+  List<String>? favoriteProviders;
   bool? verified;
   List<Location>? locations;
   int? v;
@@ -41,14 +41,16 @@ class User {
         age: json['age'] as int?,
         gender: json['gender'] as String?,
         signUpPlatform: json['signUpPlatform'] as String?,
-        favoriteProviders: json['favoriteProviders'] as List<dynamic>?,
+        favoriteProviders: (json['favoriteProviders'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(), // تحويل كل عنصر إلى String
         verified: json['verified'] as bool?,
         locations: (json['locations'] as List<dynamic>?)
             ?.map((e) => Location.fromJson(e as Map<String, dynamic>))
             .toList(),
         v: json['__v'] as int?,
         phoneNumber: json['phoneNumber'] as String?,
-        photo: json['photo'] as String?, // إضافة photo إلى fromJson
+        photo: json['photo'] as String?,
       );
 
   Map<String, dynamic> toJson() => {

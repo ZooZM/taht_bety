@@ -8,11 +8,13 @@ class CustomCushedImage extends StatelessWidget {
     required this.height,
     required this.width,
     this.hasShadow = true,
+    this.isImage = false,
   });
   final String image;
   final double height;
   final double width;
   final bool hasShadow;
+  final bool isImage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +40,9 @@ class CustomCushedImage extends StatelessWidget {
             child: CachedNetworkImage(
               fit: BoxFit.fill,
               imageUrl: image,
-              errorWidget: (context, url, error) => const Icon(Icons.person),
+              errorWidget: (context, url, error) => Icon(
+                isImage ? Icons.broken_image : Icons.person,
+              ),
             )),
       ),
     );

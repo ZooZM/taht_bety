@@ -514,9 +514,11 @@ class _ServiceProfileBodyMState extends State<ServiceProfileBodyM> {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-            child: ServProfileAppBar(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+            child: ServProfileAppBar(
+              providerID: widget.provider.providerId!,
+            ),
           ),
           Positioned(
             bottom: 5,

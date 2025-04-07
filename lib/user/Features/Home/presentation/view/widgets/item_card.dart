@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
@@ -12,6 +13,21 @@ class ItemCard extends StatelessWidget {
     required this.provider,
   });
   final ProviderListModel provider;
+  bool _checkfav(String id) {
+    bool isCheck = false;
+    final user = UserStorage.getUserData();
+    if (user.favProviders.isNotEmpty) {
+      for (var element in user.favProviders) {
+        if (element == id) {
+          isCheck = true;
+        }
+      }
+      return isCheck;
+    } else {
+      return isCheck;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,11 +87,15 @@ class ItemCard extends StatelessWidget {
                   const SizedBox(
                     height: 3,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Rating(),
-                      Icon(Icons.favorite_border),
+                      const Rating(),
+                      Icon(
+                        _checkfav(provider.userId ?? "")
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                      ),
                     ],
                   ),
                 ],

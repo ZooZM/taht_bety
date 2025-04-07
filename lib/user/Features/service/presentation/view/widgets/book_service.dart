@@ -4,21 +4,23 @@ import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/core/widgets/custom_circular_progress.dart';
 
 class BookService extends StatelessWidget {
-  const BookService(
+  BookService(
       {super.key,
       required this.price,
       required this.onTap,
-      required this.isLoading});
+      required this.isLoading,
+      this.isEnable = true});
   final String price;
   final VoidCallback onTap;
   final bool isLoading;
+  bool isEnable;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: isLoading ? () {} : onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: ksecondryColor,
+          color: isEnable ? ksecondryColor : kLightBlue,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(

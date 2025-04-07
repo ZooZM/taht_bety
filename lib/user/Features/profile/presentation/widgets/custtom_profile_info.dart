@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,33 +20,6 @@ class CusttomProfileInfo extends StatelessWidget {
   final String image;
   final String name;
   final String email;
-  Future<void> _fetchuser() async {
-    try {
-      final curUser = UserStorage.getUserData();
-      final dio = Dio();
-      final response = await dio.get(
-        '${kBaseUrl}users/me',
-        options: Options(
-          headers: {'Authorization': 'Bearer ${curUser.token}'},
-        ),
-      );
-      final userData = User.fromJson(response.data);
-      UserStorage.updateUserData(
-        name: userData.name,
-        email: userData.email,
-        photo: userData.photo,
-        phoneNamber: userData.phoneNumber,
-      );
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response != null && e.response!.statusCode == 401) {
-          throw Exception(e.message);
-        }
-      }
-      print(e.toString());
-      throw Exception(e.toString());
-    }
-  }
 
   Future<void> _pickAndUploadImage(BuildContext context) async {
     try {
@@ -56,11 +30,13 @@ class CusttomProfileInfo extends StatelessWidget {
       if (pickedFile != null) {
         File imageFile = File(pickedFile.path);
 
+        final bytes = await imageFile.readAsBytes();
+        final base64Image = base64Encode(bytes);
+        print(base64Image);
         final user = UserStorage.getUserData();
         final dio = Dio();
         final formData = FormData.fromMap({
-          'photo': await MultipartFile.fromFile(imageFile.path,
-              filename: 'profile.jpg'),
+          'photo': base64Image,
         });
 
         final response = await dio.patch(
@@ -72,7 +48,13 @@ class CusttomProfileInfo extends StatelessWidget {
         );
 
         if (response.statusCode == 200 || response.statusCode == 201) {
-          await _fetchuser();
+          final userData = User.fromJson(response.data);
+          UserStorage.updateUserData(
+            name: userData.name,
+            email: userData.email,
+            photo: userData.photo,
+            phoneNamber: userData.phoneNumber,
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Profile photo updated successfully"),

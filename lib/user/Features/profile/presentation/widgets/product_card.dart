@@ -68,6 +68,8 @@ class ProductCard extends StatelessWidget {
                       image: post.images![0],
                       height: imageHeight,
                       width: imageWidth,
+                      hasShadow: false,
+                      isImage: true,
                     ),
                     if (post.images!.length > 1)
                       Container(

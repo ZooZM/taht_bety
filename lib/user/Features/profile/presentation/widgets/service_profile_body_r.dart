@@ -14,7 +14,6 @@ import 'package:taht_bety/user/Features/profile/data/models/provider_model/revie
 import 'package:taht_bety/user/Features/profile/presentation/widgets/product_card.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_profile_appbar.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/serv_upper_widget.dart';
-import 'package:taht_bety/user/Features/profile/presentation/widgets/view_basket.dart';
 
 class ServiceProfileBodyR extends StatefulWidget {
   const ServiceProfileBodyR({
@@ -318,7 +317,7 @@ class _ServiceProfileBodyRState extends State<ServiceProfileBodyR> {
           ),
         ),
         Positioned(
-          bottom: 55,
+          bottom: 15,
           left: 16,
           child: Container(
             width: 70,
@@ -334,24 +333,12 @@ class _ServiceProfileBodyRState extends State<ServiceProfileBodyR> {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-          child: ServProfileAppBar(),
-        ),
-        Positioned(
-          bottom: 5,
-          right: 5,
-          left: 5,
-          child: ViewBasket(
-            price: totalPrice.toString(),
-            isLoading: false,
-            onTap: () {
-              context.push(AppRouter.kBasket,
-                  extra: widget.provider.providerId);
-            },
-            count: basket.length,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+          child: ServProfileAppBar(
+            providerID: widget.provider.providerId!,
           ),
-        )
+        ),
       ],
     );
   }

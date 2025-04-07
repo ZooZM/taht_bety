@@ -88,6 +88,7 @@ class _SignInScreenState extends State<SignInScreen> {
             long: (user.locations != null && user.locations!.isNotEmpty)
                 ? user.locations!.first.coordinates.coordinates[0].toString()
                 : '0',
+            favProviders: user.favoriteProviders,
           );
           context.go(AppRouter.kHomePage);
         } else {
