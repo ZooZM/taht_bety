@@ -46,7 +46,9 @@ class _ServiceProfileState extends State<ServiceProfile> {
               final providerType = state.provider.providerType;
 
               if (providerType!.startsWith('M')) {
-                return ServiceProfileBodyM();
+                return ServiceProfileBodyM(
+                  provider: state.provider,
+                );
               } else if (providerType.startsWith('R') ||
                   providerType.startsWith('HW')) {
                 return ServiceProfileBodyR(provider: state.provider);

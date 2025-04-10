@@ -11,6 +11,7 @@ import 'package:taht_bety/user/Features/help/help_center_view.dart';
 import 'package:taht_bety/user/Features/maps/presentation/view/display_maps.dart';
 import 'package:taht_bety/user/Features/order/presentation/view/order_view.dart';
 import 'package:taht_bety/user/Features/privacy/PrivacyPolicy.dart';
+import 'package:taht_bety/user/Features/product/presentation/view/category_details_screen.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/product_details_widget.dart';
 import 'package:taht_bety/user/Features/profile/presentation/service_profile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/user_profile.dart';
@@ -48,6 +49,7 @@ abstract class AppRouter {
   static const String kChatProvider = '/ChatProvider';
   static const String kMaps = '/Maps';
   static const String kPasswordManger = '/PasswordManger';
+  static const String kCategoryDetail = '/CategoryDetail';
 
   static final router = GoRouter(
     routes: [
@@ -142,6 +144,10 @@ abstract class AppRouter {
       GoRoute(
         path: kServiceDetails,
         builder: (context, state) => const ServiceDetails(),
+      ),
+      GoRoute(
+        path: kCategoryDetail,
+        builder: (context, state) => const CategoryDetailsScreen(),
       ),
     ],
   );

@@ -18,149 +18,9 @@ import 'package:taht_bety/user/Features/profile/presentation/widgets/view_basket
 class ServiceProfileBodyM extends StatefulWidget {
   ServiceProfileBodyM({
     super.key,
+    required this.provider,
   });
-  final ProviderModel provider = ProviderModel.fromJson({
-    "_id": "67a9593865bff1fbf799b076",
-    "providerID": {
-      "_id": "67a9590165bff1fbf799b071",
-      "name": "Pizza King",
-      "email": "salllllma5@gmail.com",
-      "photo":
-          "https://images.zyda.co/cdn-cgi/image/width=640,quality=75,f=auto,metadata=none/photos/restaurants/logo_urls/4872/original/asaSAss-removebg-preview.png?1679832509"
-    },
-    "providerType": "F-Restaurants",
-    "id": ["image15.jpg", "image16.jpg"],
-    "criminalRecord": "Clearance8.pdf",
-    "subscriptionType": "percentage",
-    "subscriptionStartDate": "2023-07-08T00:00:00.000Z",
-    "subscriptionEndDate": "2024-07-08T00:00:00.000Z",
-    "subscriptionPercentage": 15,
-    "subscriptionMonthly": null,
-    "isActive": true,
-    "isOnline": false,
-    "reports": [],
-    "locations": [
-      {
-        "coordinates": {
-          "type": "Point",
-          "coordinates": [30.158096999195767, 31.64406864903742]
-        },
-        "address": "Al shorouq city, el shouhada road, Pizza king",
-        "_id": "67a9593865bff1fbf799b077",
-        "id": "67a9593865bff1fbf799b077"
-      }
-    ],
-    "lastPhotoAt": "2025-02-10T01:41:12.338Z",
-    "__v": 7,
-    "bookedAppointments": [],
-    "reviews": [
-      {
-        "_id": "67c7d99d6cdb162b6f511428",
-        "review": "Great restaurant",
-        "rating": 4,
-        "user": {
-          "_id": "67c7a75c094463c0cfbbb7d5",
-          "name": "mostafa taha",
-          "email": "mostafa@gmail.com"
-        },
-        "provider": "67a9590165bff1fbf799b071",
-        "id": "67c7d99d6cdb162b6f511428"
-      },
-      {
-        "_id": "67e32cc6b9465de6b05b7938",
-        "review": "جامد",
-        "rating": 4,
-        "user": {
-          "_id": "67c86757a6acd2b4153cf902",
-          "name": "Zeyad",
-          "email": "zeyadmostafa201@gmail.com",
-          "photo":
-              "https://static.vecteezy.com/system/resources/previews/045/615/806/non_2x/a-labor-construction-worker-isolated-on-transparent-background-png.png"
-        },
-        "provider": "67a9590165bff1fbf799b071",
-        "__v": 0,
-        "id": "67e32cc6b9465de6b05b7938"
-      }
-    ],
-    "posts": [
-      {
-        "_id": "67a9596765bff1fbf799b07e",
-        "providerID": "67a9590165bff1fbf799b071",
-        "images": [
-          "https://images.deliveryhero.io/image/talabat/Menuitems/chickenranch637785608831733012.jpg?width=172&height=172"
-        ],
-        "title": "Chicken Kingdom",
-        "content":
-            "Marinated chicken, mushroom, jalapeno, tomato, and ranch sauce, stuffed crust with cheddar cheese and mozzarella cheese.",
-        "price": 286
-      },
-      {
-        "_id": "67a9597d65bff1fbf799b084",
-        "providerID": "67a9590165bff1fbf799b071",
-        "images": [
-          "https://images.deliveryhero.io/image/talabat/Menuitems/chickenranch637785608831733012.jpg?width=172&height=172"
-        ],
-        "title": "Chicken King",
-        "content":
-            "Marinated chicken, mushroom, jalapeno, tomato, and ranch sauce, stuffed crust with cheddar cheese and mozzarella cheese.",
-        "price": 286
-      },
-      {
-        "_id": "67a9599965bff1fbf799b08c",
-        "providerID": "67a9590165bff1fbf799b071",
-        "images": [
-          "https://images.deliveryhero.io/image/talabat/Menuitems/chickenranch637785608868217730.jpg?width=172&height=172"
-        ],
-        "title": "Chicken Kingdom",
-        "content":
-            "Marinated chicken, mushroom, tomatoes, jalapeno and ranch sauce, stuffed crust with cheddar cheese and mozzarella cheese.",
-        "price": 214
-      },
-      {
-        "_id": "67a959b065bff1fbf799b092",
-        "providerID": "67a9590165bff1fbf799b071",
-        "images": [
-          "https://images.deliveryhero.io/image/talabat/Menuitems/Chicken_BBQ_Pizza0231638063670811608703.png?width=172&height=172"
-        ],
-        "title": "Triple King Pizza",
-        "content":
-            "3 Medium kingdom cheesy bites pizzas with large salad dish and drink liter of your choice.",
-        "price": 643
-      },
-      {
-        "_id": "67a959ca65bff1fbf799b098",
-        "providerID": "67a9590165bff1fbf799b071",
-        "images": [
-          "https://images.deliveryhero.io/image/talabat/Menuitems/%D8%B9%D8%B1%D8%B6_%D9%83%D9%8A%D9%86%D8%AC%D8%AF%D9%85_%D9%83%D8%A8%D9%8A%D8%B1_1638148297605637483.jpg?width=172&height=172"
-        ],
-        "title": "Kingdom Pizza Offer",
-        "content": "Served with drink liter of your choice.",
-        "price": 302
-      },
-      {
-        "_id": "67a959e865bff1fbf799b09e",
-        "providerID": "67a9590165bff1fbf799b071",
-        "images": [
-          "https://images.deliveryhero.io/image/talabat/Menuitems/Chicken_BBQ_Pizza022638063648800171712.png?width=172&height=172"
-        ],
-        "title": "Combo Crust Offer",
-        "content":
-            "Large pizza with cheesy bites stuffed crust, medium pizza with cheesy bites edges and drink liter of your choice.",
-        "price": 479
-      },
-      {
-        "_id": "67a959fc65bff1fbf799b0a4",
-        "providerID": "67a9590165bff1fbf799b071",
-        "images": [
-          "https://images.deliveryhero.io/image/talabat/Menuitems/%D8%B9%D8%B1%D8%B6_%D9%83%D9%8A%D9%86%D8%AC%D8%AF%D9%85_%D9%83%D8%A8%D9%8A%D8%B1_1638148297605637483.jpg?width=172&height=172"
-        ],
-        "title": "Meal Beverage Offer",
-        "content":
-            "Your choice of medium kingdom pizza, 1 medium salad and drink of your choice.",
-        "price": 242
-      }
-    ]
-  });
+  final ProviderModel provider;
   static int nStars = 0;
   @override
   State<ServiceProfileBodyM> createState() => _ServiceProfileBodyMState();
@@ -174,15 +34,37 @@ class _ServiceProfileBodyMState extends State<ServiceProfileBodyM> {
   bool reviewLoading = false;
 
   // Sample categories data - you can replace with your actual data
-  final List<String> categories = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-    'Category 5',
-    'Category 6',
-    'Category 7',
-    'Category 8',
+  final List<Map<String, String>> categories = [
+    {'name': 'Bakery', 'image': '${kBaseCategoryAssets}bakery.png'},
+    {'name': 'Beverages', 'image': '${kBaseCategoryAssets}beverages.png'},
+    {'name': 'Canned Food', 'image': '${kBaseCategoryAssets}cannedfood.png'},
+    {'name': 'Cheese', 'image': '${kBaseCategoryAssets}cheese.png'},
+    {
+      'name': 'Cleaning Supplies',
+      'image': '${kBaseCategoryAssets}cleaningsupplies.png'
+    },
+    {'name': 'Cold Cuts', 'image': '${kBaseCategoryAssets}coldcuts.png'},
+    {'name': 'Dairy & Eggs', 'image': '${kBaseCategoryAssets}dairy&eggs.png'},
+    {'name': 'Fish', 'image': '${kBaseCategoryAssets}fish.png'},
+    {'name': 'Frozen Food', 'image': '${kBaseCategoryAssets}frozenfood.png'},
+    {
+      'name': 'Fruits & Vegetables',
+      'image': '${kBaseCategoryAssets}fruits&vegetables.png'
+    },
+    {'name': 'Groceries', 'image': '${kBaseCategoryAssets}groceries.png'},
+    {
+      'name': 'Herbs & Spices',
+      'image': '${kBaseCategoryAssets}herbs&spices.png'
+    },
+    {
+      'name': 'Meat & Poultry',
+      'image': '${kBaseCategoryAssets}meat&poultry.png'
+    },
+    {'name': 'Nuts & Seeds', 'image': '${kBaseCategoryAssets}nuts&seeds.png'},
+    {
+      'name': 'Personal Care & Cosmetics',
+      'image': '${kBaseCategoryAssets}personalcare&cosmetics.png'
+    },
   ];
 
   @override
@@ -298,7 +180,7 @@ class _ServiceProfileBodyMState extends State<ServiceProfileBodyM> {
                 const SizedBox(height: 8),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.28,
                     child: GridView.builder(
@@ -314,40 +196,59 @@ class _ServiceProfileBodyMState extends State<ServiceProfileBodyM> {
                       ),
                       itemCount: categories.length,
                       itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Container(
-                              width: 100,
-                              height: MediaQuery.of(context).size.height *
-                                  0.28 *
-                                  0.25,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffcfd9e9),
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 2),
+                        return GestureDetector(
+                          onTap: () {
+                            // Handle category tap
+                            context.push(
+                              AppRouter.kCategoryDetail,
+                              extra: {
+                                'category': categories[index]['name'],
+                                'posts': widget.provider.posts,
+                              },
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 100,
+                                height: MediaQuery.of(context).size.height *
+                                    0.28 *
+                                    0.25,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffcfd9e9),
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.asset(
+                                    categories[index]['image']!,
+                                    fit: BoxFit.cover,
                                   ),
-                                ],
-                              ),
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  categories[index],
-                                  style: Styles.text14Medium.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                            ),
-                          ],
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    categories[index]['name']!,
+                                    style: Styles.text14Medium.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),

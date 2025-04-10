@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taht_bety/core/widgets/custom_circular_progress.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/home_failure_page.dart';
+import 'package:taht_bety/user/Features/Home/presentation/view/widgets/home_loading_page.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/item_list.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view_model/providers_cubit/providers_cubit.dart';
 
@@ -23,7 +23,7 @@ class _UnderWidgetHomeState extends State<UnderWidgetHome> {
             //   size: 150,
             //   color: ksecondryColor,
             // ),
-            child: CustomCircularprogress(size: 50),
+            child: HomeLoadingPage(),
           );
         } else if (state is ProvidersSuccess) {
           return Column(

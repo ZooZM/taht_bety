@@ -11,6 +11,7 @@ class FoodImageWidget extends StatelessWidget {
         image: image,
         height: 200,
         width: 200,
+        isImage: true,
       ),
     );
   }
