@@ -4,23 +4,27 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
-import 'package:taht_bety/auth/data/models/user/user.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 
-class CusttomProfileInfo extends StatelessWidget {
-  const CusttomProfileInfo({
+class CusttomProfileInfo extends StatefulWidget {
+  CusttomProfileInfo({
     super.key,
     required this.image,
     required this.name,
     required this.email,
   });
 
-  final String image;
+  String image;
   final String name;
   final String email;
 
+  @override
+  State<CusttomProfileInfo> createState() => _CusttomProfileInfoState();
+}
+
+class _CusttomProfileInfoState extends State<CusttomProfileInfo> {
   Future<void> _pickAndUploadImage(BuildContext context) async {
     try {
       final ImagePicker picker = ImagePicker();
@@ -31,30 +35,31 @@ class CusttomProfileInfo extends StatelessWidget {
         File imageFile = File(pickedFile.path);
 
         final bytes = await imageFile.readAsBytes();
-        final base64Image = base64Encode(bytes);
+        final base64Image = 'data:image/jpeg;base64,${base64Encode(bytes)}';
         print(base64Image);
         final user = UserStorage.getUserData();
         final dio = Dio();
         final formData = FormData.fromMap({
-          'photo': base64Image,
+          'photo': base64Image, //handel here
         });
 
         final response = await dio.patch(
           '${kBaseUrl}users/update-me',
-          data: formData,
+          data: {
+            'photo': base64Image,
+          },
           options: Options(
             headers: {'Authorization': 'Bearer ${user.token}'},
           ),
         );
 
         if (response.statusCode == 200 || response.statusCode == 201) {
-          final userData = User.fromJson(response.data);
           UserStorage.updateUserData(
-            name: userData.name,
-            email: userData.email,
-            photo: userData.photo,
-            phoneNamber: userData.phoneNumber,
+            photo: response.data['data']['user']['photo'],
           );
+          setState(() {
+            widget.image = UserStorage.getUserData().photo;
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Profile photo updated successfully"),
@@ -95,7 +100,7 @@ class CusttomProfileInfo extends StatelessWidget {
                   aspectRatio: 1,
                   child: CachedNetworkImage(
                     fit: BoxFit.fill,
-                    imageUrl: image,
+                    imageUrl: widget.image,
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),
@@ -133,11 +138,11 @@ class CusttomProfileInfo extends StatelessWidget {
           height: 8,
         ),
         Text(
-          name,
+          widget.name,
           style: Styles.subtitle18Bold,
         ),
         Text(
-          email,
+          widget.email,
           style: Styles.text16SemiBold,
         ),
       ],

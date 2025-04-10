@@ -104,6 +104,9 @@ class _DisplayMapsState extends State<DisplayMaps> {
                           ? () {}
                           : () async {
                               if (currentLocation != null) {
+                                setState(() {
+                                  isloading = true;
+                                });
                                 context
                                     .read<UpdatelocationCubit>()
                                     .updateLocation(

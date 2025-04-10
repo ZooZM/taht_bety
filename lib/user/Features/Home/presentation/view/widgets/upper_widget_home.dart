@@ -38,16 +38,6 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
               ],
             ),
             InkWell(
-              onTap: () {
-                context.go(AppRouter.kMainChatBot);
-              },
-              child: const CircleAvatar(
-                radius: 30,
-                backgroundImage: AssetImage(
-                    'assets/images/117c96b1a51a7ed8cc29ef8120de09a1.gif'),
-              ),
-            ),
-            InkWell(
                 onTap: () {
                   context.go(AppRouter.kNotification);
                 },

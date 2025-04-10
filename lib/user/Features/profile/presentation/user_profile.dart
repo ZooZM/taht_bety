@@ -47,6 +47,12 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   @override
+  void didChangeDependencies() {
+    _fetchuser();
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<User>(

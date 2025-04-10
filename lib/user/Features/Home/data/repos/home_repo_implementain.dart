@@ -8,6 +8,8 @@ import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:taht_bety/core/utils/app_fun.dart';
 import 'package:taht_bety/core/utils/location_service.dart';
 import 'package:taht_bety/data.dart';
+import 'package:taht_bety/user/Features/Home/data/models/fav_provider_model.dart';
+import 'package:taht_bety/user/Features/Home/data/models/fav_provider_storge.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo.dart';
 import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 
@@ -20,12 +22,11 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<Failure, List<ProviderListModel>>> fetchProviderList() async {
     try {
       CurUser user = UserStorage.getUserData();
+      FavProviderStorage.clearProviders();
       if (user.lat == '0.0' && user.long == '0.0') {
         return left(
             Serverfailure("Location not found, Please choose valid location"));
       }
-      print(user.lat);
-      print(user.long);
       var providerResponse = await apiService.get(
           endPoint: 'providers/${user.lat}/${user.long}/100/all');
 
@@ -35,6 +36,20 @@ class HomeRepoImpl implements HomeRepo {
           providerResponse['data']['providers'] as List<dynamic>?;
 
       if (providerData != null) {
+        bool checkfav(String id) {
+          bool isCheck = false;
+          if (user.favProviders.isNotEmpty) {
+            for (var element in user.favProviders) {
+              if (element == id) {
+                isCheck = true;
+              }
+            }
+            return isCheck;
+          } else {
+            return isCheck;
+          }
+        }
+
         for (var item in providerData) {
           ProviderListModel provider = ProviderListModel.fromJson(item);
 
@@ -58,6 +73,18 @@ class HomeRepoImpl implements HomeRepo {
           }
 
           providers.sort((a, b) => a.distance!.compareTo(b.distance!));
+          if (provider.userId != null) {
+            if (checkfav(provider.userId!)) {
+              FavProviderStorage.saveProvider(
+                FavProviderModel(
+                    id: provider.userId ?? "",
+                    name: provider.name ?? "",
+                    imageUrl: provider.photo ?? "",
+                    distance: provider.distance ?? 0,
+                    providerType: provider.providerType ?? ""),
+              );
+            }
+          }
           providers.add(provider);
         }
       }

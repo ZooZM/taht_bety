@@ -19,9 +19,13 @@ class ServiceDetailsBody extends StatefulWidget {
 }
 
 class _ServiceDetailsBodyState extends State<ServiceDetailsBody> {
+  final TextEditingController _descriptionController =
+      TextEditingController(); // Add controller
+
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _descriptionController.dispose(); // Dispose controller
+    super.dispose();
   }
 
   Future<void> _order(DateTime date, String time) async {
@@ -36,7 +40,9 @@ class _ServiceDetailsBodyState extends State<ServiceDetailsBody> {
           'providerID': widget.post.providerId,
           'postID': widget.post.id,
           'price': widget.post.price,
-          'description': 'Order from Taht Bety',
+          'description': _descriptionController.text.isNotEmpty
+              ? _descriptionController.text
+              : 'Order from Taht Bety', // Use custom description
           'date': DateFormat('yyyy-MM-dd').format(date),
           'time': time,
         },
@@ -49,7 +55,7 @@ class _ServiceDetailsBodyState extends State<ServiceDetailsBody> {
         Navigator.pop(context); // إغلاق البوتوم شيت
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("تم حجز الموعد بنجاح"),
+            content: Text("Appointment booked successfully"),
             duration: Duration(seconds: 3),
           ),
         );
@@ -107,46 +113,50 @@ class _ServiceDetailsBodyState extends State<ServiceDetailsBody> {
                   description: widget.post.content!,
                   title: widget.post.title!,
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 15),
                 //  Reviews(reviews: widget.post,)
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 5,
-          right: 0,
-          left: 0,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: BookService(
-              price: (widget.post.price! * count).toString(),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  builder: (context) {
-                    return ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.9,
-                      ),
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                TextField(
+                  controller: _descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Order Description',
+                    hintText: 'Enter your order description',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                const SizedBox(height: 15),
+
+                BookService(
+                  price: (widget.post.price! * count).toString(),
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      builder: (context) {
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.9,
                           ),
-                          child: AppointmentBookingWidget(
-                            isLoading: isLoading,
-                            onBookAppointment: _order,
+                          child: SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                              ),
+                              child: AppointmentBookingWidget(
+                                isLoading: isLoading,
+                                onBookAppointment: _order,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-              isLoading: isLoading,
+                  isLoading: isLoading,
+                ),
+              ],
             ),
           ),
         ),

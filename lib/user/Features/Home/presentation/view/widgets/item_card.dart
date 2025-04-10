@@ -31,7 +31,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.29,
+      height: MediaQuery.of(context).size.height * 0.3,
       decoration: BoxDecoration(
         color: kExtraLite,
         borderRadius: BorderRadius.circular(16),
@@ -75,6 +75,11 @@ class ItemCard extends StatelessWidget {
                 style: Styles.subtitle16Bold,
                 overflow: TextOverflow.ellipsis,
               ),
+            ),
+            Text(
+              provider.providerType!.split('-').last,
+              style: Styles.text12Light,
+              overflow: TextOverflow.ellipsis,
             ),
             const Spacer(),
             Padding(

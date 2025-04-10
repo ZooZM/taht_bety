@@ -337,6 +337,7 @@ class _ServiceProfileBodyRState extends State<ServiceProfileBodyR> {
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
           child: ServProfileAppBar(
             providerID: widget.provider.providerId!,
+            providerModel: widget.provider,
           ),
         ),
       ],

@@ -5,7 +5,6 @@ import 'package:taht_bety/auth/data/models/user/user.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_button.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
-import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
@@ -22,6 +21,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -188,10 +188,21 @@ class _SignInScreenState extends State<SignInScreen> {
                     const SizedBox(height: 32),
                     TextFormField(
                       controller: _passwordController,
-                      obscureText: true,
+                      obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
                         labelText: "Password",
-                        suffixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
@@ -227,19 +238,6 @@ class _SignInScreenState extends State<SignInScreen> {
                             },
                       isLoading: _isLoading,
                     ),
-                    const SizedBox(height: 32),
-                    const Row(
-                      children: [
-                        Expanded(child: Divider()),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text("Or sign in with"),
-                        ),
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    const LoginViaSocial(),
                     const SizedBox(height: 32),
                     CustomFooter(
                       text: "Don’t have an account?",

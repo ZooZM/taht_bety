@@ -16,6 +16,7 @@ const kAddressBox = "addressBox";
 const kCurUserBox = "curUserBox";
 const kRecentSearchBox = "RecentSearchBox";
 const kBasketBox = "basketBox";
+const kProvidersBox = "providerBox";
 
 Map<String, IconData> categoryIcons = {
   "R-Electric": Icons.electrical_services,

@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:dio/dio.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_button.dart';
 import 'package:taht_bety/auth/presentation/view/widgets/custom_footer.dart';
-import 'package:taht_bety/auth/presentation/view/widgets/login_via_social.dart';
+import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 
 class Signup extends StatefulWidget {
@@ -21,6 +21,9 @@ class _SignupState extends State<Signup> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool _isLoading = false;
+  bool _isPasswordVisible = false; // متغير لتتبع حالة عرض كلمة المرور
+  bool _isConfirmPasswordVisible =
+      false; // متغير لتتبع حالة عرض تأكيد كلمة المرور
 
   Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
@@ -30,7 +33,7 @@ class _SignupState extends State<Signup> {
 
       try {
         final response = await Dio().post(
-          'http://192.168.1.17:8000/api/v1/auth/signup',
+          '${kBaseUrl}auth/signup',
           data: {
             'name': _nameController.text,
             'email': _emailController.text,
@@ -153,10 +156,22 @@ class _SignupState extends State<Signup> {
                 // Password Field
                 TextFormField(
                   controller: _passwordController,
-                  obscureText: true,
+                  obscureText: !_isPasswordVisible, // التحكم في عرض كلمة المرور
                   decoration: InputDecoration(
                     labelText: "Password",
                     prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(24),
                     ),
@@ -175,10 +190,24 @@ class _SignupState extends State<Signup> {
                 // Confirm Password Field
                 TextFormField(
                   controller: _confirmPasswordController,
-                  obscureText: true,
+                  obscureText:
+                      !_isConfirmPasswordVisible, // التحكم في عرض تأكيد كلمة المرور
                   decoration: InputDecoration(
                     labelText: "Confirm Password",
                     prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isConfirmPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isConfirmPasswordVisible =
+                              !_isConfirmPasswordVisible;
+                        });
+                      },
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(24),
                     ),
@@ -200,24 +229,7 @@ class _SignupState extends State<Signup> {
                   onPressed: _isLoading ? null : _signUp,
                   isLoading: _isLoading,
                 ),
-                const SizedBox(height: 32),
-                // Divider with "Or sign up with"
-                const Row(
-                  children: [
-                    Expanded(child: Divider()),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        "Or sign up with",
-                        style: TextStyle(color: Color(0xFF99A8C2)),
-                      ),
-                    ),
-                    Expanded(child: Divider()),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                // Social Icons
-                const LoginViaSocial(),
+
                 const SizedBox(height: 32),
                 // Footer
                 CustomFooter(

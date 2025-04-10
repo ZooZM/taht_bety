@@ -4,6 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
+import 'package:taht_bety/user/Features/Home/data/models/fav_provider_model.dart';
+import 'package:taht_bety/user/Features/Home/data/models/fav_provider_storge.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo_implementain.dart';
 import 'package:taht_bety/user/Features/order/data/repo/order_repo_implementation.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
@@ -20,10 +22,12 @@ Future<void> setup() async {
   Hive.registerAdapter(CurUserAdapter());
   Hive.registerAdapter(RecentSearchModelAdapter());
   Hive.registerAdapter(BasketModelAdapter());
+  Hive.registerAdapter(FavProviderModelAdapter());
   try {
     await BasketStorage.init();
     await UserStorage.init();
     await RecentSearchModelStorage.init();
+    await FavProviderStorage.init();
   } catch (e) {
     await BasketStorage.deleteBox();
     await UserStorage.deletFromBox();

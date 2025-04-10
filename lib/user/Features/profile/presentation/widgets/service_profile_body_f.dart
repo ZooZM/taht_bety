@@ -150,10 +150,19 @@ class _ServiceProfileBodyFState extends State<ServiceProfileBodyF> {
                   widget.provider.posts!.length,
                   (index) => Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 18),
-                        child: ProductCard(post: widget.provider.posts![index]),
+                      GestureDetector(
+                        onTap: () {
+                          context.push(
+                            AppRouter.kProductDetails,
+                            extra: widget.provider.posts![index],
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 18),
+                          child:
+                              ProductCard(post: widget.provider.posts![index]),
+                        ),
                       ),
                       Container(height: 1, color: Colors.black26),
                     ],
@@ -334,6 +343,7 @@ class _ServiceProfileBodyFState extends State<ServiceProfileBodyF> {
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
           child: ServProfileAppBar(
             providerID: widget.provider.providerId!,
+            providerModel: widget.provider,
           ),
         ),
         Positioned(

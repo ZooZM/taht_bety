@@ -54,7 +54,11 @@ class _ChatScreenState extends State<ChatScreen> {
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
                 onTap: () {
-                  context.go(AppRouter.kHomePage);
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(AppRouter.kHomePage);
+                  }
                 },
                 child: const Center(
                   child: CircleAvatar(

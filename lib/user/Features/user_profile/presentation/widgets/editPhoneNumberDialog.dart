@@ -29,12 +29,18 @@ class _ChangePhoneDialogState extends State<ChangePhoneDialog> {
         ),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Phone number updated successfully"),
             duration: Duration(seconds: 3),
           ),
+        );
+        UserStorage.updateUserData(
+          name: user.name,
+          email: user.email,
+          photo: user.photo,
+          phoneNamber: _newPhoneController.text,
         );
         Navigator.pop(context);
       } else {

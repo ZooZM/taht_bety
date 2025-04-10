@@ -53,9 +53,7 @@ class _ServiceProfileState extends State<ServiceProfile> {
               } else if (providerType.startsWith('F')) {
                 return ServiceProfileBodyF(provider: state.provider);
               } else if (providerType.startsWith('HC')) {
-                return const Center(
-                  child: Text('Healthcare Provider'),
-                );
+                return ServiceProfileBodyR(provider: state.provider);
               } else {
                 return const Center(
                   child: Text('Unknown provider type'),

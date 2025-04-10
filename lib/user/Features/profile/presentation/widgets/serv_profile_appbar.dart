@@ -3,6 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/user/Features/Home/data/models/fav_provider_model.dart';
+import 'package:taht_bety/user/Features/Home/data/models/fav_provider_storge.dart';
+import 'package:taht_bety/user/Features/profile/data/models/provider_model/provider_model.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custom_icon.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 
@@ -10,9 +13,10 @@ class ServProfileAppBar extends StatefulWidget {
   const ServProfileAppBar({
     super.key,
     required this.providerID,
+    required this.providerModel,
   });
   final String providerID;
-
+  final ProviderModel providerModel;
   @override
   State<ServProfileAppBar> createState() => _ServProfileAppBarState();
 }
@@ -69,7 +73,17 @@ class _ServProfileAppBarState extends State<ServProfileAppBar> {
         UserStorage.updateUserData(
           favProviders: updatedFavorites,
         );
-
+        if (isCheck) {
+          FavProviderStorage.saveProvider(FavProviderModel(
+            id: widget.providerID,
+            name: widget.providerModel.name!,
+            imageUrl: widget.providerModel.photo!,
+            distance: widget.providerModel.distance,
+            providerType: widget.providerModel.providerType!,
+          ));
+        } else {
+          FavProviderStorage.deleteProvider(widget.providerID);
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
