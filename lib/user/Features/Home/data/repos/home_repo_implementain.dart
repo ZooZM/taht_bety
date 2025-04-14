@@ -81,7 +81,9 @@ class HomeRepoImpl implements HomeRepo {
                     name: provider.name ?? "",
                     imageUrl: provider.photo ?? "",
                     distance: provider.distance ?? 0,
-                    providerType: provider.providerType ?? ""),
+                    providerType: provider.providerType ?? "",
+                    reviewsCount: provider.reviewsCount ?? 0,
+                    avgRating: provider.avgRating ?? 0.0),
               );
             }
           }

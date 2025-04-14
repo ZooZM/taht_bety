@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

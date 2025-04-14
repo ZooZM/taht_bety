@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/category_details_body.dart';
 
 import '../../../profile/data/models/provider_model/post.dart';

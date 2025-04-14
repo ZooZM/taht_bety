@@ -66,7 +66,7 @@ class FavItemCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     DistanceIcon(
-                      distance: provider.distance?.round() ?? 0,
+                      distance: provider.distance.round(),
                     ),
                     Row(
                       children: [

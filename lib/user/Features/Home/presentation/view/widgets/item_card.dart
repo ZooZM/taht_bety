@@ -95,7 +95,10 @@ class ItemCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Rating(),
+                      Rating(
+                        reviewCount: provider.reviewsCount!,
+                        rating: (provider.avgRating?.round() ?? 0).toDouble(),
+                      ),
                       Icon(
                         _checkfav(provider.userId ?? "")
                             ? Icons.favorite

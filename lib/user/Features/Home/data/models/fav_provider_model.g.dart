@@ -21,14 +21,16 @@ class FavProviderModelAdapter extends TypeAdapter<FavProviderModel> {
       name: fields[1] as String,
       providerType: fields[2] as String,
       imageUrl: fields[3] as String,
-      distance: fields[4] as double?,
+      distance: fields[4] as double,
+      reviewsCount: fields[5] as int,
+      avgRating: fields[6] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, FavProviderModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +40,11 @@ class FavProviderModelAdapter extends TypeAdapter<FavProviderModel> {
       ..writeByte(3)
       ..write(obj.imageUrl)
       ..writeByte(4)
-      ..write(obj.distance);
+      ..write(obj.distance)
+      ..writeByte(5)
+      ..write(obj.reviewsCount)
+      ..writeByte(6)
+      ..write(obj.avgRating);
   }
 
   @override

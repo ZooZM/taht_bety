@@ -9,6 +9,7 @@ import 'package:taht_bety/auth/data/models/user/user.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_button.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_listtile.dart';
 import 'package:taht_bety/user/Features/profile/presentation/widgets/custtom_profile_info.dart';
+import 'package:taht_bety/user/Features/search/data/hive_models/recenet_search_model_storge.dart';
 import 'package:taht_bety/user/constant/const_data.dart';
 
 class UserProfile extends StatefulWidget {
@@ -188,6 +189,7 @@ class UserProfileBody extends StatelessWidget {
                                   titleColor: kWhite,
                                   function: () {
                                     UserStorage.deleteUserData();
+                                    RecentSearchModelStorage.clearAllSearches();
                                     context.go('/');
                                   },
                                 ),

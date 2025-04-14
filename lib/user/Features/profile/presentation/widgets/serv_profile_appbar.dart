@@ -78,8 +78,10 @@ class _ServProfileAppBarState extends State<ServProfileAppBar> {
             id: widget.providerID,
             name: widget.providerModel.name!,
             imageUrl: widget.providerModel.photo!,
-            distance: widget.providerModel.distance,
+            distance: widget.providerModel.distance!,
             providerType: widget.providerModel.providerType!,
+            reviewsCount: 0,
+            avgRating: 0.0,
           ));
         } else {
           FavProviderStorage.deleteProvider(widget.providerID);

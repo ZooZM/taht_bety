@@ -32,9 +32,11 @@ Future<void> setup() async {
     await BasketStorage.deleteBox();
     await UserStorage.deletFromBox();
     await RecentSearchModelStorage.deletFromBox();
+    await FavProviderStorage.deleteBox();
     await BasketStorage.init();
     await UserStorage.init();
     await RecentSearchModelStorage.init();
+    await FavProviderStorage.init();
   }
   getIt.registerSingleton<HomeRepoImpl>(
     HomeRepoImpl(

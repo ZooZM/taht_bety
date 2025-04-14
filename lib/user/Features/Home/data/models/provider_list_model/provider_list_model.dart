@@ -8,6 +8,8 @@ class ProviderListModel {
   List<Location>? locations;
   double? distance;
   String? providerType;
+  int? reviewsCount; // عدد المراجعات
+  double? avgRating; // متوسط التقييم
 
   ProviderListModel({
     this.name,
@@ -17,6 +19,8 @@ class ProviderListModel {
     this.locations,
     this.distance,
     this.providerType,
+    this.reviewsCount,
+    this.avgRating,
   });
 
   factory ProviderListModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +34,9 @@ class ProviderListModel {
           .toList(),
       distance: (json['distance'] as num?)?.toDouble(),
       providerType: json['providerType'] as String?,
+      reviewsCount: json['reviewsCount'] as int?, // استخراج عدد المراجعات
+      avgRating:
+          (json['avgRating'] as num?)?.toDouble(), // استخراج متوسط التقييم
     );
   }
 
@@ -41,6 +48,8 @@ class ProviderListModel {
         'locations': locations?.map((e) => e.toJson()).toList(),
         'distance': distance,
         'providerType': providerType,
+        'reviewsCount': reviewsCount, // إضافة عدد المراجعات إلى JSON
+        'avgRating': avgRating, // إضافة متوسط التقييم إلى JSON
       };
 
   ProviderListModel copyWith({
@@ -51,6 +60,8 @@ class ProviderListModel {
     List<Location>? locations,
     double? distance,
     String? providerType,
+    int? reviewsCount,
+    double? avgRating,
   }) {
     return ProviderListModel(
       name: name ?? this.name,
@@ -60,6 +71,8 @@ class ProviderListModel {
       locations: locations ?? this.locations,
       distance: distance ?? this.distance,
       providerType: providerType ?? this.providerType,
+      reviewsCount: reviewsCount ?? this.reviewsCount,
+      avgRating: avgRating ?? this.avgRating,
     );
   }
 }

@@ -36,12 +36,8 @@ class _CusttomProfileInfoState extends State<CusttomProfileInfo> {
 
         final bytes = await imageFile.readAsBytes();
         final base64Image = 'data:image/jpeg;base64,${base64Encode(bytes)}';
-        print(base64Image);
         final user = UserStorage.getUserData();
         final dio = Dio();
-        final formData = FormData.fromMap({
-          'photo': base64Image, //handel here
-        });
 
         final response = await dio.patch(
           '${kBaseUrl}users/update-me',

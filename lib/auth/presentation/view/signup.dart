@@ -20,10 +20,11 @@ class _SignupState extends State<Signup> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  String? _selectedGender;
   bool _isLoading = false;
-  bool _isPasswordVisible = false; // متغير لتتبع حالة عرض كلمة المرور
-  bool _isConfirmPasswordVisible =
-      false; // متغير لتتبع حالة عرض تأكيد كلمة المرور
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
@@ -40,9 +41,10 @@ class _SignupState extends State<Signup> {
             'password': _passwordController.text,
             'passwordConfirm': _confirmPasswordController.text,
             'region': 'Cairo',
-            'gender': 'male',
-            'age': '40',
+            'gender': _selectedGender, // استخدام الجنس المختار
+            'age': _ageController.text,
             'signUpPlatform': 'mobile',
+            'role': 'user',
           },
         );
 
@@ -77,6 +79,7 @@ class _SignupState extends State<Signup> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _ageController.dispose();
     super.dispose();
   }
 
@@ -153,10 +156,66 @@ class _SignupState extends State<Signup> {
                   },
                 ),
                 const SizedBox(height: 20),
+                // Age Field
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Age',
+                    hintText: 'Enter your age',
+                    prefixIcon: const Icon(Icons.calendar_today),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                  ),
+                  controller: _ageController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your age';
+                    }
+                    final age = int.tryParse(value);
+                    if (age == null) {
+                      return 'Please enter a valid number';
+                    }
+                    if (age < 18 || age > 100) {
+                      return 'Age must be between 18 and 100';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                // Gender Field
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: 'Gender',
+                    prefixIcon: const Icon(Icons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                  ),
+                  value: _selectedGender,
+                  items: ['Male', 'Female'].map((String gender) {
+                    return DropdownMenuItem<String>(
+                      value: gender,
+                      child: Text(gender),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedGender = newValue;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select your gender';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
                 // Password Field
                 TextFormField(
                   controller: _passwordController,
-                  obscureText: !_isPasswordVisible, // التحكم في عرض كلمة المرور
+                  obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     labelText: "Password",
                     prefixIcon: const Icon(Icons.lock),
@@ -190,8 +249,7 @@ class _SignupState extends State<Signup> {
                 // Confirm Password Field
                 TextFormField(
                   controller: _confirmPasswordController,
-                  obscureText:
-                      !_isConfirmPasswordVisible, // التحكم في عرض تأكيد كلمة المرور
+                  obscureText: !_isConfirmPasswordVisible,
                   decoration: InputDecoration(
                     labelText: "Confirm Password",
                     prefixIcon: const Icon(Icons.lock),
@@ -229,7 +287,6 @@ class _SignupState extends State<Signup> {
                   onPressed: _isLoading ? null : _signUp,
                   isLoading: _isLoading,
                 ),
-
                 const SizedBox(height: 32),
                 // Footer
                 CustomFooter(

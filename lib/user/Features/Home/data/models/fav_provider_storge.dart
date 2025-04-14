@@ -56,4 +56,8 @@ class FavProviderStorage {
     final box = await _openBox();
     return box.containsKey(id);
   }
+
+  static Future<void> deleteBox() async {
+    await Hive.deleteBoxFromDisk(_boxName);
+  }
 }

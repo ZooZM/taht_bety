@@ -45,8 +45,16 @@ class Serverfailure extends Failure {
   }
 
   factory Serverfailure.fromResponse(int? statusCode, dynamic response) {
+    final dynamic responseData =
+        response is Response ? response.data : response;
+
     if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      return Serverfailure(response['error']['message'] ?? 'Unknown error');
+      return Serverfailure(
+        responseData is Map<String, dynamic> &&
+                responseData.containsKey('error')
+            ? responseData['error']['message'] ?? 'Unknown error'
+            : 'Unknown error',
+      );
     } else if (statusCode == 404) {
       return Serverfailure('Error 404: Your request not Found');
     } else {

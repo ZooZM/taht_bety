@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taht_bety/auth/data/models/user/user.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 
 import '../../../../constants.dart';

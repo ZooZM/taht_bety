@@ -17,7 +17,13 @@ class FavProviderModel extends HiveObject {
   final String imageUrl;
 
   @HiveField(4)
-  final double? distance;
+  final double distance;
+
+  @HiveField(5)
+  final int reviewsCount; // عدد المراجعات
+
+  @HiveField(6)
+  final double avgRating; // متوسط التقييم
 
   FavProviderModel({
     required this.id,
@@ -25,5 +31,7 @@ class FavProviderModel extends HiveObject {
     required this.providerType,
     required this.imageUrl,
     required this.distance,
+    required this.reviewsCount,
+    required this.avgRating,
   });
 }
