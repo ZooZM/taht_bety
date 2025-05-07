@@ -77,7 +77,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
         },
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         if (mounted) context.go(AppRouter.kHomePage);
       }
     } on DioException catch (e) {

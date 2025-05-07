@@ -64,15 +64,15 @@ class _HomePageState extends State<HomePage> {
         index: pageIndex,
         items: [
           CusttomPageIcon(
-            icon: Icons.person_outline,
+            icon: iconPressed[0] ? Icons.person : Icons.person_outline,
             isPressed: iconPressed[0],
           ),
           CusttomPageIcon(
-            icon: Icons.home_outlined,
+            icon: iconPressed[1] ? Icons.home : Icons.home_outlined,
             isPressed: iconPressed[1],
           ),
           CusttomPageIcon(
-            icon: Icons.favorite_outline,
+            icon: iconPressed[2] ? Icons.favorite : Icons.favorite_outline,
             isPressed: iconPressed[2],
           ),
         ],

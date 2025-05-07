@@ -28,7 +28,7 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ta7t Bety',
+                  'Taht Bety',
                   style: Styles.projectNameStyle,
                 ),
                 SizedBox(

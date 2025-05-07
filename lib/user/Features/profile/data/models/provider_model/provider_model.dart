@@ -137,7 +137,8 @@ class ProviderModel {
             ?.map((e) => Post.fromJson(e as Map<String, dynamic>))
             .toList(),
         reviews: (json['reviews'] as List<dynamic>?)
-            ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
+            ?.where((e) => e is Map<String, dynamic> && e['post'] == null)
+            .map((e) => Review.fromJson(e as Map<String, dynamic>))
             .toList(),
         createdAt: json['createdAt'] == null
             ? null

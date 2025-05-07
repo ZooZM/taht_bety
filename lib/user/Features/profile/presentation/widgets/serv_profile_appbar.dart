@@ -54,8 +54,9 @@ class _ServProfileAppBarState extends State<ServProfileAppBar> {
       } else {
         updatedFavorites.add(widget.providerID);
       }
+      print(widget.providerID);
 
-      final response = await dio.patch(
+      final response = await dio.put(
         '${kBaseUrl}users/update-me',
         data: {
           'favoriteProviders': updatedFavorites,
@@ -104,14 +105,7 @@ class _ServProfileAppBarState extends State<ServProfileAppBar> {
           ),
         );
       }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Error: ${e.toString()}"),
-          duration: const Duration(seconds: 3),
-        ),
-      );
-    }
+    } catch (e) {}
 
     setState(() {
       isLoading = false;

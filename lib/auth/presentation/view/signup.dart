@@ -41,7 +41,7 @@ class _SignupState extends State<Signup> {
             'password': _passwordController.text,
             'passwordConfirm': _confirmPasswordController.text,
             'region': 'Cairo',
-            'gender': _selectedGender, // استخدام الجنس المختار
+            'gender': _selectedGender!.toLowerCase(), // استخدام الجنس المختار
             'age': _ageController.text,
             'signUpPlatform': 'mobile',
             'role': 'user',

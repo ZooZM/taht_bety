@@ -28,7 +28,7 @@ class HomeRepoImpl implements HomeRepo {
             Serverfailure("Location not found, Please choose valid location"));
       }
       var providerResponse = await apiService.get(
-          endPoint: 'providers/${user.lat}/${user.long}/100/all');
+          endPoint: 'providers/${user.lat}/${user.long}/100/all/all');
 
       List<ProviderListModel> providers = [];
 

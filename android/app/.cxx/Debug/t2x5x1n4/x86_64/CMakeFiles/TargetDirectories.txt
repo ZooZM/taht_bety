@@ -1,2 +1,0 @@
-D:/FFF/taht_bety/android/app/.cxx/Debug/t2x5x1n4/x86_64/CMakeFiles/edit_cache.dir
-D:/FFF/taht_bety/android/app/.cxx/Debug/t2x5x1n4/x86_64/CMakeFiles/rebuild_cache.dir

@@ -53,8 +53,8 @@ class ProfileCubit extends Cubit<ProfileState> {
         'phoneNumber': phoneNumber,
       };
 
-      final Dio _dio = Dio();
-      final response = await ApiService(_dio).patch(
+      final Dio dio = Dio();
+      final response = await ApiService(dio).put(
         endPoint: endPoint,
         data: data,
         token: UserStorage.getUserData().token,
@@ -81,7 +81,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 }
 
 class EditEmailDialog extends StatelessWidget {
-  final TextEditingController _currentEmailController = TextEditingController();
   final TextEditingController _newEmailController = TextEditingController();
   final TextEditingController _verificationCodeController =
       TextEditingController();
@@ -110,17 +109,15 @@ class EditEmailDialog extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state is EmailCodeSent) {
             return _buildVerificationDialog(context);
-          } else if (state is EmailVerified) {
-            return _buildNewEmailDialog(context);
           } else {
-            return _buildInitialDialog(context);
+            return _buildNewEmailDialog(context);
           }
         },
       ),
     );
   }
 
-  Widget _buildInitialDialog(BuildContext context) {
+  Widget _buildNewEmailDialog(BuildContext context) {
     return Dialog(
       surfaceTintColor: const Color(0xffFFFEFE),
       shape: RoundedRectangleBorder(
@@ -134,16 +131,19 @@ class EditEmailDialog extends StatelessWidget {
             CustomTextForm(
               keyboardType: TextInputType.emailAddress,
               validate: (val) {
+                if (val == null || val.isEmpty) {
+                  return "Please enter a valid email";
+                }
                 return null;
               },
-              labelText: "Current Email",
-              mycontroller: _currentEmailController,
+              labelText: "New Email",
+              mycontroller: _newEmailController,
             ),
             ElevatedButton(
               onPressed: () {
                 context
                     .read<EmailCubit>()
-                    .sendVerificationCode(_currentEmailController.text);
+                    .sendVerificationCode(_newEmailController.text);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF2C3E5A),
@@ -175,6 +175,9 @@ class EditEmailDialog extends StatelessWidget {
             CustomTextForm(
               keyboardType: TextInputType.number,
               validate: (val) {
+                if (val == null || val.isEmpty) {
+                  return "Please enter the verification code";
+                }
                 return null;
               },
               labelText: "Enter Verification Code",
@@ -183,7 +186,7 @@ class EditEmailDialog extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 context.read<EmailCubit>().verifyCode(
-                      _currentEmailController.text,
+                      _newEmailController.text,
                       int.parse(_verificationCodeController.text),
                     );
               },
@@ -195,47 +198,6 @@ class EditEmailDialog extends StatelessWidget {
                 fixedSize: const Size(100, 60),
               ),
               child: const Text("Verify",
-                  style: TextStyle(fontSize: 16, color: Colors.white)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNewEmailDialog(BuildContext context) {
-    return Dialog(
-      surfaceTintColor: const Color(0xffFFFEFE),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomTextForm(
-              keyboardType: TextInputType.emailAddress,
-              validate: (val) {
-                return null;
-              },
-              labelText: "New Email",
-              mycontroller: _newEmailController,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context
-                    .read<EmailCubit>()
-                    .sendVerificationCode(_newEmailController.text);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2C3E5A),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                fixedSize: const Size(100, 60),
-              ),
-              child: const Text("Send Code",
                   style: TextStyle(fontSize: 16, color: Colors.white)),
             ),
           ],

@@ -7,6 +7,7 @@ import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/user/Features/profile/data/models/provider_model/post.dart';
 import 'package:taht_bety/user/Features/service/presentation/view/widgets/appointment_booking_widget.dart';
 import 'package:taht_bety/user/Features/service/presentation/view/widgets/book_service.dart';
+import 'package:taht_bety/user/Features/service/presentation/view/widgets/review_post_section.dart';
 import 'package:taht_bety/user/Features/service/presentation/view/widgets/service_images_widget.dart';
 import 'package:taht_bety/user/Features/service/presentation/view/widgets/service_info_widget.dart';
 
@@ -136,7 +137,8 @@ class _ServiceDetailsBodyState extends State<ServiceDetailsBody> {
                       builder: (context) {
                         return ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * 0.9,
+                            maxHeight:
+                                MediaQuery.of(context).size.height * 0.98,
                           ),
                           child: SingleChildScrollView(
                             child: Padding(
@@ -156,6 +158,11 @@ class _ServiceDetailsBodyState extends State<ServiceDetailsBody> {
                   },
                   isLoading: isLoading,
                 ),
+                ReviewPostSection(
+                  postId: widget.post.id!,
+                  reviews: widget.post.reviews!,
+                  providerId: widget.post.providerId!,
+                )
               ],
             ),
           ),

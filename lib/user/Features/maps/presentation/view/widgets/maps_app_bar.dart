@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/core/widgets/custom_circular_progress.dart';
 
 class MapsAppBar extends StatelessWidget {
   const MapsAppBar({
@@ -38,14 +37,10 @@ class MapsAppBar extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: onPress,
-                    child: isLoading
-                        ? const CustomCircularprogress(
-                            size: 15,
-                          )
-                        : const Icon(
-                            Icons.arrow_back_outlined,
-                            size: 28,
-                          ),
+                    child: const Icon(
+                      Icons.arrow_back_outlined,
+                      size: 28,
+                    ),
                   ),
                   const Spacer(),
                   const Text(

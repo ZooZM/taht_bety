@@ -11,6 +11,12 @@ class EmailCodeSent extends EmailState {}
 
 class EmailVerified extends EmailState {}
 
+class EmailVerifiError extends EmailState {
+  final String message;
+
+  EmailVerifiError(this.message);
+}
+
 class EmailUpdated extends EmailState {
   final String newEmail;
 

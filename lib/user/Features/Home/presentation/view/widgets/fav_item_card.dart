@@ -19,7 +19,7 @@ class FavItemCard extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      height: screenHeight * 0.15,
+      height: screenHeight * 0.17,
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -73,13 +73,13 @@ class FavItemCard extends StatelessWidget {
                         const Icon(Icons.star, color: Colors.orange, size: 16),
                         const SizedBox(width: 4),
                         Text(
-                          "0.0",
+                          "${provider.avgRating.round()}",
                           style: Styles.text12Light
                               .copyWith(fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(width: 4),
-                        const Text(
-                          "(+100)",
+                        Text(
+                          "(${provider.reviewsCount})",
                           style: Styles.text12Light,
                         ),
                         const Spacer(),

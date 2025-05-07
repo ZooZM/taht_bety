@@ -19,7 +19,8 @@ class OrderCard extends StatelessWidget {
     try {
       final user = UserStorage.getUserData();
       final dio = Dio();
-      final response = await ApiService(dio).patch(
+      print(order.id);
+      final response = await ApiService(dio).put(
         endPoint: 'orders/cancel-order/${order.id}',
         token: user.token,
       );

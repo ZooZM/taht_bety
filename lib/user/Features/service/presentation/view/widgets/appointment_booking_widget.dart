@@ -33,23 +33,29 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: EdgeInsets.symmetric(
+        vertical: screenHeight * 0.02,
+        horizontal: screenWidth * 0.05,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
-          _buildDateSelector(),
-          const SizedBox(height: 20),
-          _buildTimeSelector(),
-          const SizedBox(height: 30),
+          SizedBox(height: screenHeight * 0.02),
+          _buildDateSelector(screenHeight),
+          SizedBox(height: screenHeight * 0.02),
+          _buildTimeSelector(screenWidth),
+          SizedBox(height: screenHeight * 0.03),
           _buildBookButton(),
         ],
       ),
     );
   }
 
-  Widget _buildDateSelector() {
+  Widget _buildDateSelector(double screenHeight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,15 +63,16 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
           'Select a Day',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: screenHeight * 0.01),
         SizedBox(
-          height: 300, // Fixed height for the calendar view
+          height: screenHeight * 0.4, // Adjust height dynamically
           child: PageView(
             controller: _pageController,
             children: [
-              _buildMonthCalendar(DateTime.now()),
+              _buildMonthCalendar(DateTime.now(), screenHeight),
               _buildMonthCalendar(
-                  DateTime(DateTime.now().year, DateTime.now().month + 1, 1)),
+                  DateTime(DateTime.now().year, DateTime.now().month + 1, 1),
+                  screenHeight),
             ],
           ),
         ),
@@ -73,7 +80,7 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
     );
   }
 
-  Widget _buildMonthCalendar(DateTime month) {
+  Widget _buildMonthCalendar(DateTime month, double screenHeight) {
     final firstDayOfMonth = DateTime(month.year, month.month, 1);
     final daysInMonth = DateTime(month.year, month.month + 1, 0).day;
     final startingWeekday = firstDayOfMonth.weekday;
@@ -84,7 +91,7 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
 
     // Add empty spaces for days before the 1st of the month
     for (int i = 1; i < startingWeekday; i++) {
-      dayWidgets.add(const SizedBox(width: 40, height: 40));
+      dayWidgets.add(const SizedBox());
     }
 
     // Add day numbers
@@ -95,25 +102,38 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
           _selectedDate!.month == currentDate.month &&
           _selectedDate!.day == currentDate.day;
 
+      final isPastDate = currentDate
+          .isBefore(DateTime.now().subtract(const Duration(days: 1)));
+
       dayWidgets.add(
         GestureDetector(
-          onTap: () {
-            setState(() {
-              _selectedDate = currentDate;
-            });
-          },
+          onTap: isPastDate
+              ? null // إذا كان اليوم في الماضي، اجعل العنصر غير قابل للنقر
+              : () {
+                  setState(() {
+                    _selectedDate = currentDate;
+                  });
+                },
           child: Container(
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: isSelected ? kLightBlue : Colors.transparent,
+              color: isSelected
+                  ? kLightBlue
+                  : isPastDate
+                      ? Colors.grey.shade300 // لون مختلف للأيام السابقة
+                      : Colors.transparent,
               shape: BoxShape.circle,
             ),
             child: Center(
               child: Text(
                 day.toString(),
                 style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.black,
+                  color: isSelected
+                      ? Colors.white
+                      : isPastDate
+                          ? Colors.grey // لون النص للأيام السابقة
+                          : Colors.black,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
@@ -133,34 +153,37 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
           ),
         ),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: weekdays.map((day) {
-            return SizedBox(
-              width: 40,
-              child: Center(
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 7, // 7 أيام في الأسبوع
+            childAspectRatio: 38 * 38 / screenHeight, // نسبة العرض إلى الارتفاع
+          ),
+          itemCount: weekdays.length + dayWidgets.length,
+          itemBuilder: (context, index) {
+            if (index < weekdays.length) {
+              // عرض أسماء الأيام في الصف الأول
+              return Center(
                 child: Text(
-                  day,
+                  weekdays[index],
                   style: const TextStyle(
                     fontSize: 12,
                     color: Colors.grey,
                   ),
                 ),
-              ),
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: dayWidgets,
+              );
+            } else {
+              // عرض الأيام
+              return dayWidgets[index - weekdays.length];
+            }
+          },
         ),
       ],
     );
   }
 
-  Widget _buildTimeSelector() {
+  Widget _buildTimeSelector(double screenWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -170,16 +193,15 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 30,
+          height: 50,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: _availableTimes.length - 1,
+            itemCount: _availableTimes.length,
             itemBuilder: (context, index) {
               final time = _availableTimes[index];
-              final nTime = _availableTimes[index + 1];
               final isSelected = _selectedTime == time;
               return Padding(
-                padding: const EdgeInsets.only(right: 12),
+                padding: EdgeInsets.only(right: screenWidth * 0.03),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -187,8 +209,8 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
                     });
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.03,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -199,7 +221,7 @@ class _AppointmentBookingWidgetState extends State<AppointmentBookingWidget> {
                     ),
                     child: Center(
                       child: Text(
-                        "$time   $nTime",
+                        time,
                         style: TextStyle(
                           color: isSelected ? Colors.black : kLightBlue,
                         ),

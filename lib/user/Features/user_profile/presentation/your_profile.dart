@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 
@@ -42,7 +43,7 @@ class _YourProfileState extends State<YourProfile> {
           'photo': base64Image, //handel here
         });
 
-        final response = await dio.patch(
+        final response = await dio.put(
           '${kBaseUrl}users/update-me',
           data: {
             'photo': base64Image,
@@ -146,7 +147,7 @@ class _YourProfileState extends State<YourProfile> {
           child: IconButton(
             icon: const Icon(Icons.arrow_back_outlined, color: Colors.white),
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
             },
           ),
         ),
@@ -220,7 +221,7 @@ class _YourProfileState extends State<YourProfile> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: profilePictureSize / 2),
+            padding: const EdgeInsets.only(top: profilePictureSize / 1.2),
             child: Column(
               children: [
                 _buildListTile(context, "Name", name, name, email, phoneNumber),

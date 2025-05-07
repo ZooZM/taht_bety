@@ -37,8 +37,12 @@ class OrderRepoImpl implements OrderRepo {
           ? left(Serverfailure("No orders found"))
           : right(orders);
     } catch (e) {
-      print(e.toString());
       if (e is DioException) {
+        if (e.response != null) {
+          return left(e.response!.data['message'] != null
+              ? Serverfailure(e.response!.data['message'])
+              : Serverfailure.fromDioException(e));
+        }
         return left(Serverfailure.fromDioException(e));
       }
       return left(Serverfailure(e.toString()));

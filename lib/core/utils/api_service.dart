@@ -50,12 +50,12 @@ class ApiService {
 
   Future<Map<String, dynamic>> put({
     required String endPoint,
-    required Map<String, dynamic> data,
+    Map<String, dynamic>? data,
     String? token,
   }) async {
     var response = await _dio.put(
       '$_baseUrl$endPoint',
-      data: data,
+      data: data ?? {},
       options: Options(
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',

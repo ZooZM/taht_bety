@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
+import 'package:taht_bety/core/utils/styles.dart';
 
 import '../../../../constants.dart';
 
@@ -12,33 +13,7 @@ class MainChatbot extends StatelessWidget {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(context),
-            Expanded(
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 600,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
-                  _buildMainChatBot(context)
-                ],
-              ),
-            ),
-          ],
-        ),
+        child: _buildMainChatBot(context),
       ),
     );
   }
@@ -64,78 +39,118 @@ class MainChatbot extends StatelessWidget {
   }
 
   Widget _buildMainChatBot(BuildContext context) {
-    const double profilePictureSize = 120.0; // Fixed profile picture size
+    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(top: 16),
-      child: Stack(
-        clipBehavior: Clip.none,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Positioned(
-            top: -profilePictureSize / 10,
-            left: 0,
-            right: 0,
-            child: Column(
-              spacing: 45,
+          _buildHeader(context),
+          const Spacer(
+            flex: 1,
+          ),
+          const Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage(
+                  "assets/images/117c96b1a51a7ed8cc29ef8120de09a1.gif",
+                ),
+                backgroundColor: Colors.white,
+                radius: 70,
+              ),
+            ],
+          ),
+          const Spacer(
+            flex: 1,
+          ),
+          const Text(
+            "Welcome to Your\nAI Assistant ",
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          const Spacer(
+            flex: 1,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: Text(
+              "Using this software,you can ask  questions and receive answers using artificial intelligence assistant",
+              style: Styles.text14Light.copyWith(
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const Spacer(flex: 8),
+          SizedBox(
+            height: size.height * 0.2,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
               children: [
-                const Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage(
-                        "assets/images/117c96b1a51a7ed8cc29ef8120de09a1.gif",
-                      ),
-                      backgroundColor: Colors.white,
-                      radius: 70,
-                    ),
-                  ],
-                ),
-                const Text(
-                  """
-Welcome to Your 
-     AI Assistant
-                      """,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  """
-   Using this software ,you can ask 
-questions and receive answers using
-   artificial intelligence assistant
-""",
-                  style: TextStyle(
-                      wordSpacing: 2,
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400),
-                ),
-                const SizedBox(height: 30),
-                const Text(
-                  "Explore AI ChatBots",
-                  style: TextStyle(
+                // White rounded container
+                Container(
+                  width: double.infinity,
+                  height: size.height * 0.2 * 0.5,
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    fontSize: 12,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                   ),
                 ),
-                CircleAvatar(
-                  backgroundColor: kPrimaryColor,
-                  radius: 30,
-                  child: CircleAvatar(
-                    backgroundColor: kWhite,
-                    radius: 27,
-                    child: IconButton(
-                        color: kPrimaryColor,
-                        onPressed: () {
-                          context.go(AppRouter.kChatBot);
+                Positioned(
+                  top: size.height * 0.2 * 0.6 - 90,
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Explore AI ChatBots",
+                        style: TextStyle(
+                          color: kWhite,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () {
+                          context.push(AppRouter.kChatBot);
                         },
-                        icon: const Icon(
-                          Icons.chat_rounded,
-                          size: 35,
-                        )),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(color: kPrimaryColor, width: 2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black
+                                    .withOpacity(0.5), // لون ظل أغمق
+                                blurRadius: 10, // كل ما زاد، كل ما بقى أنعم
+                                spreadRadius: 2, // يزيد من مدى انتشار الظل
+                                offset: const Offset(0, 5), // يتحرك الظل للأسفل
+                              ),
+                            ],
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(
+                                4.0), // padding بسيط لتوسيع المساحة
+                            child: CircleAvatar(
+                              radius: 35,
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.chat_bubble,
+                                color: kPrimaryColor,
+                                size: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                )
+                ),
               ],
             ),
           ),

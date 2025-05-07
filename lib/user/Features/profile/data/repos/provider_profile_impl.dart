@@ -19,10 +19,10 @@ class ProviderProfileImpl implements ProviderProfileRepo {
 
       ProviderModel? provider;
 
-      final providerData = providerResponse['data'] as List<dynamic>?;
+      final providerData = providerResponse['data'];
 
       if (providerData != null) {
-        provider = ProviderModel.fromJson(providerData.first);
+        provider = ProviderModel.fromJson(providerData);
       }
 
       return provider == null

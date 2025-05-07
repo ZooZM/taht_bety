@@ -18,7 +18,7 @@ class UpdatelocationCubit extends Cubit<UpdatelocationState> {
   }) async {
     emit(UpdatelocationLoading());
     try {
-      final response = await ApiService(_dio).patch(
+      final response = await ApiService(_dio).put(
         endPoint: 'users/update-me',
         data: {
           "locations": [

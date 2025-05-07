@@ -19,11 +19,11 @@ class Rating extends StatelessWidget {
           size: 24,
         ),
         Text(
-          "$rating ",
+          "${rating.round()} ",
           style: Styles.text14Medium,
         ),
         Text(
-          "(${reviewCount})",
+          "($reviewCount)",
           style: Styles.text12Light,
         ),
       ],

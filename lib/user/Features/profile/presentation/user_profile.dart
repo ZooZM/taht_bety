@@ -113,7 +113,7 @@ class UserProfileBody extends StatelessWidget {
           ),
           CustomListTile(
             function: () {
-              context.push(AppRouter.kSettings, extra: null);
+              context.push(AppRouter.kPasswordManger, extra: null);
             },
             icon: profileItems[1]['icon'],
             title: profileItems[1]['title'],

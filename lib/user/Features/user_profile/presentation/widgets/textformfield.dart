@@ -6,7 +6,7 @@ class CustomTextForm extends StatelessWidget {
   final TextEditingController? mycontroller;
   final String? Function(String?)? validate;
   final TextInputType? keyboardType;
-  final Icon? suffix;
+  final Widget? suffix;
   bool isPassword;
   CustomTextForm(
       {super.key,

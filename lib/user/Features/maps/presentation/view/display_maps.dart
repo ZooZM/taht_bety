@@ -121,11 +121,9 @@ class _DisplayMapsState extends State<DisplayMaps> {
                   ),
                   MapsAppBar(
                     isLoading: isloading,
-                    onPress: isloading
-                        ? () {}
-                        : () {
-                            context.go(AppRouter.kHomePage);
-                          },
+                    onPress: () {
+                      context.go(AppRouter.kHomePage);
+                    },
                   ),
                 ],
               ),

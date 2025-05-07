@@ -31,11 +31,56 @@ class EditEmailDialog extends StatelessWidget {
           if (state is EmailLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is EmailCodeSent) {
-            return _buildVerificationDialog(context);
-          } else {
+            return _buildVerificationDialog(context, false);
+          } else if (state is EmailVerified) {
+            return _buildEmailVerifiedDialog(context);
+          } else if (state is EmailInitial) {
             return _buildNewEmailDialog(context);
+          } else if (state is EmailVerifiError) {
+            return _buildVerificationDialog(context, true);
+          } else {
+            return const Center(
+              child: Text("Something went wrong"),
+            );
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildEmailVerifiedDialog(BuildContext context) {
+    return Dialog(
+      surfaceTintColor: const Color(0xffFFFEFE),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 5),
+            const Text(
+              "Your Email Changed Successfully",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2C3E5A),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                fixedSize: const Size(100, 60),
+              ),
+              child: const Text("Close",
+                  style: TextStyle(fontSize: 16, color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -81,7 +126,7 @@ class EditEmailDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildVerificationDialog(BuildContext context) {
+  Widget _buildVerificationDialog(BuildContext context, bool hasError) {
     return Dialog(
       surfaceTintColor: const Color(0xffFFFEFE),
       shape: RoundedRectangleBorder(
@@ -94,14 +139,19 @@ class EditEmailDialog extends StatelessWidget {
           children: [
             CustomTextForm(
               keyboardType: TextInputType.number,
-              validate: (val) {
-                return null;
-              },
-              labelText: "Enter Verification Code",
+              labelText: hasError
+                  ? "Invalid Code, Please try again"
+                  : "Enter Verification Code",
               mycontroller: _verificationCodeController,
             ),
+            if (hasError)
+              const Text("Please enter a valid code",
+                  style: TextStyle(color: Colors.red)),
             ElevatedButton(
               onPressed: () {
+                if (_verificationCodeController.text.isEmpty) {
+                  return;
+                }
                 context.read<EmailCubit>().verifyCode(
                       _newEmailController.text,
                       int.parse(_verificationCodeController.text),

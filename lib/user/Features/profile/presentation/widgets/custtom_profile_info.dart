@@ -39,7 +39,7 @@ class _CusttomProfileInfoState extends State<CusttomProfileInfo> {
         final user = UserStorage.getUserData();
         final dio = Dio();
 
-        final response = await dio.patch(
+        final response = await dio.put(
           '${kBaseUrl}users/update-me',
           data: {
             'photo': base64Image,
@@ -98,7 +98,7 @@ class _CusttomProfileInfoState extends State<CusttomProfileInfo> {
                     fit: BoxFit.fill,
                     imageUrl: widget.image,
                     errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                        const Icon(Icons.person),
                   ),
                 ),
               ),

@@ -4,24 +4,26 @@ import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
 import 'package:taht_bety/core/utils/styles.dart';
-import 'package:taht_bety/user/Features/profile/data/models/provider_model/review.dart';
-import 'package:taht_bety/user/Features/profile/presentation/widgets/review_widget.dart';
+import 'package:taht_bety/user/Features/profile/data/models/provider_model/review_post.dart';
+import 'package:taht_bety/user/Features/service/presentation/view/widgets/review_post_widget.dart';
 
-class ReviewSectionWidget extends StatefulWidget {
+class ReviewPostSection extends StatefulWidget {
+  final String postId;
+  final List<ReviewPost> reviews;
   final String providerId;
-  final List<Review> reviews;
 
-  const ReviewSectionWidget({
+  const ReviewPostSection({
     super.key,
-    required this.providerId,
+    required this.postId,
     required this.reviews,
+    required this.providerId,
   });
 
   @override
-  State<ReviewSectionWidget> createState() => _ReviewSectionWidgetState();
+  State<ReviewPostSection> createState() => _ReviewPostSectionState();
 }
 
-class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
+class _ReviewPostSectionState extends State<ReviewPostSection> {
   final TextEditingController _reviewController = TextEditingController();
   int _rating = 0;
   bool reviewLoading = false;
@@ -68,7 +70,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
       if (response['success']) {
         _reviewController.clear();
         setState(() {
-          widget.reviews[reviewedIndex] = Review(
+          widget.reviews[reviewedIndex] = ReviewPost(
             user: ReviewUser(
               name: user.name,
               photo: user.photo,
@@ -78,7 +80,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
             rating: _rating,
             createdAt: DateTime.now(),
             id: widget.reviews[reviewedIndex].id,
-            provider: widget.providerId,
+            post: widget.postId,
             updatedAt: DateTime.now(),
           );
           _rating = 0;
@@ -126,6 +128,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
           data: {
             'review': reviewText,
             'rating': _rating,
+            'post': widget.postId,
             'provider': widget.providerId,
           },
           options: Options(
@@ -134,7 +137,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
         );
 
         if (response.statusCode == 200 || response.statusCode == 201) {
-          final review = Review(
+          final review = ReviewPost(
             user: ReviewUser(
               name: user.name,
               photo: user.photo,
@@ -144,13 +147,14 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
             rating: _rating,
             createdAt: DateTime.now(),
             id: response.data['data']['_id'],
-            provider: widget.providerId,
+            post: widget.postId,
             updatedAt: DateTime.now(),
           );
           _reviewController.clear();
           setState(() {
             _rating = 0;
             widget.reviews.add(review);
+            isReviewed = true;
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -248,7 +252,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                child: ReviewWidget(
+                child: ReviewPostWidget(
                   review: widget.reviews[index],
                 ),
               );

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
+import 'package:dio/dio.dart';
+import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
 
 // 1. First, define the ChatMessage model class
 class ChatMessage {
@@ -26,21 +29,75 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
-  final List<ChatMessage> _messages = [
-    const ChatMessage(
-      text: 'Hi Jane!',
-      isUser: false,
-      time: '19:02',
-    ),
-    const ChatMessage(
-      text: 'How can I assist you?',
-      isUser: false,
-    ),
-    const ChatMessage(
-      text: 'What is the nearest hospital to my location?',
-      isUser: true,
-    ),
-  ];
+  final user = UserStorage.getUserData(); // استرجاع بيانات المستخدم
+  late List<ChatMessage> _messages;
+
+  @override
+  void initState() {
+    super.initState();
+    _messages = [
+      ChatMessage(
+        text: 'Hi ${user.name}!',
+        isUser: false,
+        time: '19:02',
+      ),
+      const ChatMessage(
+        text: 'How can I assist you?',
+        isUser: false,
+      ),
+    ];
+  }
+
+  bool _isTyping = false; // حالة الانتظار أثناء كتابة الشات بوت
+
+  Future<void> _sendMessage() async {
+    final userMessage = _messageController.text.trim();
+    if (userMessage.isEmpty) return;
+
+    // إضافة رسالة المستخدم إلى قائمة الرسائل
+    setState(() {
+      _messages.add(ChatMessage(
+        text: userMessage,
+        isUser: true,
+        time: TimeOfDay.now().format(context),
+      ));
+      _isTyping = true; // الشات بوت يبدأ في الكتابة
+    });
+
+    _messageController.clear();
+
+    try {
+      // إرسال الرسالة إلى API
+      final response = await Dio().post(
+        'https://your-api-url.com/chatbot', // استبدل بعنوان API الخاص بك
+        data: {'message': userMessage},
+      );
+
+      // استلام الرد من API
+      final botReply =
+          response.data['reply'] ?? 'Sorry, I didn\'t understand that.';
+
+      // إضافة رد الشات بوت إلى قائمة الرسائل
+      setState(() {
+        _messages.add(ChatMessage(
+          text: botReply,
+          isUser: false,
+          time: TimeOfDay.now().format(context),
+        ));
+        _isTyping = false; // الشات بوت انتهى من الكتابة
+      });
+    } catch (e) {
+      // في حالة حدوث خطأ
+      setState(() {
+        _messages.add(ChatMessage(
+          text: 'Something went wrong. Please try again later.',
+          isUser: false,
+          time: TimeOfDay.now().format(context),
+        ));
+        _isTyping = false; // الشات بوت انتهى من الكتابة
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +155,31 @@ class _ChatScreenState extends State<ChatScreen> {
                             top: 20,
                             bottom: 20, // Space for input field
                           ),
-                          child: ChatMessages(messages: _messages),
+                          child: ChatMessages(
+                            messages: _messages,
+                            userImage: user.photo,
+                          ),
                         ),
                       ),
                     ),
+                    if (_isTyping) // عرض مؤشر الكتابة أثناء انتظار الرد
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          'Chatbot is typing...',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
             ),
             MessageInputField(
               controller: _messageController,
+              onSend: _sendMessage,
             ),
           ],
         ),
@@ -118,7 +190,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
 class ChatMessages extends StatelessWidget {
   final List<ChatMessage> messages;
-  const ChatMessages({super.key, required this.messages});
+  final String userImage;
+  const ChatMessages(
+      {super.key, required this.messages, required this.userImage});
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +205,7 @@ class ChatMessages extends StatelessWidget {
                     isUser: message.isUser,
                     showAvatar: true,
                     time: message.time,
+                    image: userImage,
                   ),
                   const SizedBox(height: 10),
                 ],
@@ -145,6 +220,7 @@ class MessageBubble extends StatelessWidget {
   final bool isUser;
   final bool showAvatar;
   final String? time;
+  final String image;
 
   const MessageBubble({
     super.key,
@@ -152,6 +228,7 @@ class MessageBubble extends StatelessWidget {
     required this.isUser,
     this.showAvatar = false,
     this.time,
+    required this.image,
   });
 
   @override
@@ -199,10 +276,7 @@ class MessageBubble extends StatelessWidget {
           ),
           if (isUser && showAvatar) const SizedBox(width: 10),
           if (isUser && showAvatar)
-            const CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('assets/images/OIP.jpg'),
-            ),
+            CustomCushedImage(image: image, height: 40, width: 40),
         ],
       ),
     );
@@ -211,10 +285,12 @@ class MessageBubble extends StatelessWidget {
 
 class MessageInputField extends StatelessWidget {
   final TextEditingController controller;
+  final VoidCallback onSend;
 
   const MessageInputField({
     super.key,
     required this.controller,
+    required this.onSend,
   });
 
   @override
@@ -239,8 +315,6 @@ class MessageInputField extends StatelessWidget {
                     child: TextField(
                       controller: controller,
                       decoration: const InputDecoration(
-                        suffixIcon:
-                            Icon(Icons.mic_none_outlined, color: kPrimaryColor),
                         hintText: 'Type here or speak',
                         hintStyle: TextStyle(
                           color: Color(0xFF99A8C2),
@@ -259,7 +333,7 @@ class MessageInputField extends StatelessWidget {
           ),
           const SizedBox(width: 20),
           InkWell(
-            onTap: () {},
+            onTap: onSend,
             child: const CircleAvatar(
               backgroundColor: Color(0xFF3A4D6F),
               child: Icon(

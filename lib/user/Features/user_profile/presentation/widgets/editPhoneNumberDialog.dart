@@ -21,7 +21,7 @@ class _ChangePhoneDialogState extends State<ChangePhoneDialog> {
 
     try {
       final user = UserStorage.getUserData();
-      final response = await Dio().patch(
+      final response = await Dio().put(
         '${kBaseUrl}users/update-me',
         data: {'phoneNumber': _newPhoneController.text},
         options: Options(

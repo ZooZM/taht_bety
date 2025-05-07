@@ -104,7 +104,7 @@ class _ChatBotButtonState extends State<ChatBotButton> {
         duration: const Duration(milliseconds: 1000),
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
-          color: ksecondryColor.withValues(alpha: 0.5),
+          color: ksecondryColor.withOpacity(0.5),
           borderRadius: _getBorderRadius(),
         ),
         child: GestureDetector(

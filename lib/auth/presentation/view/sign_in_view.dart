@@ -43,6 +43,23 @@ class _SignInScreenState extends State<SignInScreen> {
       final response =
           await ApiService(_dio).get(endPoint: 'users/me', token: user.token);
       if (response['success']) {
+        final userData = response['data'];
+        User user = User.fromJson(userData['user']);
+        UserStorage.saveUserData(
+          token: userData['token'],
+          userId: user.id ?? '',
+          name: user.name ?? '',
+          email: user.email ?? '',
+          photo: user.photo ?? '',
+          phoneNamber: user.phoneNumber ?? '',
+          lat: (user.locations != null && user.locations!.isNotEmpty)
+              ? user.locations!.first.coordinates.coordinates[1].toString()
+              : '0',
+          long: (user.locations != null && user.locations!.isNotEmpty)
+              ? user.locations!.first.coordinates.coordinates[0].toString()
+              : '0',
+          favProviders: user.favoriteProviders,
+        );
         context.go(AppRouter.kHomePage);
       }
     } catch (e) {
@@ -74,10 +91,11 @@ class _SignInScreenState extends State<SignInScreen> {
         if (response.statusCode == 200 || response.statusCode == 201) {
           final userData = response.data['data'];
           User user = User.fromJson(userData['user']);
-          if (user.role == 'provider') {
+          if (user.role != 'user') {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text("You are not allowed to sign in as a provider."),
+                content: Text(
+                    "You are not allowed to sign in as a (provider or admin)."),
                 duration: Duration(seconds: 5),
               ),
             );
