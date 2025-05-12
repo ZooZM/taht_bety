@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
 
 class BasketItemCard extends StatelessWidget {
@@ -48,7 +49,7 @@ class BasketItemCard extends StatelessWidget {
           onDelete();
         },
         child: ListTile(
-          leading: Image.network(item.image, width: 50, height: 50),
+          leading: CustomCushedImage(image: item.image, height: 50, width: 50),
           title: Text(item.title),
           subtitle: Text("${item.price} EGP"),
           trailing: Row(

@@ -6,7 +6,6 @@ import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:dio/dio.dart';
 import 'package:taht_bety/core/widgets/custom_cushed_image.dart';
 
-// 1. First, define the ChatMessage model class
 class ChatMessage {
   final String text;
   final bool isUser;
@@ -19,7 +18,6 @@ class ChatMessage {
   });
 }
 
-// 2. Main Chat Screen ============================================
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -29,73 +27,101 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
-  final user = UserStorage.getUserData(); // استرجاع بيانات المستخدم
+  final user = UserStorage.getUserData();
   late List<ChatMessage> _messages;
+  bool _isTyping = false;
+  String sessionId = '';
 
   @override
   void initState() {
     super.initState();
+
     _messages = [
-      ChatMessage(
-        text: 'Hi ${user.name}!',
-        isUser: false,
-        time: '19:02',
-      ),
       const ChatMessage(
-        text: 'How can I assist you?',
+        text: 'initializing chat...',
         isUser: false,
-      ),
+        time: '19:00',
+      )
     ];
+
+    _initChat();
   }
 
-  bool _isTyping = false; // حالة الانتظار أثناء كتابة الشات بوت
-
-  Future<void> _sendMessage() async {
-    final userMessage = _messageController.text.trim();
-    if (userMessage.isEmpty) return;
-
-    // إضافة رسالة المستخدم إلى قائمة الرسائل
-    setState(() {
-      _messages.add(ChatMessage(
-        text: userMessage,
-        isUser: true,
-        time: TimeOfDay.now().format(context),
-      ));
-      _isTyping = true; // الشات بوت يبدأ في الكتابة
-    });
-
-    _messageController.clear();
-
+  Future<void> _initChat() async {
     try {
-      // إرسال الرسالة إلى API
       final response = await Dio().post(
-        'https://your-api-url.com/chatbot', // استبدل بعنوان API الخاص بك
-        data: {'message': userMessage},
+        'https://02a1-41-36-42-72.ngrok-free.app/start_chat',
+        data: {
+          'user_id': user.userId,
+        },
       );
 
-      // استلام الرد من API
-      final botReply =
-          response.data['reply'] ?? 'Sorry, I didn\'t understand that.';
-
-      // إضافة رد الشات بوت إلى قائمة الرسائل
+      final botReply = response.data['message'];
+      sessionId = response.data['session_id'];
       setState(() {
         _messages.add(ChatMessage(
           text: botReply,
           isUser: false,
           time: TimeOfDay.now().format(context),
         ));
-        _isTyping = false; // الشات بوت انتهى من الكتابة
+        _isTyping = false;
       });
     } catch (e) {
-      // في حالة حدوث خطأ
       setState(() {
         _messages.add(ChatMessage(
-          text: 'Something went wrong. Please try again later.',
+          text: 'There was an error. Please try again.',
           isUser: false,
           time: TimeOfDay.now().format(context),
         ));
-        _isTyping = false; // الشات بوت انتهى من الكتابة
+        _isTyping = false;
       });
+      _messageController.clear();
+    }
+  }
+
+  Future<void> _sendMessage() async {
+    final userMessage = _messageController.text.trim();
+    if (userMessage.isEmpty) return;
+
+    setState(() {
+      _messages.add(ChatMessage(
+        text: userMessage,
+        isUser: true,
+        time: TimeOfDay.now().format(context),
+      ));
+      _isTyping = true;
+    });
+
+    try {
+      String mes = _messageController.text;
+      _messageController.clear();
+      final response = await Dio().post(
+        'https://02a1-41-36-42-72.ngrok-free.app/chat',
+        data: {
+          'message': mes,
+        },
+      );
+
+      final botReply = response.data['response'];
+
+      setState(() {
+        _messages.add(ChatMessage(
+          text: botReply,
+          isUser: false,
+          time: TimeOfDay.now().format(context),
+        ));
+        _isTyping = false;
+      });
+    } catch (e) {
+      setState(() {
+        _messages.add(ChatMessage(
+          text: 'There was an error. Please try again.',
+          isUser: false,
+          time: TimeOfDay.now().format(context),
+        ));
+        _isTyping = false;
+      });
+      _messageController.clear();
     }
   }
 
@@ -180,6 +206,7 @@ class _ChatScreenState extends State<ChatScreen> {
             MessageInputField(
               controller: _messageController,
               onSend: _sendMessage,
+              isLoading: _isTyping,
             ),
           ],
         ),
@@ -286,11 +313,13 @@ class MessageBubble extends StatelessWidget {
 class MessageInputField extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onSend;
+  final bool isLoading;
 
   const MessageInputField({
     super.key,
     required this.controller,
     required this.onSend,
+    required this.isLoading,
   });
 
   @override
@@ -333,7 +362,7 @@ class MessageInputField extends StatelessWidget {
           ),
           const SizedBox(width: 20),
           InkWell(
-            onTap: onSend,
+            onTap: isLoading ? () {} : onSend,
             child: const CircleAvatar(
               backgroundColor: Color(0xFF3A4D6F),
               child: Icon(

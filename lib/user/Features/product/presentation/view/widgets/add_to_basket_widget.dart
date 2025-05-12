@@ -8,10 +8,12 @@ class AddToBasketWidget extends StatelessWidget {
       {super.key,
       required this.price,
       required this.onTap,
-      required this.isLoading});
+      required this.isLoading,
+      required this.addedToBasket});
   final String price;
   final VoidCallback onTap;
   final bool isLoading;
+  final bool addedToBasket;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,10 +32,17 @@ class AddToBasketWidget extends StatelessWidget {
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Add to basket",
-                      style: Styles.text14Light.copyWith(color: Colors.white),
-                    ),
+                    addedToBasket
+                        ? const Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                            size: 20,
+                          )
+                        : Text(
+                            "Add to basket",
+                            style: Styles.text14Light
+                                .copyWith(color: Colors.white),
+                          ),
                     Text(
                       "$price.00EGP",
                       style: Styles.text14Light.copyWith(color: Colors.white),

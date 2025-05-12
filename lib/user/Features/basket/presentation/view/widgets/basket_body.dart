@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/widgets/basket_item_card.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/widgets/total_bill.dart';
 import 'package:taht_bety/user/Features/product/data/basket_model.dart';
@@ -102,6 +103,10 @@ class _BasketBodyState extends State<BasketBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const Text(
+          "To delete an item, swipe it to the left",
+          style: Styles.text12Light,
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: basketItems.length,

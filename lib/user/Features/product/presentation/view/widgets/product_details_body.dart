@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/add_to_basket_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_image_widget.dart';
 import 'package:taht_bety/user/Features/product/presentation/view/widgets/food_info_widget.dart';
@@ -21,6 +23,11 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
   @override
   void initState() {
     super.initState();
+  }
+
+  bool addedToBasket(String id) {
+    final product = BasketStorage.getBasketItem(id);
+    return product != null;
   }
 
   int count = 1;
@@ -73,25 +80,39 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: AddToBasketWidget(
               price: (widget.post.price! * count).toString(),
+              addedToBasket: addedToBasket(widget.post.id!),
               onTap: () async {
                 setState(() {
                   isLoading = true;
                 });
-                await BasketStorage.addToBasket(
-                  id: widget.post.id!,
-                  image: widget.post.images![0],
-                  count: count,
-                  providerId: widget.post.providerId!,
-                  price: widget.post.price!,
-                  title: widget.post.title!,
-                  description: widget.post.content!,
-                );
+                if (addedToBasket(widget.post.id!)) {
+                  await BasketStorage.removeFromBasket(widget.post.id!);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Deleted from basket'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                } else {
+                  await BasketStorage.addToBasket(
+                    id: widget.post.id!,
+                    image: widget.post.images![0],
+                    count: count,
+                    providerId: widget.post.providerId!,
+                    price: widget.post.price!,
+                    title: widget.post.title!,
+                    description: widget.post.content!,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Added to basket'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                }
                 setState(() {
                   isLoading = false;
                 });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Added to basket')),
-                );
               },
               isLoading: isLoading,
             ),
@@ -115,7 +136,11 @@ class _ProductDetailsBodyState extends State<ProductDetailsBody> {
             ),
             child: GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(AppRouter.kHomePage);
+                  }
                 },
                 child: const Icon(
                   Icons.arrow_back,
