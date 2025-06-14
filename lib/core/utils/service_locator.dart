@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/core/utils/api_service.dart';
+import 'package:taht_bety/firebase_options.dart';
 import 'package:taht_bety/user/Features/Home/data/models/fav_provider_model.dart';
 import 'package:taht_bety/user/Features/Home/data/models/fav_provider_storge.dart';
 import 'package:taht_bety/user/Features/Home/data/repos/home_repo_implementain.dart';
@@ -17,6 +19,9 @@ import 'package:taht_bety/user/Features/search/data/hive_models/recent_search_mo
 final getIt = GetIt.instance;
 
 Future<void> setup() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Hive.initFlutter();
 
   Hive.registerAdapter(CurUserAdapter());

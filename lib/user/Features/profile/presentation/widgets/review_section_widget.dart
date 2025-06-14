@@ -122,11 +122,10 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
           return;
         }
         final response = await Dio().post(
-          '${kBaseUrl}reviews',
+          '${kBaseUrl}reviews/provider-reviews/${widget.providerId}',
           data: {
             'review': reviewText,
             'rating': _rating,
-            'provider': widget.providerId,
           },
           options: Options(
             headers: {'Authorization': 'Bearer ${user.token}'},

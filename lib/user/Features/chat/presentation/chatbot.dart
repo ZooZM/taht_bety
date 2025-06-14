@@ -18,6 +18,8 @@ class ChatMessage {
   });
 }
 
+String baseUrl = 'https://1242-41-234-34-151.ngrok-free.app/';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -30,7 +32,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final user = UserStorage.getUserData();
   late List<ChatMessage> _messages;
   bool _isTyping = false;
-  String sessionId = '';
 
   @override
   void initState() {
@@ -50,14 +51,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> _initChat() async {
     try {
       final response = await Dio().post(
-        'https://02a1-41-36-42-72.ngrok-free.app/start_chat',
+        '${baseUrl}start_chat',
         data: {
           'user_id': user.userId,
         },
       );
 
       final botReply = response.data['message'];
-      sessionId = response.data['session_id'];
       setState(() {
         _messages.add(ChatMessage(
           text: botReply,
@@ -96,9 +96,9 @@ class _ChatScreenState extends State<ChatScreen> {
       String mes = _messageController.text;
       _messageController.clear();
       final response = await Dio().post(
-        'https://02a1-41-36-42-72.ngrok-free.app/chat',
+        '${baseUrl}chat',
         data: {
-          'message': mes,
+          'message': "$mes answer me in english only",
         },
       );
 
@@ -137,11 +137,7 @@ class _ChatScreenState extends State<ChatScreen> {
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
                 onTap: () {
-                  if (context.canPop()) {
-                    context.pop();
-                  } else {
-                    context.go(AppRouter.kHomePage);
-                  }
+                  context.go(AppRouter.kHomePage);
                 },
                 child: const Center(
                   child: CircleAvatar(
@@ -344,7 +340,7 @@ class MessageInputField extends StatelessWidget {
                     child: TextField(
                       controller: controller,
                       decoration: const InputDecoration(
-                        hintText: 'Type here or speak',
+                        hintText: 'Type here...',
                         hintStyle: TextStyle(
                           color: Color(0xFF99A8C2),
                           fontSize: 16,

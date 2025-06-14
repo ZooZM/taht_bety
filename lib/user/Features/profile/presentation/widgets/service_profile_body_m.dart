@@ -205,17 +205,22 @@ class _ServiceProfileBodyMState extends State<ServiceProfileBodyM> {
           Positioned(
             bottom: 55,
             left: 16,
-            child: Container(
-              width: 70,
-              height: 70,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: ksecondryColor,
-              ),
-              child: const Icon(
-                FontAwesomeIcons.comments,
-                color: kWhite,
-                size: 35,
+            child: InkWell(
+              onTap: () {
+                context.push(AppRouter.kChatProvider, extra: widget.provider);
+              },
+              child: Container(
+                width: 70,
+                height: 70,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ksecondryColor,
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.comments,
+                  color: kWhite,
+                  size: 35,
+                ),
               ),
             ),
           ),

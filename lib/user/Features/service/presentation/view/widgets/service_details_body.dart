@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:taht_bety/auth/data/models/curuser.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/user/Features/profile/data/models/provider_model/post.dart';
 import 'package:taht_bety/user/Features/service/presentation/view/widgets/appointment_booking_widget.dart';
 import 'package:taht_bety/user/Features/service/presentation/view/widgets/book_service.dart';
@@ -185,7 +187,11 @@ class _ServiceDetailsBodyState extends State<ServiceDetailsBody> {
             ),
             child: GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(AppRouter.kHomePage);
+                  }
                 },
                 child: const Icon(
                   Icons.arrow_back,

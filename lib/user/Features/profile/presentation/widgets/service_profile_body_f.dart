@@ -113,7 +113,7 @@ class _ServiceProfileBodyFState extends State<ServiceProfileBodyF> {
           left: 16,
           child: InkWell(
             onTap: () {
-              context.push(AppRouter.kChatProvider);
+              context.push(AppRouter.kChatProvider, extra: widget.provider);
             },
             child: Container(
               width: 70,
