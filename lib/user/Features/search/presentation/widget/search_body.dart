@@ -50,9 +50,7 @@ class _SearchBodyState extends State<SearchBody> {
   void _onSearchSudmit(String value) async {
     try {
       await RecentSearchModelStorage.addSearch(name: value);
-    } catch (e) {
-      print('Error while saving search: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -62,11 +60,12 @@ class _SearchBodyState extends State<SearchBody> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding:
-              const EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 12),
-          child: SearchBarOfSearchBody(
-            onChange: _onSearchChanged,
-            onSubmit: _onSearchSudmit,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Center(
+            child: SearchBarOfSearchBody(
+              onChange: _onSearchChanged,
+              onSubmit: _onSearchSudmit,
+            ),
           ),
         ),
         Expanded(

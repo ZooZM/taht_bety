@@ -32,43 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void initState() {
-    _fetchuser();
     super.initState();
-  }
-
-  void _fetchuser() async {
-    try {
-      final user = UserStorage.getUserData();
-      final _dio = Dio();
-      final response =
-          await ApiService(_dio).get(endPoint: 'users/me', token: user.token);
-      if (response['success']) {
-        final userData = response['data'];
-        User user = User.fromJson(userData['user']);
-        UserStorage.saveUserData(
-          token: userData['token'],
-          userId: user.id ?? '',
-          name: user.name ?? '',
-          email: user.email ?? '',
-          photo: user.photo ?? '',
-          phoneNamber: user.phoneNumber ?? '',
-          lat: (user.locations != null && user.locations!.isNotEmpty)
-              ? user.locations!.first.coordinates.coordinates[1].toString()
-              : '0',
-          long: (user.locations != null && user.locations!.isNotEmpty)
-              ? user.locations!.first.coordinates.coordinates[0].toString()
-              : '0',
-          favProviders: user.favoriteProviders,
-        );
-        context.go(AppRouter.kHomePage);
-      }
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response != null && e.response!.statusCode == 401) {
-          UserStorage.deleteUserData();
-        }
-      }
-    }
   }
 
   Future<void> _signIn() async {
@@ -115,6 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ? user.locations!.first.coordinates.coordinates[0].toString()
                 : '0',
             favProviders: user.favoriteProviders,
+            address: user.locations?[0].address ?? 'unknown',
           );
           context.go(AppRouter.kHomePage);
         } else {

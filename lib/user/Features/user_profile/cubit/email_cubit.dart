@@ -59,6 +59,7 @@ class EmailCubit extends Cubit<EmailState> {
           photo: user.photo,
           phoneNamber: user.phoneNumber,
           favProviders: user.favProviders,
+          address: user.address,
         );
         emit(EmailVerified());
       } else {

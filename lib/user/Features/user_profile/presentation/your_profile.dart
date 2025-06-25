@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
+import 'package:taht_bety/core/widgets/show_custom_choose_image_source.dart';
 
 import '../../../../constants.dart';
 import 'cubit/profile_cubit.dart';
@@ -27,21 +28,15 @@ class YourProfile extends StatefulWidget {
 class _YourProfileState extends State<YourProfile> {
   Future<void> _pickAndUploadImage(BuildContext context) async {
     try {
-      final ImagePicker picker = ImagePicker();
-      final XFile? pickedFile =
-          await picker.pickImage(source: ImageSource.gallery);
+      final File? pickedFile = await showCustomChooseImageSource(context);
 
       if (pickedFile != null) {
         File imageFile = File(pickedFile.path);
 
         final bytes = await imageFile.readAsBytes();
         final base64Image = 'data:image/jpeg;base64,${base64Encode(bytes)}';
-        print(base64Image);
         final user = UserStorage.getUserData();
         final dio = Dio();
-        final formData = FormData.fromMap({
-          'photo': base64Image, //handel here
-        });
 
         final response = await dio.put(
           '${kBaseUrl}users/update-me',

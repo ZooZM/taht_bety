@@ -18,6 +18,7 @@ class UpdatelocationCubit extends Cubit<UpdatelocationState> {
   }) async {
     emit(UpdatelocationLoading());
     try {
+      String token = UserStorage.getUserData().token;
       final response = await ApiService(_dio).put(
         endPoint: 'users/update-me',
         data: {
@@ -36,10 +37,12 @@ class UpdatelocationCubit extends Cubit<UpdatelocationState> {
       );
 
       if (response['success']) {
-        UserStorage.updateUserData(
+        await UserStorage.updateUserData(
           lat: latitude.toString(),
           long: longitude.toString(),
+          address: address,
         );
+
         emit(UpdatelocationSuccess());
       } else {
         emit(UpdatelocationError("Failed to update location."));

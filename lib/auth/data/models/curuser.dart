@@ -21,6 +21,8 @@ class CurUser extends HiveObject {
   String phoneNumber;
   @HiveField(8)
   List<String> favProviders;
+  @HiveField(9)
+  String address;
   CurUser({
     required this.token,
     required this.userId,
@@ -31,5 +33,6 @@ class CurUser extends HiveObject {
     required this.photo,
     required this.phoneNumber,
     required this.favProviders,
+    required this.address,
   });
 }

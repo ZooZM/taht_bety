@@ -24,6 +24,7 @@ class FavProviderModelAdapter extends TypeAdapter<FavProviderModel> {
       distance: fields[4] as double,
       reviewsCount: fields[5] as int,
       avgRating: fields[6] as double,
+      isOnline: fields[7] as bool,
     );
   }
 
@@ -44,7 +45,9 @@ class FavProviderModelAdapter extends TypeAdapter<FavProviderModel> {
       ..writeByte(5)
       ..write(obj.reviewsCount)
       ..writeByte(6)
-      ..write(obj.avgRating);
+      ..write(obj.avgRating)
+      ..writeByte(7)
+      ..write(obj.isOnline);
   }
 
   @override

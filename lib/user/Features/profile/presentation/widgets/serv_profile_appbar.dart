@@ -83,6 +83,7 @@ class _ServProfileAppBarState extends State<ServProfileAppBar> {
             providerType: widget.providerModel.providerType!,
             reviewsCount: 0,
             avgRating: 0.0,
+            isOnline: widget.providerModel.isOnline ?? false,
           ));
         } else {
           FavProviderStorage.deleteProvider(widget.providerID);

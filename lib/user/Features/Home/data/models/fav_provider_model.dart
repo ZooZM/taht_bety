@@ -20,12 +20,16 @@ class FavProviderModel extends HiveObject {
   final double distance;
 
   @HiveField(5)
-  final int reviewsCount; // عدد المراجعات
+  final int reviewsCount;
 
   @HiveField(6)
-  final double avgRating; // متوسط التقييم
+  final double avgRating;
+
+  @HiveField(7)
+  final bool isOnline;
 
   FavProviderModel({
+    required this.isOnline,
     required this.id,
     required this.name,
     required this.providerType,

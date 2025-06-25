@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/Home/data/models/provider_list_model/provider_list_model.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/item_card.dart';
@@ -16,15 +18,26 @@ class SearchItemlist extends StatelessWidget {
         ),
       );
     } else {
-      return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.8,
-        ),
-        itemCount: providers.length,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-          child: ItemCard(provider: providers[index]),
+      return Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: List.generate(
+          providers.length,
+          (index) => GestureDetector(
+            onTap: () {
+              context.push(AppRouter.kServProfile,
+                  extra: providers[index].userId);
+            },
+            child: SizedBox(
+              width: 175,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                child: ItemCard(
+                  provider: providers[index],
+                ),
+              ),
+            ),
+          ),
         ),
       );
     }

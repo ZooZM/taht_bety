@@ -26,13 +26,14 @@ class CurUserAdapter extends TypeAdapter<CurUser> {
       photo: fields[6] as String,
       phoneNumber: fields[7] as String,
       favProviders: (fields[8] as List).cast<String>(),
+      address: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CurUser obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.token)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class CurUserAdapter extends TypeAdapter<CurUser> {
       ..writeByte(7)
       ..write(obj.phoneNumber)
       ..writeByte(8)
-      ..write(obj.favProviders);
+      ..write(obj.favProviders)
+      ..writeByte(9)
+      ..write(obj.address);
   }
 
   @override

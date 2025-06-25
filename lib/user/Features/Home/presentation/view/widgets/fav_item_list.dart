@@ -19,6 +19,9 @@ class FavItemList extends StatelessWidget {
         providers.length,
         (index) => GestureDetector(
           onTap: () {
+            if (!providers[index].isOnline) {
+              return;
+            }
             context.push(AppRouter.kServProfile, extra: providers[index].id);
           },
           child: SizedBox(

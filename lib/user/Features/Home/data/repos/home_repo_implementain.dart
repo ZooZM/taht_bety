@@ -52,7 +52,9 @@ class HomeRepoImpl implements HomeRepo {
 
         for (var item in providerData) {
           ProviderListModel provider = ProviderListModel.fromJson(item);
-
+          if (provider.isValid != null && provider.isValid == false) {
+            continue;
+          }
           if (provider.locations != null && provider.locations!.isNotEmpty) {
             var providerCoordinates = provider.locations![0].coordinates;
             double? temp = providerCoordinates?.coordinates![0];
@@ -83,10 +85,12 @@ class HomeRepoImpl implements HomeRepo {
                     distance: provider.distance ?? 0,
                     providerType: provider.providerType ?? "",
                     reviewsCount: provider.reviewsCount ?? 0,
-                    avgRating: provider.avgRating ?? 0.0),
+                    avgRating: provider.avgRating ?? 0.0,
+                    isOnline: provider.isOnline ?? false),
               );
             }
           }
+
           providers.add(provider);
         }
       }

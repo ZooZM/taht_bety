@@ -53,21 +53,43 @@ class ItemCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            provider.photo?.isNotEmpty == true
-                ? CustomCushedImage(
-                    image: provider.photo!,
-                    height: 0.15,
-                    width: 0.34,
-                    hasShadow: false,
-                  )
-                : SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width * 0.34,
-                    child: const Icon(
-                      Icons.person,
-                      size: 38,
-                    ),
-                  ),
+            Stack(
+              children: [
+                CustomCushedImage(
+                  image: provider.photo ?? '',
+                  height: 0.15,
+                  width: 0.34,
+                  hasShadow: false,
+                  isImage: false,
+                ),
+                (provider.isOnline ?? true)
+                    ? Container(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        width: MediaQuery.of(context).size.width * 0.34,
+                        decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: List.filled(
+                            1,
+                            const BoxShadow(
+                              color: Colors.black45,
+                              blurRadius: 7,
+                              offset: Offset.zero,
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Busy',
+                            style: Styles.subtitle18Bold.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
             const Spacer(),
             SizedBox(
               child: Text(

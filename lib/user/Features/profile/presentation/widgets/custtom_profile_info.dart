@@ -2,11 +2,11 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
+import 'package:taht_bety/core/widgets/show_custom_choose_image_source.dart';
 
 class CusttomProfileInfo extends StatefulWidget {
   CusttomProfileInfo({
@@ -27,9 +27,7 @@ class CusttomProfileInfo extends StatefulWidget {
 class _CusttomProfileInfoState extends State<CusttomProfileInfo> {
   Future<void> _pickAndUploadImage(BuildContext context) async {
     try {
-      final ImagePicker picker = ImagePicker();
-      final XFile? pickedFile =
-          await picker.pickImage(source: ImageSource.gallery);
+      final File? pickedFile = await showCustomChooseImageSource(context);
 
       if (pickedFile != null) {
         File imageFile = File(pickedFile.path);

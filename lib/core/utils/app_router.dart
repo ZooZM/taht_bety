@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:taht_bety/auth/presentation/view/VerifyCodeScreen.dart';
 import 'package:taht_bety/auth/presentation/view/sign_in_view.dart';
 import 'package:taht_bety/auth/presentation/view/signup.dart';
+import 'package:taht_bety/auth/presentation/view/splash_screen.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_body.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/home_page.dart';
 import 'package:taht_bety/user/Features/basket/presentation/view/basket.dart';
@@ -53,6 +54,10 @@ abstract class AppRouter {
 
   static final router = GoRouter(
     routes: [
+      GoRoute(
+        path: '/a',
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: '/',
         builder: (context, state) => const SignInScreen(),

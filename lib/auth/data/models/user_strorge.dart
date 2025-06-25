@@ -32,6 +32,7 @@ class UserStorage {
     required String? photo,
     required String? phoneNamber,
     required List<String>? favProviders,
+    required String? address,
   }) async {
     final user = CurUser(
       token: token ?? "unknown",
@@ -43,6 +44,7 @@ class UserStorage {
       photo: photo ?? "default_photo_url",
       phoneNumber: phoneNamber ?? "unknown",
       favProviders: favProviders ?? [],
+      address: address ?? 'unknown',
     );
 
     await _box?.put(kCurUserBox, user);
@@ -60,6 +62,7 @@ class UserStorage {
           photo: 'default_photo_url',
           phoneNumber: 'unknown',
           favProviders: [],
+          address: 'unknown',
         );
   }
 
@@ -77,6 +80,7 @@ class UserStorage {
     String? photo,
     String? phoneNamber,
     List<String>? favProviders,
+    String? address,
   }) async {
     final user = getUserData();
     user.token = token ?? user.token;
@@ -88,6 +92,7 @@ class UserStorage {
     user.photo = photo ?? user.photo;
     user.phoneNumber = phoneNamber ?? user.phoneNumber;
     user.favProviders = favProviders ?? user.favProviders;
+    user.address = address ?? user.address;
 
     await _box?.put(kCurUserBox, user);
   }

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,8 @@ class DisplayMaps extends StatefulWidget {
 class _DisplayMapsState extends State<DisplayMaps> {
   late CameraPosition initialCameraPoistion;
   late GoogleMapController mapController;
+  final TextEditingController addressController = TextEditingController();
+
   late LocationService locationService;
   LatLng? currentLocation;
   LatLng? centerCoordinates;
@@ -30,7 +33,15 @@ class _DisplayMapsState extends State<DisplayMaps> {
     initialCameraPoistion =
         const CameraPosition(target: LatLng(26.820553, 30.802498), zoom: 6);
     locationService = LocationService();
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    addressController.dispose();
+    mapController.dispose();
+    super.dispose();
   }
 
   Set<Marker> markers = {};
@@ -44,11 +55,13 @@ class _DisplayMapsState extends State<DisplayMaps> {
           listener: (context, state) {
             if (state is UpdatelocationSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Location updated successfully!")),
+                const SnackBar(content: Text("Location Saved successfully!")),
               );
-              mapController.dispose();
               context.go(AppRouter.kHomePage);
             } else if (state is UpdatelocationError) {
+              setState(() {
+                isloading = false;
+              });
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );
@@ -71,11 +84,11 @@ class _DisplayMapsState extends State<DisplayMaps> {
                         centerCoordinates = position.target;
                       });
                     },
-                    onCameraIdle: () {
+                    onCameraIdle: () async {
+                      await updateAddress();
                       setState(() {
                         isloading = false;
                       });
-                      currentLocation = centerCoordinates;
                     },
                     markers: markers,
                     zoomControlsEnabled: false,
@@ -112,18 +125,36 @@ class _DisplayMapsState extends State<DisplayMaps> {
                                     .updateLocation(
                                       latitude: currentLocation!.latitude,
                                       longitude: currentLocation!.longitude,
-                                      address: "Delivery Address",
+                                      address: addressController.text,
                                       isFavorite: true,
                                     );
                               }
                             },
                     ),
                   ),
-                  MapsAppBar(
-                    isLoading: isloading,
-                    onPress: () {
-                      context.go(AppRouter.kHomePage);
-                    },
+                  Column(
+                    children: [
+                      MapsAppBar(
+                        isLoading: isloading,
+                        onPress: () {
+                          context.pop();
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 16),
+                        child: Container(
+                          color: kWhite,
+                          child: TextField(
+                            controller: addressController,
+                            decoration: const InputDecoration(
+                              labelText: "Enter Your Address",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -132,6 +163,63 @@ class _DisplayMapsState extends State<DisplayMaps> {
         ),
       ),
     );
+  }
+
+  Future<String> getAddressFromGoogle(LatLng latLng) async {
+    const apiKey = 'AIzaSyCPpn3ha3jOftqoAua-LhUWBbkqqOcSULw'; // حط المفتاح هنا
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}&key=$apiKey&language=en';
+
+    final response = await Dio().get(url);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      try {
+        final data = response.data;
+        if (data['results'] != null && data['results'].isNotEmpty) {
+          return data['results'][5]['formatted_address'];
+        } else {
+          return "Address is not available";
+        }
+      } catch (e) {
+        return "Address is not available";
+      }
+    } else {
+      return '';
+    }
+  }
+
+  Future<void> updateAddress() async {
+    if (centerCoordinates == null) {
+      print('centerCoordinates is null');
+      return;
+    }
+
+    setState(() {
+      currentLocation = centerCoordinates;
+    });
+    final address = await getAddressFromGoogle(centerCoordinates!);
+    setState(() {
+      addressController.text = address;
+    });
+    // try {
+    //   print(centerCoordinates!.latitude); // دلوقتي هي آمنة
+    //   final testLatLng = LatLng(30.0, 31.0); // مثال على موقع وسط القاهرة
+    //   final placemarks = await placemarkFromCoordinates(
+    //     testLatLng.latitude,
+    //     testLatLng.longitude,
+    //   );
+
+    //   if (placemarks.isNotEmpty) {
+    //     setState(() {
+    //       addressController.text =
+    //           placemarks[0].street ?? placemarks[0].name ?? 'No address found';
+    //     });
+    //   } else {
+    //     print('No placemarks found');
+    //   }
+    // } catch (e) {
+    //   print('Error in updateAddress: $e');
+    // }
   }
 
   Future<void> updateCurrentLocation() async {

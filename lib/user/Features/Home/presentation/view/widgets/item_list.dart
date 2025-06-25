@@ -19,6 +19,9 @@ class ItemsList extends StatelessWidget {
         providers.length,
         (index) => GestureDetector(
           onTap: () {
+            if (providers[index].isOnline != true) {
+              return;
+            }
             context.push(AppRouter.kServProfile,
                 extra: providers[index].userId);
           },

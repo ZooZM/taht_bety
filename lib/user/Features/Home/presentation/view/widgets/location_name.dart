@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 
@@ -18,7 +19,7 @@ class LocationName extends StatelessWidget {
           color: ksecondryColor,
         ),
         Text(
-          locationName,
+          '$locationName /n  ${UserStorage.getUserData().address}',
           style: Styles.subtitle18Bold.copyWith(
             color: ksecondryColor,
           ),

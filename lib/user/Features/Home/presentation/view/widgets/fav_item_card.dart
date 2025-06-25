@@ -38,13 +38,45 @@ class FavItemCard extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: CustomCushedImage(
-                  image: provider.imageUrl,
-                  height: double.infinity,
-                  width: screenWidth * 0.25,
-                  hasShadow: false,
-                )),
+              borderRadius: BorderRadius.circular(12),
+              child: Stack(
+                children: [
+                  CustomCushedImage(
+                    image: provider.imageUrl,
+                    height: double.infinity,
+                    width: screenWidth * 0.25,
+                    hasShadow: false,
+                    isImage: false,
+                  ),
+                  (provider.isOnline)
+                      ? const SizedBox()
+                      : Container(
+                          height: double.infinity,
+                          width: screenWidth * 0.25,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: List.filled(
+                              1,
+                              const BoxShadow(
+                                color: Colors.black45,
+                                blurRadius: 7,
+                                offset: Offset.zero,
+                              ),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Busy',
+                              style: Styles.subtitle18Bold.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                ],
+              ),
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Padding(

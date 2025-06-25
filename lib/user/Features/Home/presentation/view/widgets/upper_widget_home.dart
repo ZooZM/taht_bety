@@ -1,11 +1,11 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taht_bety/auth/data/models/user_strorge.dart';
 import 'package:taht_bety/constants.dart';
 import 'package:taht_bety/core/utils/app_router.dart';
 import 'package:taht_bety/core/utils/styles.dart';
 import 'package:taht_bety/user/Features/Home/presentation/view/widgets/custtom_search_container.dart';
-import 'package:taht_bety/user/Features/Home/presentation/view/widgets/notification_icon.dart';
 import 'package:taht_bety/user/Features/search/presentation/search.dart';
 
 class UpperWidgetHome extends StatefulWidget {
@@ -21,10 +21,10 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -34,14 +34,19 @@ class _UpperWidgetHomeState extends State<UpperWidgetHome> {
                 SizedBox(
                   height: 8,
                 ),
-                DeliveryToWidget(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: DeliveryToWidget(),
+                ),
               ],
             ),
-            InkWell(
-                onTap: () {
-                  context.go(AppRouter.kNotification);
-                },
-                child: const NotificationIcon()),
+
+            // InkWell(
+            //   onTap: () {
+            //     context.go(AppRouter.kNotification);
+            //   },
+            //   child: const NotificationIcon(),
+            // ),
           ],
         ),
         const SizedBox(
@@ -80,22 +85,27 @@ class DeliveryToWidget extends StatelessWidget {
           AppRouter.kMaps,
         );
       },
-      child: const SizedBox(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.67,
         child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.location_on,
               size: 32,
               color: kPrimaryColor,
             ),
-            Text(
-              'Delivery to',
-              style: Styles.subtitle18Bold,
+            Expanded(
+              child: Text(
+                'Delivery to: \n${UserStorage.getUserData().address}',
+                style: Styles.subtitle16Bold,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
-            Icon(
+            const Icon(
               Icons.my_location,
               size: 30,
               color: kPrimaryColor,

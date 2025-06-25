@@ -9,7 +9,9 @@ class ProviderListModel {
   double? distance;
   String? providerType;
   int? reviewsCount; // عدد المراجعات
-  double? avgRating; // متوسط التقييم
+  double? avgRating;
+  bool? isOnline;
+  bool? isValid;
 
   ProviderListModel({
     this.name,
@@ -21,6 +23,8 @@ class ProviderListModel {
     this.providerType,
     this.reviewsCount,
     this.avgRating,
+    this.isOnline,
+    this.isValid,
   });
 
   factory ProviderListModel.fromJson(Map<String, dynamic> json) {
@@ -35,8 +39,9 @@ class ProviderListModel {
       distance: (json['distance'] as num?)?.toDouble(),
       providerType: json['providerType'] as String?,
       reviewsCount: json['reviewsCount'] as int?, // استخراج عدد المراجعات
-      avgRating:
-          (json['avgRating'] as num?)?.toDouble(), // استخراج متوسط التقييم
+      avgRating: (json['avgRating'] as num?)?.toDouble(),
+      isOnline: json['isOnline'] as bool?,
+      isValid: json['isValid'] as bool?,
     );
   }
 
@@ -48,8 +53,10 @@ class ProviderListModel {
         'locations': locations?.map((e) => e.toJson()).toList(),
         'distance': distance,
         'providerType': providerType,
-        'reviewsCount': reviewsCount, // إضافة عدد المراجعات إلى JSON
-        'avgRating': avgRating, // إضافة متوسط التقييم إلى JSON
+        'reviewsCount': reviewsCount,
+        'avgRating': avgRating,
+        'isOnline': isOnline,
+        'isValid': isValid,
       };
 
   ProviderListModel copyWith({
@@ -62,6 +69,8 @@ class ProviderListModel {
     String? providerType,
     int? reviewsCount,
     double? avgRating,
+    bool? isOnline,
+    bool? isValid,
   }) {
     return ProviderListModel(
       name: name ?? this.name,
@@ -73,6 +82,8 @@ class ProviderListModel {
       providerType: providerType ?? this.providerType,
       reviewsCount: reviewsCount ?? this.reviewsCount,
       avgRating: avgRating ?? this.avgRating,
+      isOnline: isOnline ?? this.isOnline,
+      isValid: isValid ?? this.isValid,
     );
   }
 }
